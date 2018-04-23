@@ -11,17 +11,17 @@ const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
 
 const isDev = process.env.NODE_ENV !== 'production';
-const port  = process.env.PORT || 8002; 
+const port  = process.env.PORT || 8006;  
 
 
 // Configuration 
 // ================================================================================================
 
 // Set up Mongoose
-mongoose.connect(isDev ? config.db_dev : config.db);
+mongoose.connect(isDev ? config.db_dev : config.db);  
 mongoose.Promise = global.Promise;
 
-const app = express();
+const app = express(); 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

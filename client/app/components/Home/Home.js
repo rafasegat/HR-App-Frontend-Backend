@@ -8,7 +8,7 @@ class Home extends Component{
 
     this.state = {
       isLoading: true,
-      token: ''
+      token: '',
       signUpError: '',
       signInError: '',
       signInEmail: '',
@@ -17,7 +17,7 @@ class Home extends Component{
       signUpPassword: '',
     };
 
-  }
+  } 
 
 
 }
