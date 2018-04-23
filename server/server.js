@@ -11,10 +11,10 @@ const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
 
 const isDev = process.env.NODE_ENV !== 'production';
-const port  = process.env.PORT || 8001; 
+const port  = process.env.PORT || 8002; 
 
 
-// Configuration
+// Configuration 
 // ================================================================================================
 
 // Set up Mongoose

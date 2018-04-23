@@ -17,7 +17,7 @@ module.exports = (app) => {
     if (!password) {
       return res.send({
         success: false, 
-        message: 'Error: Password cannot be blank.'
+        message: 'Error: Password cannot be blank.' 
       });
     }
     email = email.toLowerCase();
