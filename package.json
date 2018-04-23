@@ -1,11 +1,11 @@
 {
-  "name": "MERN-boilerplate",
+  "name": "Feedback360",
   "version": "1.0.0",
-  "description": "MERN stack project boilerplate",
-  "author": "Eugene Cheung",
+  "description": "",
+  "author": "Rafael Segat de Souza",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arkon/MERN-boilerplate.git"
+    "url": ""
   },
   "license": "MIT",
   "private": true,

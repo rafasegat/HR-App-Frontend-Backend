@@ -11,7 +11,7 @@ const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
 
 const isDev = process.env.NODE_ENV !== 'production';
-const port  = process.env.PORT || 8001;
+const port  = process.env.PORT || 8001; 
 
 
 // Configuration
@@ -63,7 +63,7 @@ app.listen(port, '0.0.0.0', (err) => {
     console.log(err);
   }
 
-  console.info('>>> 🌎 Open http://0.0.0.0:%s/ in your browser.', port);
+  console.info('Feedback360: >>> 🌎 Open http://0.0.0.0:%s/ in your browser.', port);
 });
 
 module.exports = app;

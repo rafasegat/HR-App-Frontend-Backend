@@ -7,7 +7,7 @@ module.exports = (app) => {
     const { body } = req;
     const { password } = body;
     let { email } = body;
-    console.log(email)
+    
     if (!email) {
       return res.send({
         success: false,
@@ -16,7 +16,7 @@ module.exports = (app) => {
     }
     if (!password) {
       return res.send({
-        success: false,
+        success: false, 
         message: 'Error: Password cannot be blank.'
       });
     }
