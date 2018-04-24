@@ -7,5 +7,5 @@ const UsersSessionSchema = new mongoose.Schema({
 	isDeleted: { type: Boolean, default: false } 
 
 });
-
+ 
 module.exports = mongoose.model('UserSession', UserSchema);
