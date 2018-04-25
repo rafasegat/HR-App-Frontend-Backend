@@ -211,36 +211,38 @@ class Login extends Component{
 
     if(!token){
       return (
-        <div>
-          <div>
-            <p>Sign In</p>
-            <input type="email" placeholder="Email" value={signInEmail} onChange={this.onTextboxChangeSignInEmail} />
-            <br/>
-            <input type="password" placeholder="Password" value={signInPassword} onChange={this.onTextboxChangeSignInPassword}/>
+        <div className="container">
+          <div className="row">
+            <div classname="col-lg-12">
+              <p>Sign In</p>
+              <input type="email" placeholder="Email" value={signInEmail} onChange={this.onTextboxChangeSignInEmail} />
+              <br/>
+              <input type="password" placeholder="Password" value={signInPassword} onChange={this.onTextboxChangeSignInPassword}/>
+              <br />
+              <button onClick={this.onSignIn}>Sign In</button>
+              <br />
+              {
+                (signInError) ? (
+                  <p>{signInError}</p>
+                ) : (null)
+              }
+            </div>
+            
             <br />
-            <button onClick={this.onSignIn}>Sign In</button>
             <br />
-            {
-              (signInError) ? (
-                <p>{signInError}</p>
-              ) : (null)
-            }
-          </div>
-          
-          <br />
-          <br />
-          
-          <div>
-            <p>Sign Up</p>
-            <input type="email" placeholder="Email"  value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail} /><br />
-            <input type="password" placeholder="Password" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} />
-            <br />
-            <button onClick={this.onSignUp}>Sign Up</button>
-            {
-              (signUpError) ? (
-                <p>{signUpError}</p>
-              ) : (null)
-            }
+            
+            <div>
+              <p>Sign Up</p>
+              <input type="email" placeholder="Email"  value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail} /><br />
+              <input type="password" placeholder="Password" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} />
+              <br />
+              <button onClick={this.onSignUp}>Sign Up</button>
+              {
+                (signUpError) ? (
+                  <p>{signUpError}</p>
+                ) : (null)
+              }
+            </div>
           </div>
         </div>
       );
@@ -248,7 +250,7 @@ class Login extends Component{
 
     return (
       <div>
-        <p>Account</p>
+        <p>Dashboard</p>
         <button onClick={this.logout}>Logout</button>
       </div>
     );
