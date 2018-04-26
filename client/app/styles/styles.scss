@@ -1,3 +1,12 @@
 @charset "UTF-8";
 
 @import 'vendor/normalize';
+@import 'vendor/bootstrap';
+
+body { }
+
+
+footer { 
+    padding: 15px 0; background: #1498d5; color: #FFFFFF; position: absolute; left: 0; right: 0; bottom: 0;
+    p { margin: 0; }
+}

@@ -11,7 +11,7 @@ import {
 import App from './components/App/App';
 import NotFound from './components/App/NotFound';
 
-import Home from './components/Home/Home';
+import Login from './components/Login/Login';
 
 import './styles/styles.scss';
 
@@ -19,7 +19,7 @@ render((
   <Router>
     <App>
       <Switch>
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" component={Login}/>
         <Route component={NotFound}/>
       </Switch>
     </App>
