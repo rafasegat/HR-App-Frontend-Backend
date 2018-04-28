@@ -12,6 +12,6 @@ const mongoDB_mLab_prod = 'mongodb://'+username_mLab+':'+password+'@ds143099.mla
 const mongoDB_mLab_dev = 'mongodb://'+username_mLab+':'+password+'@ds143099.mlab.com:43099/feedback360';
 
 module.exports = {
-  db: mongoDB_mLab_prod,
-  db_dev: mongoDB_mLab_dev
+  db: mongoDB_dev,
+  db_dev: mondoDB_prod
 };

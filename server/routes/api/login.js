@@ -103,7 +103,7 @@ module.exports = (app) => {
           message: 'Server error. Contact the administrator in this link.'.err
         });
       }
-      console.log(users)
+      
       if (users.length != 1) {
         return res.send({
           success: false,
