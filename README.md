@@ -3,8 +3,7 @@ Author: Rafael Segat de Souza
 Feedback 360
 
 
-<h2>Installation</h2>
+Installation
 
-<pre>npm install</pre>
-
-<pre>npm run start:dev</pre>
+npm install
+npm run start:dev
