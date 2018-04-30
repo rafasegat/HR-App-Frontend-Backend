@@ -21,7 +21,16 @@ class Organization extends Component {
     }
 
     componentDidMount(){
-        
+        // fetch('aoi/organization/all', {
+        //     method: 'GET',
+        //     headers: { 'Content-Type' : 'application/json' },
+        //     body: JSON.stringify({ 
+        //         user: user,
+        //     }),
+        // }).then(res => res.json())
+        //   .then(json => {
+        //       cosole.log(json);
+        // });
     }
 
     onClickLogout() {

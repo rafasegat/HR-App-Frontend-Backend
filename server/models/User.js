@@ -6,9 +6,9 @@ const UserSchema = new mongoose.Schema({
 	  firstName: { type: String, default: '' },
 	  lastName: { type: String, default: '' },
 	  email: { type: String, default: '' },
-	  password: { type: String, default: '' },
+		password: { type: String, default: '' }, 
 	  isDeleted: { type: Boolean, default: false },
-	  signUpDate: { type: Date, default: Date.now() }
+		signUpDate: { type: Date, default: Date.now() }
 });
 
 UserSchema.methods.generateHash = function(password) {

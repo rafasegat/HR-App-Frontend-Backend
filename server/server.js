@@ -2,9 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const historyApiFallback = require('connect-history-api-fallback');
 //const mongoose = require('mongoose');
-
-//const loopback = require('loopback');
-//const boot = require('loopback-boot');
+const knex = require('knex');
 const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -16,15 +14,16 @@ const webpackConfig = require('../webpack.config');
 const isDev = process.env.NODE_ENV !== 'production';
 const port  = process.env.PORT || 8006;  
 
-
 // Configuration 
 // ================================================================================================
 
-// Set up Mongoose
-//mongoose.connect(isDev ? config.db_dev : config.db);  
-//mongoose.Promise = global.Promise;
+// Setup MySQL
+knex(isDev ? config.db_dev : config.db);
 
-
+// Test connection
+knex.raw('select 1+1 as result').then(function () {
+  console.log('DB is okay!'); 
+});
 
 const app = express(); 
 app.use(express.urlencoded({ extended: true }));

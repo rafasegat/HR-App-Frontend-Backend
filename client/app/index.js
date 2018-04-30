@@ -20,7 +20,7 @@ render((
     <App>
       <Switch>
         <Route exact path="/" component={LoginPage}/>
-        <Route path="/organization" component={OrganizationPage}/>
+        <Route path="/organizations" component={OrganizationPage}/>
         <Route component={NotFoundPage}/>
       </Switch>
     </App>

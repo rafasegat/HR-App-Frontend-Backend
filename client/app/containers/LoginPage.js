@@ -248,7 +248,7 @@ class Login extends Component{
     }
 
     return (
-      <Redirect to="/organization"/>
+      <Redirect to="/organizations"/>
     );
     
   }
