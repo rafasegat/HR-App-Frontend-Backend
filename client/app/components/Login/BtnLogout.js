@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-const BtnLogout = () => (
-    <span>cdscdsds</span>
-);
+const BtnLogout = (props) => (
+    <button onClick={props.onClickLogout}>Logout</button>
+)
 
 export default BtnLogout;

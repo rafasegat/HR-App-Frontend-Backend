@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { Route, Redirect } from 'react-router';
 import 'whatwg-fetch';
 
 import {
   getFromStorage,
   setInStorage
-} from '../../utils/storage';
+} from '../utils/storage';
+
+import HeaderLogin from '../components/Header/HeaderLogin';
+import SignIn from '../components/Login/SignIn/SignIn';
 
 class Login extends Component{
   constructor(props){
@@ -36,7 +40,7 @@ class Login extends Component{
   // If you need to load data from a remote endpoint, 
   //this is a good place to instantiate the network request.
   componentDidMount(){
-    const obj = getFromStorage('the_main_app');
+    const obj = getFromStorage('feedback360');
     if(obj && obj.token){
       const { token } = obj;
       // Verify token
@@ -145,9 +149,8 @@ class Login extends Component{
       }),
     }).then(res => res.json())
       .then(json => {
-        console.log('json', json);
         if (json.success) {
-          setInStorage('the_main_app', { token: json.token });
+          setInStorage('feedback360', { token: json.token });
           this.setState({
             signInError: json.message,
             isLoading: false,
@@ -168,7 +171,7 @@ class Login extends Component{
     this.setState({
       isLoading: true,
     });
-    const obj = getFromStorage('the_main_app');
+    const obj = getFromStorage('feedback360');
     if (obj && obj.token) {
       const { token } = obj;
       // Verify token
@@ -211,48 +214,41 @@ class Login extends Component{
 
     if(!token){
       return (
-        <div className="container">
-          <div className="row">
-            <div classname="col-lg-12">
-              <p>Sign In</p>
-              <input type="email" placeholder="Email" value={signInEmail} onChange={this.onTextboxChangeSignInEmail} />
-              <br/>
-              <input type="password" placeholder="Password" value={signInPassword} onChange={this.onTextboxChangeSignInPassword}/>
-              <br />
-              <button onClick={this.onSignIn}>Sign In</button>
-              <br />
-              {
-                (signInError) ? (
-                  <p>{signInError}</p>
-                ) : (null)
-              }
+        <div className="login-page">
+          <HeaderLogin />
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <SignIn 
+                  email={signInEmail} 
+                  password={signInPassword} 
+                  onTextboxChangeSignInEmail={this.onTextboxChangeSignInEmail}
+                  onTextboxChangeSignInPassword={this.onTextboxChangeSignInPassword}
+                  onSignIn={this.onSignIn}
+                  error={signInError}
+                />
+              </div>
+              
+              {/* <div>
+                <p>Sign Up</p>
+                <input type="email" placeholder="Email"  value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail} /><br />
+                <input type="password" placeholder="Password" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} />
+                <br />
+                <button onClick={this.onSignUp}>Sign Up</button>
+                {
+                  (signUpError) ? (
+                    <p>{signUpError}</p>
+                  ) : (null)
+                }
+              </div> */}
             </div>
-            
-            <br />
-            <br />
-            
-            {/* <div>
-              <p>Sign Up</p>
-              <input type="email" placeholder="Email"  value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail} /><br />
-              <input type="password" placeholder="Password" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} />
-              <br />
-              <button onClick={this.onSignUp}>Sign Up</button>
-              {
-                (signUpError) ? (
-                  <p>{signUpError}</p>
-                ) : (null)
-              }
-            </div> */}
           </div>
         </div>
       );
     }
 
     return (
-      <div>
-        <p>Dashboard</p>
-        <button onClick={this.logout}>Logout</button>
-      </div>
+      <Redirect to="/organization"/>
     );
     
   }

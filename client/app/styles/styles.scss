@@ -3,10 +3,34 @@
 @import 'vendor/normalize';
 @import 'vendor/bootstrap';
 
+$primary-color: #1498d5;
+
 body { }
 
+header { 
+    padding: 10px 0;
+    img.logo { width: 150px; }
+}
+
+.signin { 
+    width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    input {
+        padding: 5px 10px;
+        width: 300px;
+        border: 1px solid $primary-color;
+        color: $primary-color;
+        margin-bottom: 10px;
+    }
+    submit {
+        margin-bottom: 10px;
+    }
+}
 
 footer { 
-    padding: 15px 0; background: #1498d5; color: #FFFFFF; position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 15px 0; background: $primary-color ; color: #FFFFFF; position: absolute; left: 0; right: 0; bottom: 0;
     p { margin: 0; }
 }
+
+
