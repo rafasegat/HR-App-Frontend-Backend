@@ -1,7 +1,6 @@
 const express = require('express');
 const fs = require('fs');
 const historyApiFallback = require('connect-history-api-fallback');
-//const mongoose = require('mongoose');
 const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
