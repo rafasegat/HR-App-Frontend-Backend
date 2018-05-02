@@ -16,7 +16,7 @@ const port  = process.env.PORT || 8006;
 // ================================================================================================
 
 // Setup MySQL
-var knex = require('knex')(isDev ? config.db_dev : config.db);
+var knex = require('knex')(isDev ? config.development : config.production);
 
 // Test connection
 knex.raw('select 1+1 as result').then(function () {
@@ -25,7 +25,7 @@ knex.raw('select 1+1 as result').then(function () {
 
 const app = express(); 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json()); 
 
 // API routes
 require('./routes')(app);
