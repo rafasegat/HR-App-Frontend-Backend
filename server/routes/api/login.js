@@ -93,51 +93,65 @@ module.exports = (app) => {
     email = email.toLowerCase();
     email = email.trim();
 
-    User.find({
-      email: email
-    }, (err, users) => {
-      if (err) {
-        console.log('err 2:', err);
-        return res.send({
-          success: false,
-          message: 'Server error. Contact the administrator in this link.'.err
-        });
-      }
-      
-      if (users.length != 1) {
-        return res.send({
-          success: false,
-          message: 'This user does not exist.'
-        });
-      }
+    User.query() 
+        .where('email', email)
+        .then( users => {
+          
+          if(users.length != 1){
+            return res.send({
+              success: false,
+              message: 'This user does not exist.'
+            });
+          } 
 
-      const user = users[0];
-      if (!user.validPassword(password)) {
-        return res.send({
-          success: false,
-          message: 'Error: Invalid'
-        });
-      }
+          const user = users[0];
 
-      // Otherwise correct user
-      const userSession = new UserSession();
-      userSession.userId = user._id;
-      userSession.save((err, doc) => {
-        if (err) {
-          console.log(err);
+          if (!user.validPassword(password, user.password)) {
+            return res.send({ 
+              success: false,
+              message: 'Wrong password. Try again.'
+            });
+          }
+
+          // All good. User validate
           return res.send({
-            success: false,
-            message: 'Error: server error'
-          });
-        }
+                  success: true,
+                  message: 'Valid sign in', 
+                  token: '1' // user
+                });
 
-        return res.send({
-          success: true,
-          message: 'Valid sign in',
-          token: doc._id
+        })
+        .catch(err => { 
+          console.log(err); 
+          return res.send({
+            success: true,
+            message: 'Server error.'+err
+          });
         });
-      });
-    });
+
+    
+    
+    //   // Otherwise correct user
+    //   const userSession = new UserSession();
+    //   userSession.userId = user._id;
+    //   userSession.save((err, doc) => {
+    //     if (err) {
+    //       console.log(err);
+    //       return res.send({
+    //         success: false,
+    //         message: 'Error: server error'
+    //       });
+    //     }
+
+    //     return res.send({
+    //       success: true,
+    //       message: 'Valid sign in',
+    //       token: doc._id
+    //     });
+    //   });
+    // });
+
+   
   });
 
  /*

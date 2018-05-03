@@ -5,7 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-
+const { Model } = require('objection');
 const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
 
@@ -15,8 +15,9 @@ const port  = process.env.PORT || 8006;
 // Configuration   
 // ================================================================================================
 
-// Setup MySQL
+// Setup MySQL Knex and Objection
 var knex = require('knex')(isDev ? config.development : config.production);
+Model.knex(knex);
 
 // Test connection
 knex.raw('select 1+1 as result').then(function () {
@@ -26,6 +27,7 @@ knex.raw('select 1+1 as result').then(function () {
 const app = express(); 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
+
 
 // API routes
 require('./routes')(app);
