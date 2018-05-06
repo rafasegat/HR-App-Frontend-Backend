@@ -16,17 +16,14 @@ class User extends Model {
         email: { type: 'string' },
         password: { type: 'string' },
         fullName: { type: 'string', minLength: 1, maxLength: 255 },
+        isDeleted: { type: 'boolean' },
         created_at: { type: 'date' }
       }
     };
   };
-
   validPassword(password_input, password) {
-
     return bcrypt.compareSync(password_input, password);
-
   };
-
 }
 
 module.exports = User;

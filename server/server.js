@@ -8,6 +8,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const { Model } = require('objection');
 const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
+const morgan = require('morgan');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const port  = process.env.PORT || 8006;  
@@ -28,9 +29,10 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
 
+app.use(morgan('dev'));
 
 // API routes
-require('./routes')(app);
+require('./routes')(app, express);
 
 if (isDev) {
   const compiler = webpack(webpackConfig);

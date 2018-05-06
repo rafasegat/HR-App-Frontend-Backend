@@ -1,6 +1,7 @@
 const User = require('../../models/User');
-const UserSession = require('../../models/UserSession');
 const Tools = require('../../common/tools');
+const jwt = require('jsonwebtoken');
+const config = require('../../../config/config');
 
 module.exports = (app) => {
   
@@ -89,6 +90,12 @@ module.exports = (app) => {
         message: 'Password cannot be blank.'
       });
     }
+    if (!Tools.validateEmail(email)) {
+      return res.send({
+        success: false,
+        message: 'Invalid email.'
+      });
+    }
 
     email = email.toLowerCase();
     email = email.trim();
@@ -113,11 +120,27 @@ module.exports = (app) => {
             });
           }
 
+          const payload = {
+            admin: user.id 
+          };
+          
+          var token = jwt.sign(payload, config.super_secret, {
+            expiresIn: 60 * 60 * 24 // expires in 24 hours 
+          });
+
+
+          // app.use(session({
+          //   cookie: {
+          //     httpOnly: true,
+          //     secure: true
+          //   }
+          // }));
+          
           // All good. User validate
           return res.send({
                   success: true,
-                  message: 'Valid sign in', 
-                  token: '1' // user
+                  message: 'All good.', 
+                  token: token
                 });
 
         })
@@ -127,69 +150,9 @@ module.exports = (app) => {
             success: true,
             message: 'Server error.'+err
           });
-        });
-
-    
-    
-    //   // Otherwise correct user
-    //   const userSession = new UserSession();
-    //   userSession.userId = user._id;
-    //   userSession.save((err, doc) => {
-    //     if (err) {
-    //       console.log(err);
-    //       return res.send({
-    //         success: false,
-    //         message: 'Error: server error'
-    //       });
-    //     }
-
-    //     return res.send({
-    //       success: true,
-    //       message: 'Valid sign in',
-    //       token: doc._id
-    //     });
-    //   });
-    // });
-
-   
+      });
   });
-
- /*
-  * Verify token
-  */
-  app.get('/api/account/verify', (req, res, next) => {
-    // Get the token
-    const { query } = req;
-    const { token } = query;
-    // ?token=test
-
-    // Verify the token is one of a kind and it's not deleted.
-    UserSession.find({
-      _id: token,
-      isDeleted: false
-    }, (err, sessions) => {
-      if (err) {
-        console.log(err);
-        return res.send({
-          success: false,
-          message: 'Error: Server error'
-        });
-      }
-
-      if (sessions.length != 1) {
-        return res.send({
-          success: false,
-          message: 'Error: Invalid'
-        });
-      } else {
-        return res.send({
-          success: true,
-          message: 'Good'
-        });
-      }
-    });
-  });
-
+  
 /*
  * Logout
  */
