@@ -154,29 +154,10 @@ module.exports = (app) => {
     const { token } = query;
     // ?token=test
 
-    // Verify the token is one of a kind and it's not deleted.
-
-    UserSession.findOneAndUpdate({
-      _id: token,
-      isDeleted: false
-    }, {
-      $set: {
-        isDeleted:true
-      }
-    }, null, (err, sessions) => {
-      if (err) {
-        console.log(err);
-        return res.send({
-          success: false,
-          message: 'Error: Server error'
-        });
-      }
-
-      return res.send({
+    return res.send({
         success: true,
         message: 'Good'
       });
     });
-  });
 
 };

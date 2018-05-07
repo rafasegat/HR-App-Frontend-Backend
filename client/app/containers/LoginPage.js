@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import 'whatwg-fetch';
-
-import {
-  getFromStorage,
-  setInStorage
-} from '../utils/storage';
-
+import { getFromStorage, setInStorage } from '../utils/storage';
 import HeaderLogin from '../components/Header/HeaderLogin';
 import SignIn from '../components/Login/SignIn/SignIn';
 
 class Login extends Component{
   constructor(props){
     super(props);
-
     this.state = {
       isLoading: false,
       token: '',
@@ -247,9 +241,7 @@ class Login extends Component{
       );
     }
 
-    return (
-      <Redirect to="/organizations"/>
-    );
+    this.props.history.push('/');
     
   }
 }

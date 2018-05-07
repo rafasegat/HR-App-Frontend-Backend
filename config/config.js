@@ -33,5 +33,5 @@ const prod = {
 module.exports = {
   development: dev,
   production: prod,
-  super_secret : 'super_secret'
+  super_secret : '5C;"j?0h-#&S'
 };

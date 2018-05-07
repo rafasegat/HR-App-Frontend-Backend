@@ -70,14 +70,10 @@ module.exports = (app) => {
     const { body } = req;
     const { user } = body;
     
-    if (!user) {
-      return res.send({
-        success: false,
-        message: 'Error: User cannot be blank.'
-      });
-    }
-
-    //Organization.find
+    return res.send({
+      success: false,
+      message: 'Incsncsncs'
+    });
 
   });
 

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
-
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/storage';
-import { isLogged } from '../../utils/tools';
 import HeaderMain from '../../components/Header/HeaderMain';
 
 class Organization extends Component {
@@ -12,77 +10,57 @@ class Organization extends Component {
         super(props);
         this.state = {
             isLoading: false,
-            token: getFromStorage('feedback360').token,
+            isLogged: true,
             listOrganizations: {}
         };
-        console.log(this.state);
         this.onClickLogout = this.onClickLogout.bind(this);
-
     }
 
     componentDidMount(){
-        // fetch('aoi/organization/all', {
-        //     method: 'GET',
-        //     headers: { 'Content-Type' : 'application/json' },
-        //     body: JSON.stringify({ 
-        //         user: user,
-        //     }),
-        // }).then(res => res.json())
-        //   .then(json => {
-        //       cosole.log(json);
-        // });
+        fetch('api/organization/allByUser', {
+            method: 'POST',
+            headers: { 
+                        'Content-Type': 'application/json',
+                        'x-access-token': getFromStorage('feedback360').token
+                     },
+            body: JSON.stringify({ 
+                user: 1
+            }),
+        }).then(res => res.json())
+          .then(json => {
+              console.log(json);
+              //this.props.history.push('/');
+        });
     }
 
     onClickLogout() {
+        setInStorage('feedback360', "");
         this.setState({
-          isLoading: true,
+            isLogged: false
         });
-        const obj = getFromStorage('feedback360');
-        if (obj && obj.token) {
-          const { token } = obj;
-          // Verify token
-          fetch('/api/account/logout?token=' + token)
-            .then(res => res.json())
-            .then(json => {
-              if (json.success) {
-                this.setState({
-                  token: '',
-                  isLoading: false
-                });
-              } else {
-                this.setState({
-                  isLoading: false,
-                });
-              }
-            });
-        } else {
-          this.setState({
-            isLoading: false,
-          });
-        }
     }
 
     render() {
         
         const {
             isLoading,
-            token
+            isLogged
         } = this.state;
 
         if(isLoading)
             return (<div><p>Loading...</p></div>);
         
-        if(token){
-            return (
-                <div>
-                    <HeaderMain 
-                        onClickLogout={this.onClickLogout} />
-                    <div>Organizations list</div>
-                </div>
-            );
-        } else {
-            return ( <Redirect to="/"/> );
-        }
+        if(!isLogged)
+            this.props.history.push('/');
+
+        return (
+            <div>
+                <HeaderMain 
+                    onClickLogout={this.onClickLogout} />
+                <div>Organizations list</div>
+            </div>
+        );
+        
         
     }
 }
