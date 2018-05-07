@@ -127,16 +127,8 @@ module.exports = (app) => {
           var token = jwt.sign(payload, config.super_secret, {
             expiresIn: 60 * 60 * 24 // expires in 24 hours 
           });
-
-
-          // app.use(session({
-          //   cookie: {
-          //     httpOnly: true,
-          //     secure: true
-          //   }
-          // }));
           
-          // All good. User validate
+          // All good. User validate, send the validate token
           return res.send({
                   success: true,
                   message: 'All good.', 

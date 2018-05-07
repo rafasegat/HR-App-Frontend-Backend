@@ -15,7 +15,7 @@ class Organization extends Component {
             token: getFromStorage('feedback360').token,
             listOrganizations: {}
         };
-
+        console.log(this.state);
         this.onClickLogout = this.onClickLogout.bind(this);
 
     }

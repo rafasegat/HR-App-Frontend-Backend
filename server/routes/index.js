@@ -17,10 +17,13 @@ module.exports = (app, express) => {
     var token = req.body.token || 
                 req.query.token || 
                 req.headers['x-access-token'];
+    
+    console.log("API Route Auth");
+
     if (token) {
       jwt.verify(token, config.super_secret, function(err, decoded) {      
         if (err) {
-          console.log(err);
+          console.log("API Route Auth -> error", err);
           return res.json({ 
               success: false, 
               message: 'Failed to authenticate token.' 
@@ -32,7 +35,7 @@ module.exports = (app, express) => {
         }
       });
     } else {
-      console.log("no token");
+      console.log("API Route Auth -> No token provided.");
       return res.send({ 
           success: false, 
           message: 'No token provided.' 
