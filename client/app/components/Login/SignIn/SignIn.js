@@ -1,7 +1,6 @@
 import React from 'react';
 
 const SignIn = props => {
-
     return (
         <div className="signin">
             <p>Sign In</p>

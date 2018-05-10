@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
-import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/storage';
 import HeaderMain from '../../components/Header/HeaderMain';
+import 'whatwg-fetch';
 
 class Organization extends Component {
 
@@ -29,7 +29,6 @@ class Organization extends Component {
         }).then(res => res.json())
           .then(json => {
               console.log(json);
-              //this.props.history.push('/');
         });
     }
 
@@ -41,7 +40,6 @@ class Organization extends Component {
     }
 
     render() {
-        
         const {
             isLoading,
             isLogged
@@ -60,8 +58,6 @@ class Organization extends Component {
                 <div>Organizations list</div>
             </div>
         );
-        
-        
     }
 }
 

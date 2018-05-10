@@ -1,9 +1,12 @@
-const mongoose = require('mongoose');
+const Model = require('objection').Model;
+const bcrypt  = require('bcrypt'); 
 
-const OrganizationSchema = new mongoose.Schema({
+class Organization extends Model {
+  
+  static get tableName() {
+    return 'organization';
+  }
 
-	  name: { type: String, default: '' },
+}
 
-});
-
-module.exports = mongoose.model('Organization', OrganizationSchema);
+module.exports = Organization;
