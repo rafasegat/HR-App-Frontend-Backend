@@ -14,9 +14,9 @@ module.exports = (app, express) => {
 
   apiRoutes.use(function(req, res, next) {
     
-    var token = req.body.token || 
-                req.query.token || 
-                req.headers['x-access-token'];
+    var token = req.headers['x-access-token'];
+    //req.body.token || 
+    //req.query.token ||             
     
     if (token) {
       jwt.verify(token, config.super_secret, function(err, decoded) {      

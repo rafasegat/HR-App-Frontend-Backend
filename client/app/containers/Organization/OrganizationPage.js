@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/storage';
 import HeaderMain from '../../components/Header/HeaderMain';
+import Loading from '../../components/Common/Loading';
+import { Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import 'whatwg-fetch';
 
 class Organization extends Component {
@@ -11,12 +14,19 @@ class Organization extends Component {
         this.state = {
             isLoading: false,
             isLogged: true,
-            listOrganizations: {}
+            listOrganizations: [],
+            showModal: false
         };
         this.onClickLogout = this.onClickLogout.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
     }
 
     componentDidMount(){
+        this.setState({
+            isLoading: true
+        });
         fetch('api/organization/allByUser', {
             method: 'POST',
             headers: { 
@@ -28,35 +38,78 @@ class Organization extends Component {
             }),
         }).then(res => res.json())
           .then(json => {
-              console.log(json);
+            
+            this.setState({
+                isLoading: false
+            });
+            
+            console.log(json);
+        
         });
     }
 
     onClickLogout() {
         setInStorage('feedback360', "");
-        this.setState({
-            isLogged: false
-        });
+        this.props.history.push('/');
+    }
+
+    closeModal() {
+        this.setState({ showModal: false });
+    }
+
+    openModal() {
+        this.setState({ showModal: true });
     }
 
     render() {
         const {
             isLoading,
-            isLogged
+            listOrganizations,
+            showModal
         } = this.state;
 
-        if(isLoading)
-            return (<div><p>Loading...</p></div>);
-        
-        if(!isLogged)
-            this.props.history.push('/');
-
         return (
-            <div>
-                <HeaderMain 
-                    onClickLogout={this.onClickLogout} />
-                <div>Organizations list</div>
-            </div>
+            <section className="organizations">
+                <HeaderMain onClickLogout={this.onClickLogout} />
+                <div className="container">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            { isLoading ? <Loading /> : 
+                        
+                                listOrganizations.length == 0 ? 
+
+                                <div>
+                                    <p>No organizations. Create your first!</p> 
+                                    
+                                    <Button
+                                        bsStyle="primary"
+                                        bsSize="large"
+                                        onClick={this.openModal}
+                                        >
+                                        Create new organization
+                                    </Button>
+                                </div>   
+
+                                    :
+
+                                    <p>Orgs</p>
+                            
+                            }
+                        </div> 
+                    </div>
+                </div>
+                <Modal show={showModal} onHide={this.closeModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create new organization</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <input type="text" value={this.state.value} onChange={this.handleChange} />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={this.save}>Save</Button>
+                    </Modal.Footer>
+                </Modal>
+            </section>
         );
     }
 }

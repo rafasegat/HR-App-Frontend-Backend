@@ -9,7 +9,7 @@ class Login extends Component{
   constructor(props){
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       token: '',
       signUpError: '',
       signInError: '',
@@ -22,35 +22,41 @@ class Login extends Component{
     // This binding is necessary to make `this` work in the callback
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
     this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
+    this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
+    this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
 
     this.onSignIn = this.onSignIn.bind(this);
+    this.onSignUp = this.onSignUp.bind(this);
+    this.logout = this.logout.bind(this);
 
   } 
 
   // If you need to load data from a remote endpoint, 
   //this is a good place to instantiate the network request.
   componentDidMount(){
-    const obj = getFromStorage('feedback360');
-    if(obj && obj.token){
-      const { token } = obj;
-      // Verify token
-      fetch('api/account/verify?token='+token)
-        .then(res => res.json())
-        .then(json => {
-          // If token okay, the user is logged, so redirect to organizations page
-          if(json.success) {
-            this.redirectOrganizations();
-          } else {
-            this.setState({
-              isLoading: false
-            });
-          }
-      });
-    } else {
-        this.setState({
-          isLoading: false
-        });
-    }
+    // const obj = getFromStorage('feedback360');
+    // if(obj && obj.token){
+    //   const { token } = obj;
+    //   // Verify token
+    //   fetch('api/account/verify?token='+token)
+    //     .then(res => res.json())
+    //     .then(json => {
+    //       if(json.success) {
+    //         this.setState({
+    //           token,
+    //           isLoading: false
+    //         });
+    //       } else {
+    //         this.setState({
+    //           isLoading: false
+    //         });
+    //       }
+    //   });
+    // } else {
+    //     this.setState({
+    //       isLoading: false
+    //     });
+    // }
   }
 
   onTextboxChangeSignInEmail(event) {
@@ -62,6 +68,18 @@ class Login extends Component{
   onTextboxChangeSignInPassword(event) {
     this.setState({
       signInPassword: event.target.value,
+    });
+  }
+
+  onTextboxChangeSignUpEmail(event) {
+    this.setState({
+      signUpEmail: event.target.value,
+    });
+  }
+
+  onTextboxChangeSignUpPassword(event) {
+    this.setState({
+      signUpPassword: event.target.value,
     });
   }
 
@@ -89,7 +107,6 @@ class Login extends Component{
     }).then(res => res.json())
       .then(json => {
         if (json.success) {
-          // set our token on storage
           setInStorage('feedback360', { token: json.token });
           this.setState({
             signInError: json.message,
@@ -107,10 +124,6 @@ class Login extends Component{
       });
   }
 
-  redirectOrganizations(){
-    this.props.history.push('/organizations');
-  }
-
   render() {
 
     const {
@@ -123,10 +136,15 @@ class Login extends Component{
       signUpPassword,
       signUpError,
     } = this.state;
-    
-    if(isLoading)
-      return (<div><p>Loading...</p></div>);
 
+    if(isLoading){
+      return (
+        <div>
+          <HeaderLogin />
+          <p>Loading...</p>
+        </div>);
+    }
+    
     if(!token){
       return (
         <div className="login-page">
@@ -147,10 +165,9 @@ class Login extends Component{
           </div>
         </div>
       );
+    } else {
+      this.props.history.push('/');
     }
-    this.redirectOrganizations();
-    return(null);
-    
   }
 }
 

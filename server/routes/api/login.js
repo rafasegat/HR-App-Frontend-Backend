@@ -65,10 +65,10 @@ module.exports = (app) => {
            
            // All good. User validate, send the validate token
            return res.send({
-                   success: true,
-                   message: 'All good.', 
-                   token: token
-                 });
+                    success: true,
+                    message: 'All good.', 
+                    token: token
+                  });
  
          })
          .catch(err => { 

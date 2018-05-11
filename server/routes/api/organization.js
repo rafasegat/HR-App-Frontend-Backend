@@ -37,9 +37,9 @@ module.exports = (app) => {
     
     Organization
       .query()
-      .where('user', user)
+      .where('id_user', user)
       .then( organizations => {
-        if(users.length != 1){
+        if(organizations.length != 1){
           return res.send({
             success: false,
             message: 'No organizations;'
