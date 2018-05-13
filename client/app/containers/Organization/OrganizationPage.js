@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/storage';
-import HeaderMain from '../../components/Header/HeaderMain';
-import Loading from '../../components/Common/Loading';
 import { Button } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 import 'whatwg-fetch';
+import HeaderMain from '../../components/Header/HeaderMain';
+import Loading from '../../components/Common/Loading';
+import OrganizationForm from '../../components/Organization/Form';
 
 class Organization extends Component {
-
     constructor(props){
         super(props);
         this.state = {
@@ -20,6 +20,7 @@ class Organization extends Component {
         this.onClickLogout = this.onClickLogout.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
@@ -27,24 +28,28 @@ class Organization extends Component {
         this.setState({
             isLoading: true
         });
-        fetch('api/organization/allByUser', {
+        fetch('/api/organization/allByUser', {
             method: 'POST',
             headers: { 
                         'Content-Type': 'application/json',
                         'x-access-token': getFromStorage('feedback360').token
                      },
             body: JSON.stringify({ 
-                user: 1
+                user: getFromStorage('feedback360').user
             }),
         }).then(res => res.json())
           .then(json => {
-            
+            console.log(json)
+            if(!json.success){
+                //this.props.history.push('/');
+            }
+            console.log(json);
             this.setState({
                 isLoading: false
             });
-            
-            console.log(json);
-        
+
+        }).catch(err => {
+            console.log(err);
         });
     }
 
@@ -59,6 +64,36 @@ class Organization extends Component {
 
     openModal() {
         this.setState({ showModal: true });
+    }
+
+    handleSubmit(values){
+        this.setState({
+            isLoading: true
+        });
+        
+        values['id_user'] = getFromStorage('feedback360').user;
+
+        fetch('/api/organization/save', {
+            method: 'POST',
+            headers: { 
+                        'Content-Type': 'application/json',
+                        'x-access-token': getFromStorage('feedback360').token
+                     },
+            body: JSON.stringify({
+                data: values
+            }),
+        }).then(res => res.json())
+          .then(json => {
+            
+            console.log(json);
+
+            this.setState({
+                isLoading: false
+            });
+
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     render() {
@@ -79,20 +114,13 @@ class Organization extends Component {
                                 listOrganizations.length == 0 ? 
 
                                 <div>
-                                    <p>No organizations. Create your first!</p> 
-                                    
-                                    <Button
-                                        bsStyle="primary"
-                                        bsSize="large"
-                                        onClick={this.openModal}
-                                        >
-                                        Create new organization
-                                    </Button>
+                                    <p>No organizations. Create your first!</p>
+                                    <button onClick={this.openModal}>Create new organization</button>
                                 </div>   
 
-                                    :
+                                :
 
-                                    <p>Orgs</p>
+                                <p>Orgs</p>
                             
                             }
                         </div> 
@@ -103,11 +131,8 @@ class Organization extends Component {
                         <Modal.Title>Create new organization</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <input type="text" value={this.state.value} onChange={this.handleChange} />
+                        <OrganizationForm onSubmit={this.handleSubmit}/>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.save}>Save</Button>
-                    </Modal.Footer>
                 </Modal>
             </section>
         );

@@ -8,7 +8,7 @@ module.exports = (app) => {
   /*
    * Sign in 
    */
-   app.post('/api/account/signin', (req, res, next) => {
+   app.post('/account/signin', (req, res, next) => {
      const { body } = req;
      const { password  } = body;
      let { email } = body;
@@ -67,7 +67,8 @@ module.exports = (app) => {
            return res.send({
                     success: true,
                     message: 'All good.', 
-                    token: token
+                    token: token,
+                    user: user.id
                   });
  
          })
@@ -79,7 +80,7 @@ module.exports = (app) => {
        });
    });
  
-   app.get('/api/account/verify', (req, res, next) => {
+   app.get('/account/verify', (req, res, next) => {
      const { query } = req;
      const { token } = query;
  

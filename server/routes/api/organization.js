@@ -6,24 +6,44 @@ module.exports = (app) => {
   /*
    * New organization
    */
-  app.post('/api/account/new', (req, res, next) => {
+  app.post('/api/organization/save', (req, res, next) => {
     
     const { body } = req;
-    const { name } = body;
-    let { user } = body;
+    const { data } = body;
     
-    if (!name) {
+    if (!data.name) {
       return res.send({
         success: false,
         message: 'Error: Name cannot be blank.'
       });
     }
-    if (!user) {
-      return res.send({
-        success: false,
-        message: 'Error: User cannot be blank.'
-      });
+
+    if(data.id){
+      // Update
+    } else {
+      Organization
+        .query()
+        .insert(data)
+        .then( json => {
+          if(!json.id){
+            return res.send({
+              success: false,
+              message: "Error: Not added."
+            });
+          } 
+          return res.send({
+            success: true,
+            message: "Added!"
+          });
+        })
+        .catch( err => {
+          return res.status(500).send({ 
+            success: false,
+            message: err
+          });
+        });
     }
+    
     
   });
 
@@ -39,10 +59,10 @@ module.exports = (app) => {
       .query()
       .where('id_user', user)
       .then( organizations => {
-        if(organizations.length != 1){
+        if(organizations.length == 0){
           return res.send({
             success: false,
-            message: 'No organizations;'
+            message: "No organizations."
           });
         } 
         return res.send({
