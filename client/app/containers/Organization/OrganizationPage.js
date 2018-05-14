@@ -6,6 +6,7 @@ import { Modal } from 'react-bootstrap';
 import 'whatwg-fetch';
 import HeaderMain from '../../components/Header/HeaderMain';
 import Loading from '../../components/Common/Loading';
+import OrganizationList from './OrganizationList';
 import OrganizationForm from '../../components/Organization/Form';
 
 class Organization extends Component {
@@ -21,7 +22,6 @@ class Organization extends Component {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
     }
 
     componentDidMount(){
@@ -39,17 +39,20 @@ class Organization extends Component {
             }),
         }).then(res => res.json())
           .then(json => {
-            console.log(json)
             if(!json.success){
-                //this.props.history.push('/');
+                this.setState({
+                    isLoading: false,
+                    listOrganizations: []
+                });
+            } else{
+                this.setState({
+                    isLoading: false,
+                    listOrganizations: json.data
+                });
             }
-            console.log(json);
-            this.setState({
-                isLoading: false
-            });
-
+            
         }).catch(err => {
-            console.log(err);
+            this.props.history.push('/');
         });
     }
 
@@ -84,8 +87,6 @@ class Organization extends Component {
             }),
         }).then(res => res.json())
           .then(json => {
-            
-            console.log(json);
 
             this.setState({
                 isLoading: false
@@ -97,12 +98,13 @@ class Organization extends Component {
     }
 
     render() {
+        
         const {
             isLoading,
             listOrganizations,
             showModal
         } = this.state;
-
+        
         return (
             <section className="organizations">
                 <HeaderMain onClickLogout={this.onClickLogout} />
@@ -110,18 +112,9 @@ class Organization extends Component {
                     <div className="row">
                         <div className="col-lg-12">
                             { isLoading ? <Loading /> : 
-                        
-                                listOrganizations.length == 0 ? 
-
-                                <div>
-                                    <p>No organizations. Create your first!</p>
-                                    <button onClick={this.openModal}>Create new organization</button>
-                                </div>   
-
-                                :
-
-                                <p>Orgs</p>
-                            
+                                <OrganizationList 
+                                    list={listOrganizations}
+                                    openModal={this.openModal} />
                             }
                         </div> 
                     </div>

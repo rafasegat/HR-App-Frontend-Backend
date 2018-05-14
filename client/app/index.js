@@ -8,6 +8,7 @@ import App from './containers/App';
 import LoginPage from './containers/LoginPage';
 import PrivateRoute from './containers/Auth';
 import OrganizationPage from './containers/Organization/OrganizationPage';
+import ProjectPage from './containers/Project/ProjectPage';
 import NotFoundPage from './containers/NotFoundPage';
 import './styles/styles.scss';
 
@@ -25,6 +26,7 @@ render((
         <Switch>
           <Route exact path="/" component={LoginPage}/>
           <PrivateRoute path="/organizations" component={OrganizationPage}/>
+          <PrivateRoute path="/projects/:id" component={ProjectPage}/>
           <Route component={NotFoundPage}/>
         </Switch>
       </App>

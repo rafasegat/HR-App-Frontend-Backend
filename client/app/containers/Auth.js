@@ -4,9 +4,7 @@ import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/storage';
 
 const PrivateRoute = ({ component: Component }) => {
-    
     const obj = getFromStorage('feedback360');
-
     if(obj.token){
         return (
             <Route component={Component} />
