@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 
 class ProjectPage extends Component {
 
-    constructor(){
-
+    constructor(props){
+        super(props);
     }
 
     render(){
@@ -16,3 +16,5 @@ class ProjectPage extends Component {
     }
 
 }
+
+export default ProjectPage;

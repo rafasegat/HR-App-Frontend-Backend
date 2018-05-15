@@ -22,6 +22,7 @@ class Organization extends Component {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.redirectProjects = this.redirectProjects.bind(this);
     }
 
     componentDidMount(){
@@ -59,6 +60,13 @@ class Organization extends Component {
     onClickLogout() {
         setInStorage('feedback360', "");
         this.props.history.push('/');
+    }
+
+    redirectProjects(id_organization){
+        setInStorage('feedback360_organization', {
+                organization: id_organization
+        });
+        this.props.history.push('/projects');
     }
 
     closeModal() {
@@ -114,7 +122,8 @@ class Organization extends Component {
                             { isLoading ? <Loading /> : 
                                 <OrganizationList 
                                     list={listOrganizations}
-                                    openModal={this.openModal} />
+                                    openModal={this.openModal} 
+                                    redirectProjects={this.redirectProjects}/>
                             }
                         </div> 
                     </div>

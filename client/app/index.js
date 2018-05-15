@@ -26,7 +26,7 @@ render((
         <Switch>
           <Route exact path="/" component={LoginPage}/>
           <PrivateRoute path="/organizations" component={OrganizationPage}/>
-          <PrivateRoute path="/projects/:id" component={ProjectPage}/>
+          <PrivateRoute path="/projects" component={ProjectPage}/>
           <Route component={NotFoundPage}/>
         </Switch>
       </App>
