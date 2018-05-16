@@ -11,6 +11,15 @@ import OrganizationPage from './containers/Organization/OrganizationPage';
 import ProjectPage from './containers/Project/ProjectPage';
 import NotFoundPage from './containers/NotFoundPage';
 import './styles/styles.scss';
+import Dispatcher from './utils/Dispatcher';
+import OrganizationStore from './stores/OrganizationStore';
+
+/**
+ * @info#4
+ * registrando o dispatcher e stores
+ */
+Dispatcher().registerStore('OrganizationStore',OrganizationStore);
+
 
 // Handle our Redux Form stuffs
 const rootReducer = combineReducers({
