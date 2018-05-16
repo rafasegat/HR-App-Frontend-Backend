@@ -8,7 +8,7 @@ import HeaderMain from '../../components/Header/HeaderMain';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
 import OrganizationForm from '../../components/Organization/Form';
-
+//commit test
 class Organization extends Component {
     constructor(props){
         super(props);
