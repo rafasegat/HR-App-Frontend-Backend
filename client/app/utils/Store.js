@@ -10,7 +10,7 @@
 class Store{
     constructor(dispatcher){
         if(typeof dispatcher === 'undefined'){
-            throw new DOMException('Voce precisa de um dispacher pra construir uma store mate!');
+            throw new DOMException('You need a dispatcher to build this Store!');
         }
         this.events = [];
     }

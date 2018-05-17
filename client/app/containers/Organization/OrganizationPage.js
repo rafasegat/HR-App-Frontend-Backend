@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
-import { getFromStorage, setInStorage } from '../../utils/storage';
+import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { Button } from 'react-bootstrap';
 import { Modal } from 'react-bootstrap';
 import 'whatwg-fetch';
@@ -35,7 +35,6 @@ class Organization extends Component {
         /**
          * @info#5
          * adicionando essa view ao listener da OrganizationStore
-         * 
          */
         let currentInstance = this;
         OrganizationAction.addListener((type, payload)=>currentInstance.onOrganizationStoreChanged(type, payload, currentInstance));
@@ -52,16 +51,16 @@ class Organization extends Component {
      * @param {*} currentInstance 
      */
     onOrganizationStoreChanged(type, payload, currentInstance){
-        if(type===LIST_ALL_ORGS){
+        if(type==="all"){
             currentInstance.setState({
                 isLoading: false,
                 listOrganizations: payload.data
             });
         }
 
-        if(type===SAVE_ORG){
+        if(type==="save"){
             if(payload.status==='success'){
-                OrganizationAction.listAll();
+                OrganizationAction.all();
                 currentInstance.closeModal();
             }
         }
@@ -89,32 +88,6 @@ class Organization extends Component {
          * Escrevendo parece complicadissimo mas nao e cara. O que vc fez ate aqui e muito mais dificil de aprender
          * do que isso.
          */
-        /*fetch('/api/organization/allByUser', {
-            method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
-            body: JSON.stringify({ 
-                user: getFromStorage('feedback360').user
-            }),
-        }).then(res => res.json())
-          .then(json => {
-            if(!json.success){
-                this.setState({
-                    isLoading: false,
-                    listOrganizations: []
-                });
-            } else{
-                this.setState({
-                    isLoading: false,
-                    listOrganizations: json.data
-                });
-            }
-            
-        }).catch(err => {
-            this.props.history.push('/');
-        });*/
 
         //veja que so chama a action aqui, sem esperar call back nem nada.
         //@info#9
@@ -155,25 +128,6 @@ class Organization extends Component {
         
         values['id_user'] = getFromStorage('feedback360').user;
 
-        /*fetch('/api/organization/save', {
-            method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
-            body: JSON.stringify({
-                data: values
-            }),
-        }).then(res => res.json())
-          .then(json => {
-
-            this.setState({
-                isLoading: false
-            });
-
-        }).catch(err => {
-            console.log(err);
-        });*/
         OrganizationAction.save(values);
     }
 

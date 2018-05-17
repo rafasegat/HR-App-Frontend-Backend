@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../utils/storage';
+import { getFromStorage, setInStorage } from '../utils/Storage';
 import HeaderLogin from '../components/Header/HeaderLogin';
 import SignIn from '../components/Login/SignIn/SignIn';
 

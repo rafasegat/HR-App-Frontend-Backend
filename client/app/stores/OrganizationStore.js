@@ -1,8 +1,7 @@
 import Dispatcher from "../utils/Dispatcher";
 import Store from "../utils/Store";
-import { LIST_ALL_ORGS, SAVE_ORG } from "../actions/OrganizationAction";
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../utils/storage';
+import { getFromStorage, setInStorage } from '../utils/Storage';
 /**
  * Nessa classe que de fato ocorre a chamada ao seu backend.
  * Tenha em mente que o dispatcher vai chamar o metodo reduce dessa classe
@@ -24,13 +23,12 @@ import { getFromStorage, setInStorage } from '../utils/storage';
  */
 class OrganizationStore extends Store{
     reduce(type, payload){
-        if(type===LIST_ALL_ORGS){
-            this.listAllOrganizations(type, payload);
+        if(type==="all"){
+            this.all(type, payload);
         }
-        if(type===SAVE_ORG){
+        if(type==="save"){
             this.save(type, payload);
         }
-        
     }
 
     save(type, payload){
@@ -46,14 +44,14 @@ class OrganizationStore extends Store{
             }),
         }).then(res => res.json())
           .then(json => {
-          instance.invokeListeners(type, {status:'success'});  
+          instance.invokeListeners(type, {status:'success'}); 
 
         }).catch(err => {
             instance.invokeListeners(type, {status:'error'});
         });
     }
 
-    listAllOrganizations(type, payload){
+    all(type, payload){
         let instance = this;
         fetch('/api/organization/allByUser', {
             method: 'POST',

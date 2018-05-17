@@ -1,1 +1,1 @@
-import { getFromStorage, setInStorage } from './storage';
+import { getFromStorage, setInStorage } from './Storage';
