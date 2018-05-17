@@ -8,7 +8,6 @@ import HeaderMain from '../../components/Header/HeaderMain';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
 import OrganizationForm from '../../components/Organization/Form';
-import OrganizationAction, { LIST_ALL_ORGS, SAVE_ORG } from '../../actions/OrganizationAction';
 
 /**
  * @info
@@ -57,7 +56,6 @@ class Organization extends Component {
                 listOrganizations: payload.data
             });
         }
-
         if(type==="save"){
             if(payload.status==='success'){
                 OrganizationAction.all();
