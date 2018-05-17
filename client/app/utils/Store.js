@@ -22,7 +22,6 @@ class Store{
     }
 
     invokeListeners(type, payload){
-        console.log(type);
         this.events.forEach((event)=>{
             if(typeof event === 'function'){
                 event(type, payload);

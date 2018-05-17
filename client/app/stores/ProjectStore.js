@@ -3,7 +3,7 @@ import Store from "../utils/Store";
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/Storage';
 
-class OrganizationStore extends Store{
+class ProjectStore extends Store{
     reduce(type, payload){
         if(type==="all"){
             this.all(type, payload);
@@ -15,7 +15,7 @@ class OrganizationStore extends Store{
 
     save(type, payload){
         let instance = this;
-        fetch('/api/organization/save', {
+        fetch('/api/project/save', {
             method: 'POST',
             headers: { 
                         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ class OrganizationStore extends Store{
 
     all(type, payload){
         let instance = this;
-        fetch('/api/organization/allByUser', {
+        fetch('/api/project/all', {
             method: 'POST',
             headers: { 
                         'Content-Type': 'application/json',
@@ -58,4 +58,4 @@ class OrganizationStore extends Store{
     }
 }
 
-export default new OrganizationStore(Dispatcher);
+export default new ProjectStore(Dispatcher);

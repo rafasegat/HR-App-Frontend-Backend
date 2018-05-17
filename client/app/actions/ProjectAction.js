@@ -8,6 +8,6 @@ export default {
         Dispatcher().dispatch("save", payload);
     },
     addListener(fn){
-        Dispatcher().getStore('OrganizationStore').addListener(fn);
+        Dispatcher().getStore('ProjectStore').addListener(fn);
     }
 }

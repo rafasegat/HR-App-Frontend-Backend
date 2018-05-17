@@ -1,12 +1,12 @@
-const Organization = require('../../models/Organization');
+const Project = require('../../models/Project');
 const Tools = require('../../common/tools');
 
 module.exports = (app) => {
   
   /*
-   * New organization
+   * New project
    */
-  app.post('/api/organization/save', (req, res, next) => {
+  app.post('/api/project/save', (req, res, next) => {
     
     const { body } = req;
     const { data } = body;
@@ -21,16 +21,12 @@ module.exports = (app) => {
     if(data.id){
       // Update
     } else {
-      Organization
+      Project
         .query()
         .insert(data)
         .then( json => {
-          if(!json.id){
-            return res.send({
-              success: false,
-              message: "Error: Not added."
-            });
-          } 
+          if(!json.id) return res.send({ success: false, message: "Error: Not added." });
+          
           return res.send({
             success: true,
             message: "Added!"
@@ -48,9 +44,9 @@ module.exports = (app) => {
   });
 
   /*
-   * Get all organizations by user
+   * Get all projects by user
    */
-  app.post('/api/organization/all', (req, res, next) => {
+  app.post('/api/project/all', (req, res, next) => {
     
     const { body } = req;
     const { user } = body;
@@ -62,19 +58,19 @@ module.exports = (app) => {
       });
     }
     
-    Organization
+    Project
       .query()
       .where('id_user', user)
-      .then( organizations => {
-        if(organizations.length == 0){
+      .then( projects => {
+        if(projects.length == 0){
           return res.send({
             success: false,
-            message: "No organizations."
+            message: "No projects."
           });
         } 
         return res.send({
           success: true,
-          data: organizations
+          data: projects
         });
       })
       .catch( err => {
