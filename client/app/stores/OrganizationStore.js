@@ -35,7 +35,7 @@ class OrganizationStore extends Store{
 
     all(type, payload){
         let instance = this;
-        fetch('/api/organization/allByUser', {
+        fetch('/api/organization/all', {
             method: 'POST',
             headers: { 
                         'Content-Type': 'application/json',
@@ -46,6 +46,7 @@ class OrganizationStore extends Store{
             }),
         }).then(res => res.json())
           .then(json => {
+            console.log(json)
             if(!json.success){
                 instance.invokeListeners(type, {status:'error'});
             } else{

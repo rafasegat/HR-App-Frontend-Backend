@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import HeaderMain from '../../components/Header/HeaderMain';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
