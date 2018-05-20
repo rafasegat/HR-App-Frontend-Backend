@@ -1,5 +1,4 @@
 const Model = require('objection').Model;
-const bcrypt  = require('bcrypt'); 
 
 class Organization extends Model {
   

@@ -1,10 +1,12 @@
+
 const Project = require('../../models/Project');
+const ProjectController = require('../../controllers/OrganizationController');
 const Tools = require('../../common/tools');
 
 module.exports = (app) => {
   
   /*
-   * New project
+   * Save
    */
   app.post('/api/project/save', (req, res, next) => {
     
@@ -27,10 +29,12 @@ module.exports = (app) => {
         .then( json => {
           if(!json.id) return res.send({ success: false, message: "Error: Not added." });
           
+          // All good
           return res.send({
             success: true,
             message: "Added!"
           });
+
         })
         .catch( err => {
           return res.status(500).send({ 
@@ -39,8 +43,6 @@ module.exports = (app) => {
           });
         });
     }
-    
-    
   });
 
   /*
@@ -72,6 +74,7 @@ module.exports = (app) => {
           success: true,
           data: projects
         });
+
       })
       .catch( err => {
         return res.status(500).send({ 
