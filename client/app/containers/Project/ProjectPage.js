@@ -6,7 +6,7 @@ import HeaderMain from '../../components/Header/HeaderMain';
 import Loading from '../../components/Common/Loading';
 import ProjectForm from '../../components/Project/Form';
 import ProjectList from './ProjectList';
-import ProjectAction from '../../actions/ProjectAction';
+import ProjectAction from '../../flux/project/ProjectAction';
 
 class Project extends Component {
     constructor(props){
@@ -23,8 +23,8 @@ class Project extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         let currentInstance = this;
-        ProjectAction.addListener((type, payload)=>
-            currentInstance.onProjectStoreChanged(type, payload, currentInstance));
+        console.log('dsdssd');
+        ProjectAction.addListener((type, payload)=>currentInstance.onProjectStoreChanged(type, payload, currentInstance));
 
     }
 

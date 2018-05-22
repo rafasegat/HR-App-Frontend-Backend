@@ -1,7 +1,7 @@
-import Dispatcher from "../utils/Dispatcher";
-import Store from "../utils/Store";
+import Dispatcher from "../Dispatcher";
+import Store from "../Store";
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../utils/Storage';
+import { getFromStorage, setInStorage } from '../../utils/Storage';
 
 class ProjectStore extends Store{
     reduce(type, payload){
@@ -49,7 +49,7 @@ class ProjectStore extends Store{
             if(!json.success){
                 instance.invokeListeners(type, {status:'error'});
             } else{
-                instance.invokeListeners(type, {data:json.data, status:'success'});
+                instance.invokeListeners(type, {data: json.data, status:'success'});
             }
             
         }).catch(err => {

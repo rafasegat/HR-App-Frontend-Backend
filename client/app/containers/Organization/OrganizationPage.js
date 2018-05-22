@@ -6,7 +6,8 @@ import HeaderMain from '../../components/Header/HeaderMain';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
 import OrganizationForm from '../../components/Organization/Form';
-import OrganizationAction from '../../actions/OrganizationAction';
+import OrganizationAction from '../../flux/organization/OrganizationAction';
+import * as Action from '../../flux/organization/OrganizationAction';
 
 class Organization extends Component {
     constructor(props){
@@ -29,13 +30,13 @@ class Organization extends Component {
     }
 
     onOrganizationStoreChanged(type, payload, currentInstance){
-        if(type==="all"){
+        if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
                 listOrganizations: payload.data
             });
         }
-        if(type==="save"){
+        if(type===Action.SAVE){
             if(payload.status==='success'){
                 OrganizationAction.all();
                 currentInstance.closeModal();
@@ -84,7 +85,7 @@ class Organization extends Component {
             listOrganizations,
             showModal
         } = this.state;
-        
+        console.log()
         return (
             <section className="organizations">
                 <HeaderMain onClickLogout={this.onClickLogout} />

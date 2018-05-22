@@ -4,21 +4,26 @@ import { BrowserRouter as Router, Route,  Link, Switch } from 'react-router-dom'
 import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux';
 import { reducer as formReducer } from 'redux-form'
+
+// Containers
 import App from './containers/App';
 import LoginPage from './containers/LoginPage';
 import PrivateRoute from './containers/Auth';
 import OrganizationPage from './containers/Organization/OrganizationPage';
 import ProjectPage from './containers/Project/ProjectPage';
 import NotFoundPage from './containers/NotFoundPage';
-import './styles/styles.scss';
-import Dispatcher from './utils/Dispatcher';
-import OrganizationStore from './stores/OrganizationStore';
 
-/**
- * @info#4
- * registrando o dispatcher e stores
- */
-Dispatcher().registerStore('OrganizationStore',OrganizationStore);
+// Styles
+import './styles/styles.scss';
+
+// Flux
+import Dispatcher from './flux/Dispatcher';
+import OrganizationStore from './flux/organization/OrganizationStore';
+import ProjectStore from './flux/project/ProjectStore';
+
+// Registrando o dispatcher e stores
+Dispatcher().registerStore('OrganizationStore', OrganizationStore);
+Dispatcher().registerStore('ProjectStore', ProjectStore);
 
 
 // Handle our Redux Form stuffs

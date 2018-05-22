@@ -1,4 +1,4 @@
-import Dispatcher from "../utils/Dispatcher";
+import Dispatcher from "../Dispatcher";
 
 export default {
     all: function(payload){

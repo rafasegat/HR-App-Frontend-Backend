@@ -1,6 +1,6 @@
 
 const Project = require('../../models/Project');
-const ProjectController = require('../../controllers/OrganizationController');
+const ProjectController = require('../../controllers/ProjectController');
 const Tools = require('../../common/tools');
 
 module.exports = (app) => {

@@ -9,7 +9,11 @@ class User extends Model {
 
   validPassword(password_input, password) {
     return bcrypt.compareSync(password_input, password);
-  };
+  }
+
+  generateHash(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  }
   
 }
 

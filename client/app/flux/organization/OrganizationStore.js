@@ -1,14 +1,15 @@
-import Dispatcher from "../utils/Dispatcher";
-import Store from "../utils/Store";
+import Dispatcher from "../Dispatcher";
+import Store from "../Store";
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../utils/Storage';
+import { getFromStorage, setInStorage } from '../../utils/Storage';
+import * as Action from '../../flux/organization/OrganizationAction';
 
 class OrganizationStore extends Store{
     reduce(type, payload){
-        if(type==="all"){
+        if(type===Action.ALL){
             this.all(type, payload);
         }
-        if(type==="save"){
+        if(type===Action.SAVE){
             this.save(type, payload);
         }
     }
@@ -48,13 +49,13 @@ class OrganizationStore extends Store{
           .then(json => {
             console.log(json)
             if(!json.success){
-                instance.invokeListeners(type, {status:'error'});
+                instance.invokeListeners(type, { status: 'error' });
             } else{
-                instance.invokeListeners(type, {data:json.data, status:'success'});
+                instance.invokeListeners(type, { data: json.data, status: 'success' });
             }
             
         }).catch(err => {
-            instance.invokeListeners(type, {status:'error'});
+            instance.invokeListeners(type, { status: 'error' });
         });
     }
 }
