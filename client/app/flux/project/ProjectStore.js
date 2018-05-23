@@ -2,13 +2,14 @@ import Dispatcher from "../Dispatcher";
 import Store from "../Store";
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/Storage';
+import * as Action from '../../flux/project/ProjectAction';
 
 class ProjectStore extends Store{
     reduce(type, payload){
-        if(type==="all"){
+        if(type===Action.ALL){
             this.all(type, payload);
         }
-        if(type==="save"){
+        if(type===Action.SAVE){
             this.save(type, payload);
         }
     }
@@ -42,15 +43,11 @@ class ProjectStore extends Store{
                         'x-access-token': getFromStorage('feedback360').token
                      },
             body: JSON.stringify({ 
-                user: getFromStorage('feedback360').user
+                id_organization: getFromStorage('feedback360_organization').organization
             }),
         }).then(res => res.json())
           .then(json => {
-            if(!json.success){
-                instance.invokeListeners(type, {status:'error'});
-            } else{
                 instance.invokeListeners(type, {data: json.data, status:'success'});
-            }
             
         }).catch(err => {
             instance.invokeListeners(type, {status:'error'});

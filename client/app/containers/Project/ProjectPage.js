@@ -7,6 +7,7 @@ import Loading from '../../components/Common/Loading';
 import ProjectForm from '../../components/Project/Form';
 import ProjectList from './ProjectList';
 import ProjectAction from '../../flux/project/ProjectAction';
+import * as Action from '../../flux/project/ProjectAction';
 
 class Project extends Component {
     constructor(props){
@@ -23,19 +24,18 @@ class Project extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         let currentInstance = this;
-        console.log('dsdssd');
         ProjectAction.addListener((type, payload)=>currentInstance.onProjectStoreChanged(type, payload, currentInstance));
 
     }
 
     onProjectStoreChanged(type, payload, currentInstance){
-        if(type==="all"){
+        if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
                 listProjects: payload.data
             });
         }
-        if(type==="save"){
+        if(type===Action.SAVE){
             if(payload.status==='success'){
                 ProjectAction.all();
                 currentInstance.closeModal();
@@ -55,9 +55,9 @@ class Project extends Component {
         this.props.history.push('/');
     }
 
-    redirectProjects(id_Project){
-        setInStorage('feedback360_Project', {
-                Project: id_Project
+    redirectProjects(id_project){
+        setInStorage('feedback360_project', {
+                project: id_project
         });
         this.props.history.push('/projects');
     }
@@ -74,7 +74,7 @@ class Project extends Component {
         this.setState({
             isLoading: true
         });
-        values['id_user'] = getFromStorage('feedback360').user;
+        values['id_organization'] = getFromStorage('feedback360_organization').organization;
         ProjectAction.save(values);
     }
 

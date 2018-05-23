@@ -4,23 +4,23 @@ const Tools = require('../common/tools');
 
 exports.all = (req, res, next) => {
     const { body } = req;
-    const { user } = body;
+    const { id_organization } = body;
     
-    if(!user)
-      return res.send({ success: false,  message: "User required." });
+    if(!id_organization)
+      return res.send({ status: "Error: Organization required." });
     
     Project
       .query()
-      .where('id_user', user)
-      .then( organizations => {
-        if(organizations.length == 0)
-          return res.send({ success: false, message: "No organizations." });
+      .where('id_organization', id_organization)
+      .then( projects => {
+        if(projects.length == 0)
+          return res.send({ status: "No Projects.", data: projects });
 
-        return res.send({ success: true, data: organizations });
+        return res.send({ status: 'success', data: projects });
 
       })
       .catch( err => {
-        return res.status(500).send({ success: false, message: err });
+        return res.status(500).send({ status: err });
       });
 
   };
@@ -30,7 +30,7 @@ exports.save = (req, res, next) => {
     const { data } = body;
     
     if (!data.name)
-        return res.send({ success: false, message: 'Error: Name cannot be blank.' });
+        return res.send({ status: 'Error: Name cannot be blank.' });
 
     if(data.id){
         // Update
@@ -38,12 +38,12 @@ exports.save = (req, res, next) => {
         Project.query().insert(data)
         .then( json => {
             if(!json.id)
-                return res.send({ success: false, message: "Error: Not added." });
+                return res.send({ status: 'Error: Not added.' });
             
-            return res.send({ success: true, message: "Added!" });
+            return res.send({ status: 'success' });
         })
         .catch( err => {
-            return res.status(500).send({ success: false, message: err });
+            return res.status(500).send({ status: err });
         });
     }
 }

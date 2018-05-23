@@ -1,17 +1,17 @@
 import React from 'react';
 import ItemList from '../../components/Project/ItemList';
 
-const OrganizationList = (props) => {
+const ProjectList = (props) => {
 
     const { 
         list,
         redirectProjects,
         openModal
     } = props;
-
+    console.log(list)
     return(
-        <div className="organizations">
-            {list.length > 0 ? 
+        <div className="projects">
+            {list.length > 0  ? 
                 <ul className="project-list">
                     {
                         list.map((value) => 
@@ -33,4 +33,4 @@ const OrganizationList = (props) => {
 
 }
 
-export default OrganizationList;
+export default ProjectList;
