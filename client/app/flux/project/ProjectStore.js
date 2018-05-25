@@ -43,7 +43,7 @@ class ProjectStore extends Store{
                         'x-access-token': getFromStorage('feedback360').token
                      },
             body: JSON.stringify({ 
-                id_organization: getFromStorage('feedback360_organization').organization
+                id_organization: payload
             }),
         }).then(res => res.json())
           .then(json => {

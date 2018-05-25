@@ -10,18 +10,24 @@ import ProjectAction from '../../flux/project/ProjectAction';
 import * as Action from '../../flux/project/ProjectAction';
 
 class Project extends Component {
-    constructor(props){
+    constructor(props, match){
         super(props);
         this.state = {
             isLoading: false,
             isLogged: true,
             listProjects: [],
-            showModal: false
+            showModal: false,
+            id_organization: null
         };
         this.onClickLogout = this.onClickLogout.bind(this);
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        // ID organization from param
+        let href = this.props.location.pathname;
+        let hrefWithId = href.match(/([^\/]*)\/*$/)[1];
+        this.state.id_organization = hrefWithId;
 
         let currentInstance = this;
         ProjectAction.addListener((type, payload)=>currentInstance.onProjectStoreChanged(type, payload, currentInstance));
@@ -29,6 +35,9 @@ class Project extends Component {
     }
 
     onProjectStoreChanged(type, payload, currentInstance){
+        const {
+            id_organization
+        } = this.state;
         if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
@@ -37,17 +46,26 @@ class Project extends Component {
         }
         if(type===Action.SAVE){
             if(payload.status==='success'){
-                ProjectAction.all();
+                ProjectAction.all(id_organization);
                 currentInstance.closeModal();
             }
         }
     }
 
     componentDidMount(){
+        const {
+            id_organization
+        } = this.state;
+
+        // If there's no organization, let's go back
+        if(!id_organization)
+            this.props.history.push('/organizations');
+        
         this.setState({
             isLoading: true
         });
-        ProjectAction.all();
+
+        ProjectAction.all(id_organization);
     }
 
     onClickLogout() {

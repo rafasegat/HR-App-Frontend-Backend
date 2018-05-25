@@ -14,7 +14,8 @@ module.exports = (app, express) => {
     if (token) {
       jwt.verify(token, config.super_secret, function(err, decoded) {      
         if (err) {
-          res.redirect('/');
+          //res.redirect('/');
+          res.status(404).end('error');
           return 
         } else {
           //req.decoded = decoded;    
@@ -26,7 +27,8 @@ module.exports = (app, express) => {
       //     success: false, 
       //     message: 'No token provided.' 
       // });
-      res.redirect('/');
+      //res.redirect('/');
+      res.status(404).end('error');
       return;
     }
   });

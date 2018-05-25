@@ -60,7 +60,7 @@ class Organization extends Component {
         setInStorage('feedback360_organization', {
                 organization: id_organization
         });
-        this.props.history.push('/projects');
+        //this.props.history.push('/projects/'+id_organization);
     }
 
     closeModal() {

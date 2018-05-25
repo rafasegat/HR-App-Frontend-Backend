@@ -20,7 +20,7 @@ exports.all = (req, res, next) => {
 
       })
       .catch( err => {
-        return res.status(500).send({ status: err });
+        return res.status(500).send({ status: "Error 500: "+err });
       });
 
   };
@@ -43,7 +43,7 @@ exports.save = (req, res, next) => {
             return res.send({ status: 'success' });
         })
         .catch( err => {
-            return res.status(500).send({ status: err });
+            return res.status(500).send({ status: "Error 500: "+err });
         });
     }
 }

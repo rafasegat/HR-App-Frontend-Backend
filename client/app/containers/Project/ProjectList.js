@@ -8,7 +8,7 @@ const ProjectList = (props) => {
         redirectProjects,
         openModal
     } = props;
-    console.log(list)
+    
     return(
         <div className="projects">
             {list.length > 0  ? 

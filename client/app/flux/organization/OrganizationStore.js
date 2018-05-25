@@ -43,19 +43,14 @@ class OrganizationStore extends Store{
                         'x-access-token': getFromStorage('feedback360').token
                      },
             body: JSON.stringify({ 
-                user: getFromStorage('feedback360').user
+                id_user: getFromStorage('feedback360').user
             }),
         }).then(res => res.json())
           .then(json => {
-            console.log(json)
-            if(!json.success){
-                instance.invokeListeners(type, { status: 'error' });
-            } else{
-                instance.invokeListeners(type, { data: json.data, status: 'success' });
-            }
+            instance.invokeListeners(type, { data: json.data, status: 'success' });
             
         }).catch(err => {
-            instance.invokeListeners(type, { status: 'error' });
+            instance.invokeListeners(type, { status: 'Error: '+err });
         });
     }
 }

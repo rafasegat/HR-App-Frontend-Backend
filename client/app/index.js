@@ -40,7 +40,7 @@ render((
         <Switch>
           <Route exact path="/" component={LoginPage}/>
           <PrivateRoute path="/organizations" component={OrganizationPage}/>
-          <PrivateRoute path="/projects" component={ProjectPage}/>
+          <PrivateRoute path="/projects/:organization_id" component={ProjectPage}/>
           <Route component={NotFoundPage}/>
         </Switch>
       </App>
