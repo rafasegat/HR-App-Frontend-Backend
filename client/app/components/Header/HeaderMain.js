@@ -8,7 +8,7 @@ const HeaderMain = props => (
     <div className="container-fluid">
       <div className="row">
         <div className="col-lg-8 col-xs-12">
-          <img className="logo" src="assets/img/logo.png" />
+          <img className="logo" src="/assets/img/logo.png" />
         </div>
         <div className="col-lg-4 col-xs-8">
           <button onClick={props.onClickLogout}>Logout</button>
