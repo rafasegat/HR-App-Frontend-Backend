@@ -7,10 +7,6 @@ const ItemList = props => {
     return(
         <li key={value.id} >
             <Link to={'/projects/'+value.id}>{value.name}</Link>
-            {/* <a href="#"
-                onClick={() => props.redirectProjects(value.id)}>
-                    {value.name}
-            </a> */}
         </li>
     );
 }

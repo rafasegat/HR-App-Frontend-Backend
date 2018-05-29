@@ -5,7 +5,6 @@ const ProjectList = (props) => {
 
     const { 
         list,
-        redirectProjects,
         openModal
     } = props;
     
@@ -18,7 +17,7 @@ const ProjectList = (props) => {
                             <ItemList 
                                 value={value} 
                                 key={value.id}
-                                redirectProjects={redirectProjects} />
+                            />
                         )
                     }
                 </ul>

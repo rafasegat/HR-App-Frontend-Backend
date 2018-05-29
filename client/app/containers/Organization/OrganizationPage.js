@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router'
+import { Route, Redirect, withRouter } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { Button, Modal } from 'react-bootstrap';
 import Loading from '../../components/Common/Loading';
@@ -21,11 +21,9 @@ class Organization extends Component {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.redirectProjects = this.redirectProjects.bind(this);
 
         let currentInstance = this;
         OrganizationAction.addListener((type, payload)=>currentInstance.onOrganizationStoreChanged(type, payload, currentInstance));
-
     }
 
     onOrganizationStoreChanged(type, payload, currentInstance){
@@ -50,13 +48,6 @@ class Organization extends Component {
         OrganizationAction.all();
     }
 
-    redirectProjects(id_organization){
-        setInStorage('feedback360_organization', {
-                organization: id_organization
-        });
-        //this.props.history.push('/projects/'+id_organization);
-    }
-
     closeModal() {
         this.setState({ showModal: false });
     }
@@ -79,7 +70,7 @@ class Organization extends Component {
             listOrganizations,
             showModal
         } = this.state;
-        console.log()
+        
         return (
             <section className="organizations">
                 <div className="container">
@@ -89,7 +80,7 @@ class Organization extends Component {
                                 <OrganizationList 
                                     list={listOrganizations}
                                     openModal={this.openModal} 
-                                    redirectProjects={this.redirectProjects}/>
+                                />
                             }
                         </div> 
                     </div>
@@ -107,4 +98,5 @@ class Organization extends Component {
     }
 }
 
+//export default Organization;
 export default Organization;

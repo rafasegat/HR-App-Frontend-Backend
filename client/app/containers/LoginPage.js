@@ -18,7 +18,6 @@ class Login extends Component{
       signUpPassword: '',
     };
 
-    // This binding is necessary to make `this` work in the callback
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
     this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
 

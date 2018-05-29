@@ -5,7 +5,6 @@ const OrganizationList = (props) => {
 
     const { 
         list,
-        redirectProjects,
         openModal
     } = props;
 
@@ -17,8 +16,8 @@ const OrganizationList = (props) => {
                         list.map((value) => 
                             <ItemList 
                                 value={value} 
-                                key={value.id}
-                                redirectProjects={redirectProjects} />
+                                key={value.id} 
+                            />
                         )
                     }
                 </ul>

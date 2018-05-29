@@ -37,7 +37,7 @@ const store = createStore(rootReducer);
 render((
   <Router>
     <Provider store={store}>
-      <App>
+      <App browser={Router}>
         <Switch>
           <Route exact path="/" component={LoginPage}/>
           <PrivateRoute path="/organizations" component={OrganizationPage}/>

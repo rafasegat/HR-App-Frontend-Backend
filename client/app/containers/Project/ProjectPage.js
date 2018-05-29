@@ -67,13 +67,6 @@ class Project extends Component {
         ProjectAction.all(id_organization);
     }
 
-    redirectProjects(id_project){
-        setInStorage('feedback360_project', {
-                project: id_project
-        });
-        this.props.history.push('/projects');
-    }
-
     closeModal() {
         this.setState({ showModal: false });
     }
@@ -111,8 +104,8 @@ class Project extends Component {
                             { isLoading ? <Loading /> : 
                                 <ProjectList 
                                     list={listProjects}
-                                    openModal={this.openModal} 
-                                    redirectProjects={this.redirectProjects}/>
+                                    openModal={this.openModal}    
+                                />
                             }
                         </div> 
                     </div>
