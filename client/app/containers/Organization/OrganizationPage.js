@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { Button, Modal } from 'react-bootstrap';
-import HeaderMain from '../../components/Header/HeaderMain';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
 import OrganizationForm from '../../components/Organization/Form';
@@ -18,7 +17,7 @@ class Organization extends Component {
             listOrganizations: [],
             showModal: false
         };
-        this.onClickLogout = this.onClickLogout.bind(this);
+        
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -49,11 +48,6 @@ class Organization extends Component {
             isLoading: true
         });
         OrganizationAction.all();
-    }
-
-    onClickLogout() {
-        setInStorage('feedback360', "");
-        this.props.history.push('/');
     }
 
     redirectProjects(id_organization){
@@ -88,7 +82,6 @@ class Organization extends Component {
         console.log()
         return (
             <section className="organizations">
-                <HeaderMain onClickLogout={this.onClickLogout} />
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">

@@ -1,0 +1,12 @@
+.btn-primary {
+    color: #fff;
+    padding: 10px 25px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    outline: 0;
+    box-shadow: none;
+    border: none;
+    background: $primary-color;
+    letter-spacing: .8px;
+    @include transition(.3s);
+}

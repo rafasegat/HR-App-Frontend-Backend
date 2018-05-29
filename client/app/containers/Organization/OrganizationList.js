@@ -26,7 +26,7 @@ const OrganizationList = (props) => {
                 <div>No organization. Create the first one!</div>
             } 
             
-            <button onClick={openModal}>Create new organization</button>
+            <button className="btn-primary" onClick={openModal}>Create new organization</button>
             
         </div>
     );

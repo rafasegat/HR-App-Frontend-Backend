@@ -16,7 +16,7 @@ const OrganizationForm = props => {
     <form onSubmit={handleSubmit}>
       <Field name="name" type="text" component={RenderField}  label="Name" />
       <div>
-        <button type="submit" disabled={submitting}>Submit </button>
+        <button className="btn-primary" type="submit" disabled={submitting}>Submit </button>
       </div>
     </form>
   );

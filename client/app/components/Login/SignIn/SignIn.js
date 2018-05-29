@@ -16,7 +16,7 @@ const SignIn = props => {
                 value={props.password} 
                 onChange={props.onTextboxChangeSignInPassword}/>
             <br />
-            <button 
+            <button className="btn-primary" 
                 onClick={props.onSignIn}>
                 Sign In
             </button>

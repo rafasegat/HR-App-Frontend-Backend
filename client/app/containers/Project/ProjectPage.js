@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { Button, Modal } from 'react-bootstrap';
-import HeaderMain from '../../components/Header/HeaderMain';
 import Loading from '../../components/Common/Loading';
 import ProjectForm from '../../components/Project/Form';
 import ProjectList from './ProjectList';
@@ -19,7 +18,7 @@ class Project extends Component {
             showModal: false,
             id_organization: null
         };
-        this.onClickLogout = this.onClickLogout.bind(this);
+        
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -68,11 +67,6 @@ class Project extends Component {
         ProjectAction.all(id_organization);
     }
 
-    onClickLogout() {
-        setInStorage('feedback360', "");
-        this.props.history.push('/');
-    }
-
     redirectProjects(id_project){
         setInStorage('feedback360_project', {
                 project: id_project
@@ -89,10 +83,16 @@ class Project extends Component {
     }
 
     handleSubmit(values){
+        const {
+            id_organization
+        } = this.state;
+
         this.setState({
             isLoading: true
         });
-        values['id_organization'] = getFromStorage('feedback360_organization').organization;
+
+        values['id_organization'] = id_organization;
+        values['id_project_status'] = 1; // Collecting Feedback
         ProjectAction.save(values);
     }
 
@@ -104,8 +104,7 @@ class Project extends Component {
         } = this.state;
         
         return (
-            <section className="Projects">
-                <HeaderMain onClickLogout={this.onClickLogout} />
+            <section className="projects">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">

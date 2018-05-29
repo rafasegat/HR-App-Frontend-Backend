@@ -6,10 +6,11 @@ const ItemList = props => {
 
     return(
         <li key={value.id} >
-            <a 
+            <Link to={'/participants/'+value.id}>{value.name}</Link>
+            {/* <a 
                 onClick={() => props.redirectProjects(value.id)}>
                     {value.name}
-            </a>
+            </a> */}
         </li>
     );
 }

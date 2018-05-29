@@ -6,10 +6,10 @@ const RenderField = ({
     type,
     meta: { touched, error, warning }
   }) => (
-    <div>
+    <div className="input-row">
       <label>{label}</label>
-      <div>
-        <input {...input} type={type} />
+      <div className="input-field">
+        <input  {...input} type={type} />
         {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
       </div>
     </div>

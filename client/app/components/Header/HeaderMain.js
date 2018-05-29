@@ -11,7 +11,7 @@ const HeaderMain = props => (
           <img className="logo" src="/assets/img/logo.png" />
         </div>
         <div className="col-lg-4 col-xs-8">
-          <button onClick={props.onClickLogout}>Logout</button>
+          <button className="btn-primary" onClick={props.onClickLogout}>Logout</button>
         </div>
       </div>
     </div>

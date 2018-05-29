@@ -1,15 +1,51 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Footer from '../components/Footer/Footer';
+import { getFromStorage, setInStorage } from '../utils/Storage';
+import HeaderMain from '../components/Header/HeaderMain';
 
-const App = ({ children }) => (
-  <>
+class App extends Component{
+  constructor(props){
+    super(props);
+    this.state = {};
 
-    <main>
-      {children}
-    </main>
+    const propTypes = {
+      match: PropTypes.object.isRequired,
+      location: PropTypes.object.isRequired,
+      history: PropTypes.object.isRequired
+    }
 
-    <Footer />
-  </>
-);
+    this.onClickLogout = this.onClickLogout.bind(this);
+  }
+
+  onClickLogout() {
+
+      const { 
+          match, 
+          location, 
+          history 
+      } = this.props
+
+      setInStorage('feedback360', "");
+      console.log(this.props);
+      history.push('/');
+  }
+
+  render() {
+
+    const {
+    } = this.state;
+    
+    return (
+      <>
+        <HeaderMain onClickLogout={this.onClickLogout}/>
+        <main>
+          {this.props.children}
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+}
 
 export default App;

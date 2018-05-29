@@ -3,12 +3,21 @@
 @import 'vendor/normalize';
 @import 'vendor/bootstrap';
 
-$primary-color: #1498d5;
+/*=== Imports */
+@import 'variables';
+@import 'form';
+@import 'button';
 
 /*=== General styles */
-ul { margin: 0; padding: 0; list-style: none; }
+ul { 
+    margin: 0; 
+    padding: 0; 
+    list-style: none; 
+}
 
-body { }
+
+
+body { font-family: $main-font; }
 
 header { 
     padding: 10px 0;
@@ -30,6 +39,8 @@ header {
         margin-bottom: 10px;
     }
 }
+
+
 
 footer { 
     padding: 15px 0; background: $primary-color ; color: #FFFFFF; position: absolute; left: 0; right: 0; bottom: 0;

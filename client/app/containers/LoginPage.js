@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/Storage';
-import HeaderLogin from '../components/Header/HeaderLogin';
 import SignIn from '../components/Login/SignIn/SignIn';
 
 class Login extends Component{
@@ -130,8 +129,7 @@ class Login extends Component{
 
     if(!token){
       return (
-        <div className="login-page">
-          <HeaderLogin />
+        <section className="login-page">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
@@ -146,7 +144,7 @@ class Login extends Component{
               </div>
             </div>
           </div>
-        </div>
+        </section>
       );
     }
     this.redirectOrganizations();

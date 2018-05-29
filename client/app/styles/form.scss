@@ -1,0 +1,30 @@
+form {
+    margin-bottom: 30px;
+    .input-row{
+        margin-bottom: 15px;
+
+        .input-field{
+            input {
+                width: 100%;
+                padding-left: 15px;
+                outline: 0;
+                line-height: 30px;
+                height: 30px;
+            }
+        }
+    } 
+}
+
+
+.modal-dialog {
+    .modal-header {
+        background: $primary-color;
+        h4 { 
+            color: #FFFFFF;
+        }
+        .close {
+            color: #FFFFFF;
+            opacity: 1;
+        }
+    }
+}

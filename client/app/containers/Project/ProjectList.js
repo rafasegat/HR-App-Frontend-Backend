@@ -26,7 +26,7 @@ const ProjectList = (props) => {
                 <div>No project. Create the first one!</div>
             } 
             
-            <button onClick={openModal}>Create new project</button>
+            <button className="btn-primary" onClick={openModal}>Create new project</button>
             
         </div>
     );

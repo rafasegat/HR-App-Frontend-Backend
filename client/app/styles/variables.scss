@@ -1,0 +1,8 @@
+$main-font: Poppins;
+$primary-color: #1498d5;
+
+@mixin transition($duration) {
+    -webkit-transition: all $duration ease;
+    -moz-transition: all $duration ease;
+    transition: all $duration ease;
+}

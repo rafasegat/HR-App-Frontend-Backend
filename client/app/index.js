@@ -8,8 +8,9 @@ import { reducer as formReducer } from 'redux-form'
 // Containers
 import App from './containers/App';
 import LoginPage from './containers/LoginPage';
-import PrivateRoute from './containers/Auth';
+import PrivateRoute from './utils/Auth';
 import OrganizationPage from './containers/Organization/OrganizationPage';
+import ParticipantPage from './containers/Participant/ParticipantPage';
 import ProjectPage from './containers/Project/ProjectPage';
 import NotFoundPage from './containers/NotFoundPage';
 
@@ -41,6 +42,7 @@ render((
           <Route exact path="/" component={LoginPage}/>
           <PrivateRoute path="/organizations" component={OrganizationPage}/>
           <PrivateRoute path="/projects/:organization_id" component={ProjectPage}/>
+          <PrivateRoute path="/participants/:project_id" component={ParticipantPage}/>
           <Route component={NotFoundPage}/>
         </Switch>
       </App>
