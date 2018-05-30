@@ -8,5 +8,6 @@
     border: none;
     background: $primary-color;
     letter-spacing: .8px;
+    cursor: pointer;
     @include transition(.3s);
 }

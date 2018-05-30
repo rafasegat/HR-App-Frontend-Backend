@@ -1,37 +1,40 @@
 import React, { Component } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 class ModalContainer extends Component{
   constructor(props){
     super(props);
     this.state = {
-      redirectLogin: false
+        showModal: true
     };
-
-    this.onClickLogout = this.onClickLogout.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
-  onClickLogout() {
-      setInStorage('feedback360', "");
-      console.log(this);
-      //history.push('/');
+  closeModal() {
+    this.setState({ showModal: false });
   }
 
   render() {
+    const { 
+      title
+    } = this.props;
 
     const {
+      showModal 
     } = this.state;
-
+    
     return (
-      <>
-        <HeaderMain onClickLogout={this.onClickLogout}/>
-        <main>
-          {this.props.children}
-        </main>
-        <Footer />
-      </>
+      <Modal show={showModal} onHide={this.closeModal}>
+          <Modal.Header closeButton>
+              <Modal.Title>{title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+              {this.props.children}
+          </Modal.Body>
+      </Modal>
     );
   }
 
 }
 
-export default App;
+export default ModalContainer;

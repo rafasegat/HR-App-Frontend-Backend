@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect, withRouter } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
 import OrganizationForm from '../../components/Organization/Form';
@@ -71,32 +71,40 @@ class Organization extends Component {
             showModal
         } = this.state;
         
+        if(isLoading)
+            return (<Loading />);
+
         return (
             <section className="organizations">
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-12">
-                            { isLoading ? <Loading /> : 
-                                <OrganizationList 
-                                    list={listOrganizations}
-                                    openModal={this.openModal} 
-                                />
-                            }
+                            <OrganizationList 
+                                list={listOrganizations}
+                                openModal={this.openModal} 
+                            />
                         </div> 
                     </div>
                 </div>
-                <Modal show={showModal} onHide={this.closeModal}>
+                {/* <Modal isOpen={showModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Create new organization</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <OrganizationForm onSubmit={this.handleSubmit}/>
                     </Modal.Body>
+                </Modal> */}
+
+                 <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
+                    <ModalHeader toggle={this.closeModal}>New Organization</ModalHeader>
+                    <ModalBody>
+                        <OrganizationForm onSubmit={this.handleSubmit}/>
+                    </ModalBody>
                 </Modal>
+                    
             </section>
         );
     }
 }
 
-//export default Organization;
 export default Organization;
