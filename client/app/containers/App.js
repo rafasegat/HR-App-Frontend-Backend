@@ -32,8 +32,9 @@ class App extends Component{
       this.setState({
         headerType: currentHeader
       });
+      this.checkSidebar();
     }
-
+    
   }
 
   getHeader(pathname){
@@ -49,8 +50,10 @@ class App extends Component{
        pathname.indexOf('projects') > 0 ||
        pathname==='/'){
         this.setState({ showSidebar: false });
+        document.body.classList.remove('has-sidebar');
     } else {
       this.setState({ showSidebar: true });
+      document.body.classList.add('has-sidebar');
     }
   }
 
