@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { BtnLogout } from '../Login/BtnLogout.js'
+import { BtnLogout } from '../../Login/BtnLogout.js'
 
 const HeaderLogin = () => (
   <header>

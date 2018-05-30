@@ -13,7 +13,6 @@ class Project extends Component {
         super(props);
         this.state = {
             isLoading: false,
-            isLogged: true,
             listProjects: [],
             showModal: false,
             id_organization: null
