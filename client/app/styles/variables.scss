@@ -1,5 +1,6 @@
 $main-font: Poppins;
 $primary-color: #1498d5;
+$sidebar-width: 260px;
 
 @mixin transition($duration) {
     -webkit-transition: all $duration ease;

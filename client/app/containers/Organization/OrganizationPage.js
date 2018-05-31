@@ -86,14 +86,6 @@ class Organization extends Component {
                         </div> 
                     </div>
                 </div>
-                {/* <Modal isOpen={showModal} onHide={this.closeModal}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Create new organization</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <OrganizationForm onSubmit={this.handleSubmit}/>
-                    </Modal.Body>
-                </Modal> */}
 
                  <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
                     <ModalHeader toggle={this.closeModal}>New Organization</ModalHeader>

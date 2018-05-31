@@ -5,7 +5,7 @@ const Loading = () => (
         <div className="container-fluid h-100">
             <div className="row align-items-center h-100">
                 <div className="col-12">
-                    Loading...
+                    <div className="spinner"></div>
                 </div>
             </div>
         </div>

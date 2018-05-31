@@ -3,10 +3,10 @@ import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 import Loading from '../../components/Common/Loading';
-//import ParticipantForm from '../../components/Participant/Form';
-//import ParticipantList from './ParticipantList';
-//import ParticipantAction from '../../flux/participant/ParticipantAction';
-//import * as Action from '../../flux/participant/ParticipantAction';
+import ParticipantForm from '../../components/Participant/Form';
+import ParticipantList from './ParticipantList';
+import ParticipantAction from '../../flux/participant/ParticipantAction';
+import * as Action from '../../flux/participant/ParticipantAction';
 
 class Participant extends Component {
     constructor(props, match){
@@ -27,8 +27,8 @@ class Participant extends Component {
         let hrefWithId = href.match(/([^\/]*)\/*$/)[1];
         this.state.id_organization = hrefWithId;
 
-        //let currentInstance = this;
-        //ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
+        let currentInstance = this;
+        ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
 
     }
 
@@ -59,11 +59,9 @@ class Participant extends Component {
         // if(!id_organization)
         //     this.props.history.push('/organizations');
         
-        // this.setState({
-        //     isLoading: true
-        // });
+        this.setState({ isLoading: true });
 
-        // ParticipantAction.all(id_organization);
+        ParticipantAction.all(id_organization);
     }
 
     closeModal() {
@@ -79,9 +77,7 @@ class Participant extends Component {
             id_organization
         } = this.state;
 
-        this.setState({
-            isLoading: true
-        });
+        this.setState({ isLoading: true });
 
         values['id_organization'] = id_organization;
         values['id_project_status'] = 1; // Collecting Feedback
@@ -100,23 +96,23 @@ class Participant extends Component {
 
         return (
             <section className="participants">
-                <div className="container">
+                <div className="container-fluid">
                     <div className="row">
                         <div className="col-lg-12">
-                            cdscscsd
-                            {/* <ParticipantList 
+                            <h2>Participants</h2>
+                            <ParticipantList 
                                 list={listParticipants}
                                 openModal={this.openModal}    
-                            /> */}
+                            />
                         </div> 
                     </div>
                 </div>
-                {/* <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
+                <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
                     <ModalHeader toggle={this.closeModal}>New Organization</ModalHeader>
                     <ModalBody>
                         <ParticipantForm onSubmit={this.handleSubmit}/>
                     </ModalBody>
-                </Modal> */}
+                </Modal>
             </section>
         );
     }

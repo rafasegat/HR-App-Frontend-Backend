@@ -12,6 +12,7 @@ class App extends Component{
   constructor(props){
     super(props);
     this.state = {
+      currentPathname: '',
       headerType: this.getHeader(this.props.location.pathname),
       showSidebar: false
     };
@@ -23,16 +24,16 @@ class App extends Component{
   }
 
   componentDidUpdate(){
-    const { headerType } = this.state;
+    const { headerType, currentPathname } = this.state;
     const { pathname } = this.props.location;
     const currentHeader = this.getHeader(pathname);
-  
-    // Just update state if is a different value
-    if(headerType != currentHeader){
-      this.setState({
-        headerType: currentHeader
-      });
+    
+    // Just enter here if it's a new page
+    if( currentPathname !== pathname){
+      this.setState({ currentPathname: pathname });
       this.checkSidebar();
+      if(headerType != currentHeader)
+        this.setState({ headerType: currentHeader });
     }
     
   }
@@ -73,7 +74,7 @@ class App extends Component{
         {  headerType=='login' ? <HeaderLogin/> : 
             <HeaderMain onClickLogout={this.onClickLogout}/> 
         }
-        <main>
+        <main className="main">
           { showSidebar && <Sidebar /> }
           {children}
         </main>

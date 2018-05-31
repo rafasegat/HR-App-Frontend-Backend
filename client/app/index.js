@@ -21,10 +21,12 @@ import './styles/styles.scss';
 import Dispatcher from './flux/Dispatcher';
 import OrganizationStore from './flux/organization/OrganizationStore';
 import ProjectStore from './flux/project/ProjectStore';
+import ParticipantStore from './flux/participant/ParticipantStore';
 
 // Registrando o dispatcher e stores
 Dispatcher().registerStore('OrganizationStore', OrganizationStore);
 Dispatcher().registerStore('ProjectStore', ProjectStore);
+Dispatcher().registerStore('ParticipantStore', ProjectStore);
 
 
 // Handle our Redux Form stuffs

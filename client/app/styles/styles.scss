@@ -19,6 +19,15 @@ ul {
 
 body { font-family: $main-font; }
 
+body.has-sidebar {
+    .main {
+        margin-left: $sidebar-width;
+    }
+    header {
+        margin-left: $sidebar-width;
+    }
+}
+
 header { 
     padding: 10px 0;
     img.logo { width: 150px; }
@@ -50,7 +59,46 @@ header {
     height: 100vh;
     width: 100%;
     text-align: center;
+    .spinner {
+        display: inline-block;
+        width: 55px;
+        height: 55px;
+        &:after {
+            content: " ";
+            display: block;
+            width: 55px;
+            height: 55px;
+            margin: 1px;
+            border-radius: 50%;
+            border: 5px solid $primary-color;
+            border-color: $primary-color transparent $primary-color transparent;
+            animation: spinner 1.2s linear infinite;
+        }
+    }
+    @keyframes spinner {
+        0% { transform: rotate(0deg); }
+        100% {  transform: rotate(360deg); }
+    }
 }
+
+.sidebar {
+    height: 100vh; 
+    position: fixed; 
+    left: 0; 
+    top: 0; 
+    width: $sidebar-width;
+    padding: 15px;
+    padding-top: 175px;
+    background: #060a18;
+    ul.sidebar-menu{
+        li {
+            a {
+                color: #FFFFFF;
+            }
+        }
+    }
+}
+
 
 footer { 
     padding: 15px 0; background: $primary-color ; color: #FFFFFF; position: absolute; left: 0; right: 0; bottom: 0;

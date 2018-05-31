@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/Storage';
 import SignIn from '../components/Login/SignIn/SignIn';
+import Loading from '../components/Common/Loading';
 
 class Login extends Component{
   constructor(props){
@@ -124,7 +125,7 @@ class Login extends Component{
     } = this.state;
     
     if(isLoading)
-      return (<div><p>Loading...</p></div>);
+      return (<Loading />);
 
     if(!token){
       return (
