@@ -21,6 +21,7 @@ class Project extends Component {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.redirectParticipants = this.redirectParticipants.bind(this);
 
         // ID organization from param
         let href = this.props.location.pathname;
@@ -74,6 +75,15 @@ class Project extends Component {
         this.setState({ showModal: true });
     }
 
+    redirectParticipants(id_project) {
+        // Let's set the global project
+        setInStorage('FB360_Project', { 
+            id_project: id_project
+        });
+        // redirect to participants
+        this.props.history.push('/participants');
+    }
+
     handleSubmit(values){
         const {
             id_organization
@@ -105,7 +115,8 @@ class Project extends Component {
                         <div className="col-lg-12">
                             <ProjectList 
                                 list={listProjects}
-                                openModal={this.openModal}    
+                                openModal={this.openModal}
+                                redirectParticipants={this.redirectParticipants}
                             />
                         </div> 
                     </div>

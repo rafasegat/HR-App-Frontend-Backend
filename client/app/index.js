@@ -26,7 +26,7 @@ import ParticipantStore from './flux/participant/ParticipantStore';
 // Registrando o dispatcher e stores
 Dispatcher().registerStore('OrganizationStore', OrganizationStore);
 Dispatcher().registerStore('ProjectStore', ProjectStore);
-Dispatcher().registerStore('ParticipantStore', ProjectStore);
+Dispatcher().registerStore('ParticipantStore', ParticipantStore);
 
 
 // Handle our Redux Form stuffs
@@ -44,7 +44,7 @@ render((
           <Route exact path="/" component={LoginPage}/>
           <PrivateRoute path="/organizations" component={OrganizationPage}/>
           <PrivateRoute path="/projects/:organization_id" component={ProjectPage}/>
-          <PrivateRoute path="/participants/:project_id" component={ParticipantPage}/>
+          <PrivateRoute path="/participants" component={ParticipantPage}/>
           <Route component={NotFoundPage}/>
         </Switch>
       </App>

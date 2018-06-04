@@ -33,9 +33,6 @@ class Participant extends Component {
     }
 
     onParticipantStoreChanged(type, payload, currentInstance){
-        const {
-            id_organization
-        } = this.state;
         if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
@@ -51,17 +48,15 @@ class Participant extends Component {
     }
 
     componentDidMount(){
-        // const {
-        //     id_organization
-        // } = this.state;
-
-        // // If there's no organization, let's go back
-        // if(!id_organization)
-        //     this.props.history.push('/organizations');
+        let id_project = getFromStorage('FB360_Project').id_project;
+        // If there's no organization, let's go back
+        console.log(id_project)
+        if(!id_project)
+            this.props.history.push('/organizations');
         
         this.setState({ isLoading: true });
 
-        ParticipantAction.all(id_organization);
+        ParticipantAction.all(id_project);
     }
 
     closeModal() {
@@ -102,7 +97,7 @@ class Participant extends Component {
                             <h2>Participants</h2>
                             <ParticipantList 
                                 list={listParticipants}
-                                openModal={this.openModal}    
+                                openModal={this.openModal}
                             />
                         </div> 
                     </div>

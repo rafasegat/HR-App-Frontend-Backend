@@ -5,7 +5,8 @@ const ProjectList = (props) => {
 
     const { 
         list,
-        openModal
+        openModal,
+        redirectParticipants
     } = props;
     
     return(
@@ -17,6 +18,7 @@ const ProjectList = (props) => {
                             <ItemList 
                                 value={value} 
                                 key={value.id}
+                                redirectParticipants={redirectParticipants}
                             />
                         )
                     }

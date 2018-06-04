@@ -1,11 +1,11 @@
 import React from 'react';
-import ItemList from '../../components/Project/ItemList';
+import ItemList from '../../components/Participant/ItemList';
 
-const ProjectList = (props) => {
-
+const ParticipantList = (props) => {
     const { 
         list,
-        openModal
+        openModal,
+        redirectParticipants
     } = props;
     
     return(
@@ -22,14 +22,14 @@ const ProjectList = (props) => {
                     }
                 </ul>
             :
-                <div>No project. Create the first one!</div>
+                <div>No participant. Create the first one!</div>
             } 
             
-            <button className="btn-primary" onClick={openModal}>Create new project</button>
+            <button className="btn-primary" onClick={openModal}>Create new participant</button>
             
         </div>
     );
 
 }
 
-export default ProjectList;
+export default ParticipantList;
