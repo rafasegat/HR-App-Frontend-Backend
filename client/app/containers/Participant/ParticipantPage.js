@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 import Loading from '../../components/Common/Loading';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 import ParticipantForm from '../../components/Participant/Form';
 import ParticipantList from './ParticipantList';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
@@ -50,7 +50,6 @@ class Participant extends Component {
     componentDidMount(){
         let id_project = getFromStorage('FB360_Project').id_project;
         // If there's no organization, let's go back
-        console.log(id_project)
         if(!id_project)
             this.props.history.push('/organizations');
         
@@ -59,12 +58,12 @@ class Participant extends Component {
         ParticipantAction.all(id_project);
     }
 
-    closeModal() {
-        this.setState({ showModal: false });
-    }
-
     openModal() {
         this.setState({ showModal: true });
+    }
+
+    closeModal() {
+        this.setState({ showModal: false });
     }
 
     handleSubmit(values){
@@ -94,7 +93,7 @@ class Participant extends Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h2>Participants</h2>
+                            <h2>Collect feedback</h2>
                             <ParticipantList 
                                 list={listParticipants}
                                 openModal={this.openModal}

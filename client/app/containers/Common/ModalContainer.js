@@ -1,36 +1,28 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 
 class ModalContainer extends Component{
   constructor(props){
     super(props);
     this.state = {
-        showModal: true
-    };
-    this.closeModal = this.closeModal.bind(this);
-  }
-
-  closeModal() {
-    this.setState({ showModal: false });
+      showModal: true
+    }
+    
   }
 
   render() {
     const { 
-      title
+      title,
+      closeModal,
+      showModal
     } = this.props;
-
-    const {
-      showModal 
-    } = this.state;
     
     return (
-      <Modal show={showModal} onHide={this.closeModal}>
-          <Modal.Header closeButton>
-              <Modal.Title>{title}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-              {this.props.children}
-          </Modal.Body>
+      <Modal isOpen={showModal} toggle={closeModal} className={this.props.className}>
+          <ModalHeader toggle={closeModal}>{title}</ModalHeader>
+          <ModalBody>
+              {this.children}
+          </ModalBody>
       </Modal>
     );
   }
