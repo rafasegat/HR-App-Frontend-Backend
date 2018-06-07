@@ -15,7 +15,26 @@ ul {
     list-style: none; 
 }
 
+h1{
+    font-size: 22px;
+}
 
+h3{
+    font-size: 20px;
+}
+
+h4{
+    font-size: 18px;
+    font-style: italic;
+}
+
+h5{
+    font-size: 16px;
+}
+
+label{
+    font-size: 16px;
+}
 
 body { font-family: $main-font; }
 

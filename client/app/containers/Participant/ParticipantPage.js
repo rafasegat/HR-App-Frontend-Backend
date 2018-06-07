@@ -67,15 +67,16 @@ class Participant extends Component {
     }
 
     handleSubmit(values){
-        const {
-            id_organization
-        } = this.state;
+        // const {
+        //     id_organization
+        // } = this.state;
 
-        this.setState({ isLoading: true });
+        // this.setState({ isLoading: true });
 
-        values['id_organization'] = id_organization;
-        values['id_project_status'] = 1; // Collecting Feedback
-        ParticipantAction.save(values);
+         values['status'] = Action.status.waiting_for_feedback.id;
+        // values['id_project_status'] = 1; // Collecting Feedback
+         //ParticipantAction.save(values);
+        console.log(values);
     }
 
     render() {
@@ -102,7 +103,7 @@ class Participant extends Component {
                     </div>
                 </div>
                 <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
-                    <ModalHeader toggle={this.closeModal}>New Organization</ModalHeader>
+                    <ModalHeader toggle={this.closeModal}>New Participant</ModalHeader>
                     <ModalBody>
                         <ParticipantForm onSubmit={this.handleSubmit}/>
                     </ModalBody>

@@ -2,8 +2,8 @@ form {
     margin-bottom: 30px;
     .input-row{
         margin-bottom: 15px;
-
         .input-field{
+            position: relative;
             input[type="text"] {
                 width: 100%;
                 padding-left: 15px;
@@ -14,15 +14,24 @@ form {
             input[type="checkbox"] {
                 
             }
-            .description {
+            .label-checkbox {
                 padding-left: 10px;
+                display: inline-block;
             }
+            .warning{
+                color: red;
+                font-size: 12px;
+            }
+        }
+        &.checkbox {
+            margin-bottom: 0;
         }
     } 
 }
 
 
 .modal-dialog {
+    max-width: 800px;
     .modal-header {
         background: $primary-color;
         h5 { 
