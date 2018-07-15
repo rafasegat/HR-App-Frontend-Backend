@@ -15,17 +15,12 @@ class Participant extends Component {
             isLoading: false,
             listParticipants: [],
             showModal: false,
-            id_project: null
+            id_project: getFromStorage('FB360_Project').id_project
         };
         
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
-        // ID organization from param
-        let href = this.props.location.pathname;
-        let hrefWithId = href.match(/([^\/]*)\/*$/)[1];
-        this.state.id_organization = hrefWithId;
 
         let currentInstance = this;
         ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
@@ -33,6 +28,7 @@ class Participant extends Component {
     }
 
     onParticipantStoreChanged(type, payload, currentInstance){
+        const { id_project } = this.state;
         if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
@@ -41,20 +37,20 @@ class Participant extends Component {
         }
         if(type===Action.SAVE){
             if(payload.status==='success'){
-                ParticipantAction.all(id_organization);
+                ParticipantAction.all(id_project);
                 currentInstance.closeModal();
             }
         }
     }
 
     componentDidMount(){
-        let id_project = getFromStorage('FB360_Project').id_project;
+        const { id_project } = this.state;
+
         // If there's no organization, let's go back
         if(!id_project)
             this.props.history.push('/organizations');
         
         this.setState({ isLoading: true });
-
         ParticipantAction.all(id_project);
     }
 
@@ -67,15 +63,22 @@ class Participant extends Component {
     }
 
     handleSubmit(values){
-        // const {
-        //     id_organization
-        // } = this.state;
-
         // this.setState({ isLoading: true });
 
-         values['status'] = Action.status.waiting_for_feedback.id;
+        values['status'] = Action.status.waiting_for_feedback.id;
+
+        // Let's handle the cheboxes
+        if(!values['self_assessment'])
+            values['self_assessment'] = false;
+        
+        if(!values['choose_own_feedback_provider'])
+            values['choose_own_feedback_provider'] = false;
+        
+        if(!values['feedback_provider_needs_approval'])
+            values['feedback_provider_needs_approval'] = false;
+        
         // values['id_project_status'] = 1; // Collecting Feedback
-         //ParticipantAction.save(values);
+        ParticipantAction.save(values);
         console.log(values);
     }
 

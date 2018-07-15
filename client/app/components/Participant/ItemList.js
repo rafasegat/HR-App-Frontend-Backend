@@ -6,7 +6,7 @@ const ItemList = props => {
 
     return(
         <li key={value.id} >
-            
+            {value.name} | {value.position} | Edit | Delete
         </li>
     );
 }

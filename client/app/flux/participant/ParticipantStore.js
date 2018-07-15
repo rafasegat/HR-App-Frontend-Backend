@@ -23,12 +23,12 @@ class ParticipantStore extends Store{
                         'x-access-token': getFromStorage('feedback360').token
                      },
             body: JSON.stringify({
-                data: payload
+                data: payload,
+                param: {id_project: getFromStorage('FB360_Project').id_project}
             }),
         }).then(res => res.json())
           .then(json => {
-          instance.invokeListeners(type, {status:'success'}); 
-
+            instance.invokeListeners(type, {status:'success'}); 
         }).catch(err => {
             instance.invokeListeners(type, {status:'error'});
         });

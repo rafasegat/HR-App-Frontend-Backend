@@ -9,8 +9,6 @@ exports.all = (req, res, next) => {
     if(!id_project)
       return res.send({ status: "Error: Project required." });
     
-
-    //
       ProjectParticipant
       .query()
       .select('a.*')
@@ -26,12 +24,12 @@ exports.all = (req, res, next) => {
       .catch( err => {
         return res.status(500).send({ status: "Error 500: "+err });
       });
-
   };
 
 exports.save = (req, res, next) => {
     const { body } = req;
     const { data } = body;
+    const { param } = body;
 
     if(data.id){
         // Update
@@ -43,7 +41,24 @@ exports.save = (req, res, next) => {
             if(!json.id)
                 return res.send({ status: 'Error: Not added.' });
             
-            return res.send({ status: 'success' });
+            // All good, now lets add row to ProjectParticipant as well
+            let data_proj_part = {
+                id_project: param.id_project,
+                id_participant: json.id
+            }
+
+            ProjectParticipant
+            .query()
+            .insert(data_proj_part)
+            .then( json => {
+                if(!json.id)
+                    return res.send({ status: 'Error: Not added.' });
+
+                return res.send({ status: 'success' });
+            })
+            .catch( err => {
+                return res.status(500).send({ status: "Error 500: "+err });
+            });
         })
         .catch( err => {
             return res.status(500).send({ status: "Error 500: "+err });

@@ -9,9 +9,9 @@ const ParticipantList = (props) => {
     } = props;
     
     return(
-        <div className="projects">
+        <div className="participants">
             {list.length > 0  ? 
-                <ul className="project-list">
+                <ul className="participant-list">
                     {
                         list.map((value) => 
                             <ItemList 

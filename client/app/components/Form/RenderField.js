@@ -1,42 +1,40 @@
 import React from 'react';
-import { Control, Form } from 'react-redux-form';
+import {InputText} from 'primereact/components/inputtext/InputText';
+import {Checkbox} from 'primereact/components/checkbox/Checkbox';
 
 const RenderField = ({
     input,
-    name,
     label,
     type,
     description,
+    checked,
     meta: { touched, error, warning }
   }) => {
     
-    
     if(type=='text')
       return(
-        <div className="input-row text">
-          <label>{label}</label>
-          <div className="input-field">
-            <input  {...input} type={type} />
-            {description && <span className="description">{description}</span>}
-            {touched && ((error && <span className="warning">{error}</span>) || (warning && <span>{warning}</span>))}
-          </div>
-        </div>
+         <div className="input-row text">
+           <label>{label}</label>
+           <div className="input-field">
+             <InputText  {...input}  />
+             {description && <span className="description">{description}</span>}
+             {touched && ((error && <span className="warning">{error}</span>) || (warning && <span>{warning}</span>))}
+           </div> 
+         </div>
       );
 
-      if(type=='checkbox')
+      if(type=='checkbox'){
+        //console.log(input, checked);
         return(
-          <Control.checkbox
-            model={name}
-            getValue={(event) => event.target.value}
-          />
-          // <div className="input-row checkbox">
-          //   <div className="input-field">
-          //     <input  {...input} type={type} checked={checked} />
-          //     {label && <label className="label-checkbox">{label}</label>}
-          //     {touched && ((error && <span className="warning">{error}</span>) || (warning && <span>{warning}</span>))}
-          //   </div>
-          // </div>
+          <div className="input-row checkbox">
+            <div className="input-field">
+              <input type={type} {...input} />
+              {label && <label className="label-checkbox">{label}</label>}
+              {touched && ((error && <span className="warning">{error}</span>) || (warning && <span>{warning}</span>))}
+            </div>
+          </div>
         );
+      }
 
   }
 

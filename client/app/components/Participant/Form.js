@@ -29,16 +29,35 @@ const ParticipantForm = props => {
       
       <h3>360 Feedback</h3>
       <h4>Self Assessment</h4>
-      <Field name="self_assessment" type="checkbox" checked={true} component={RenderField}  label="Invite to submit a self-assessment" description="" />
+      <Field type="checkbox" 
+             name="self_assessment"
+             defaultChecked={true} 
+             id="self_assessment" 
+             component={RenderField} 
+             label="Invite to submit a self-assessment"
+            />
       <br/>
       <h4>Feedback providers</h4>
       <h5>You can choose the feedback providers after adding this person, or invite them to choose.</h5>
-      <Field name="choose_own_feedback_provider" checked={true} type="checkbox" component={RenderField}  label="Invite to choose own feedback providers" description="" />
-      <Field name="feedback_provider_needs_approval" type="checkbox" component={RenderField}  label="Their list of feedback providers needs approval" description="" />
+      
+      <Field 
+        type="checkbox" 
+        name="choose_own_feedback_provider" 
+        id="choose_own_feedback_provider" 
+        component={RenderField}  
+        label="Invite to choose own feedback providers"/>
+      
+      <Field 
+        type="checkbox" 
+        name="feedback_provider_needs_approval" 
+        id="feedback_provider_needs_approval" 
+        component={RenderField}  
+        label="Their list of feedback providers needs approval" />
+      
       <br/>
       <h4>Report reviewer</h4>
       <h5>Adding a report reviewer makes it easy to share the feedback report with (e.g.) their coach or line manager.</h5>
-      <Field name="id_participant_feedback_reviewer" type="text" component={RenderField}  label="Report Reviewer" description=""/>
+      <Field name="id_participant_feedback_reviewer" check={true} type="text" component={RenderField}  label="Report Reviewer" description=""/>
       
       <div>
         <button className="btn-primary" type="submit" disabled={submitting}>Save</button>
