@@ -1,11 +1,10 @@
 import React from 'react';
-import ItemList from '../../components/Participant/ItemList';
 import ReactTable from "react-table";
 
 const ParticipantList = (props) => {
     const { 
         list,
-        openModal,
+        openParticipantModal,
         openFeedbackModal,
         redirectParticipants
     } = props;
@@ -82,7 +81,9 @@ const ParticipantList = (props) => {
             :
                 <div>No participant. Create the first one!</div>
             }
-            <button className="btn-primary" onClick={openModal}>Create new participant</button>
+            <button className="btn-primary" onClick={openParticipantModal}>
+                NEW PARTICIPANT
+            </button>
         </div>
     );
 

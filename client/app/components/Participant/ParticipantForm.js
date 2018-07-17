@@ -68,6 +68,6 @@ const ParticipantForm = props => {
 };
 
 export default reduxForm({
-  form: 'participant',
+  form: 'new_participant',
   validate
 })(ParticipantForm);

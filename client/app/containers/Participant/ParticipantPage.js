@@ -3,25 +3,27 @@ import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import Loading from '../../components/Common/Loading';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
-import ParticipantForm from '../../components/Participant/Form';
+import ParticipantForm from '../../components/Participant/ParticipantForm';
 import ParticipantList from './ParticipantList';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
+import FeedbackForm from './FeedbackForm';
 import * as Action from '../../flux/participant/ParticipantAction';
-
+ 
 class Participant extends Component {
     constructor(props, match){
         super(props);
         this.state = {
             isLoading: false,
             listParticipants: [],
-            showModal: false,
+            showParticipantModal: false,
             showFeedbackModal: false,
-            id_project: getFromStorage('FB360_Project').id_project
+            id_project: getFromStorage('FB360_Project').id_project,
+            id_participant: -1
         };
         
         // Events
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        this.openParticipantModal = this.openParticipantModal.bind(this);
+        this.closeParticipantModal = this.closeParticipantModal.bind(this);
 
         this.openFeedbackModal = this.openFeedbackModal.bind(this);
         this.closeFeedbackModal = this.closeFeedbackModal.bind(this);
@@ -44,7 +46,7 @@ class Participant extends Component {
         if(type===Action.SAVE){
             if(payload.status==='success'){
                 ParticipantAction.all(id_project);
-                currentInstance.closeModal();
+                currentInstance.closeParticipantModal();
             }
         }
     }
@@ -60,21 +62,24 @@ class Participant extends Component {
         ParticipantAction.all(id_project);
     }
 
-    openModal() {
-        this.setState({ showModal: true });
+    openParticipantModal() {
+        this.setState({ showParticipantModal: true });
+    }
+
+    closeParticipantModal() {
+        this.setState({ showParticipantModal: false });
     }
 
     openFeedbackModal(id){
         console.log(id)
-        this.setState({ showFeedbackModal: true });
+        this.setState({ 
+            id_participant: id,
+            showFeedbackModal: true 
+        });
     }
 
     closeFeedbackModal(){
         this.setState({ showFeedbackModal: false });
-    }
-
-    closeModal() {
-        this.setState({ showModal: false });
     }
 
     handleSubmit(values){
@@ -94,15 +99,15 @@ class Participant extends Component {
         
         // values['id_project_status'] = 1; // Collecting Feedback
         ParticipantAction.save(values);
-        console.log(values);
     }
 
     render() {
         const {
             isLoading,
             listParticipants,
-            showModal,
-            showFeedbackModal
+            showParticipantModal,
+            showFeedbackModal,
+            id_participant
         } = this.state;
         
         if(isLoading)
@@ -116,14 +121,14 @@ class Participant extends Component {
                             <h2>Collect feedback</h2>
                             <ParticipantList 
                                 list={listParticipants}
-                                openModal={this.openModal}
+                                openParticipantModal={this.openParticipantModal}
                                 openFeedbackModal={this.openFeedbackModal}
                             />
                         </div> 
                     </div>
                 </div>
-                <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
-                    <ModalHeader toggle={this.closeModal}>New Participant</ModalHeader>
+                <Modal isOpen={showParticipantModal} toggle={this.closeParticipantModal} className={this.props.className}>
+                    <ModalHeader toggle={this.closeParticipantModal}>New Participant</ModalHeader>
                     <ModalBody>
                         <ParticipantForm onSubmit={this.handleSubmit}/>
                     </ModalBody>
@@ -132,7 +137,9 @@ class Participant extends Component {
                 <Modal isOpen={showFeedbackModal} toggle={this.closeFeedbackModal} className={this.props.className}>
                     <ModalHeader toggle={this.closeFeedbackModal}>Feedback Manager</ModalHeader>
                     <ModalBody>
-                        <ParticipantForm onSubmit={this.handleSubmit}/>
+                        <FeedbackForm
+                            id_participant={id_participant} 
+                            onSubmit={this.handleFeedbackSubmit}/>
                     </ModalBody>
                 </Modal>
 

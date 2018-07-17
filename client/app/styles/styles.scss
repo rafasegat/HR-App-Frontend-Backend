@@ -48,6 +48,10 @@ body.has-sidebar {
     }
 }
 
+.main {
+    padding-bottom: 80px;
+}
+
 header { 
     padding: 10px 0;
     img.logo { width: 150px; }
@@ -120,9 +124,17 @@ header {
 }
 
 
-footer { 
-    padding: 15px 0; background: $primary-color ; color: #FFFFFF; position: absolute; left: 0; right: 0; bottom: 0;
-    p { margin: 0; }
+.footer { 
+    padding: 5px 0; 
+    background: $primary-color ; 
+    color: #FFFFFF; 
+    position: fixed; 
+    left: 0; 
+    right: 0; bottom: 0;
+    p {
+         margin: 0; 
+        font-size: 13px;
+    }
 }
 
 
