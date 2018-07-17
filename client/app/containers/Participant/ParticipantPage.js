@@ -15,11 +15,17 @@ class Participant extends Component {
             isLoading: false,
             listParticipants: [],
             showModal: false,
+            showFeedbackModal: false,
             id_project: getFromStorage('FB360_Project').id_project
         };
         
+        // Events
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+
+        this.openFeedbackModal = this.openFeedbackModal.bind(this);
+        this.closeFeedbackModal = this.closeFeedbackModal.bind(this);
+
         this.handleSubmit = this.handleSubmit.bind(this);
 
         let currentInstance = this;
@@ -58,6 +64,15 @@ class Participant extends Component {
         this.setState({ showModal: true });
     }
 
+    openFeedbackModal(id){
+        console.log(id)
+        this.setState({ showFeedbackModal: true });
+    }
+
+    closeFeedbackModal(){
+        this.setState({ showFeedbackModal: false });
+    }
+
     closeModal() {
         this.setState({ showModal: false });
     }
@@ -86,7 +101,8 @@ class Participant extends Component {
         const {
             isLoading,
             listParticipants,
-            showModal
+            showModal,
+            showFeedbackModal
         } = this.state;
         
         if(isLoading)
@@ -101,6 +117,7 @@ class Participant extends Component {
                             <ParticipantList 
                                 list={listParticipants}
                                 openModal={this.openModal}
+                                openFeedbackModal={this.openFeedbackModal}
                             />
                         </div> 
                     </div>
@@ -111,6 +128,14 @@ class Participant extends Component {
                         <ParticipantForm onSubmit={this.handleSubmit}/>
                     </ModalBody>
                 </Modal>
+
+                <Modal isOpen={showFeedbackModal} toggle={this.closeFeedbackModal} className={this.props.className}>
+                    <ModalHeader toggle={this.closeFeedbackModal}>Feedback Manager</ModalHeader>
+                    <ModalBody>
+                        <ParticipantForm onSubmit={this.handleSubmit}/>
+                    </ModalBody>
+                </Modal>
+
             </section>
         );
     }
