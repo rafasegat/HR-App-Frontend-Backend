@@ -1,5 +1,6 @@
 const Participant = require('../models/Participant');
 const ProjectParticipant = require('../models/Project_Participant');
+const Provider = require('../models/Provider');
 const Tools = require('../common/tools');
 
 exports.all = (req, res, next) => {
@@ -31,6 +32,8 @@ exports.save = (req, res, next) => {
     const { data } = body;
     const { param } = body;
 
+    let self_assessment = data.self_assessment;
+
     if(data.id){
         // Update
     } else {
@@ -39,12 +42,15 @@ exports.save = (req, res, next) => {
         .insert(data)
         .then( json => {
             if(!json.id)
-                return res.send({ status: 'Error: Not added.' });
+                return res.send({ status: 'Error: Participant Not added.' });
             
-            // All good, now lets add row to ProjectParticipant as well
+            let id_participant = json.id,
+                id_project = param.id_project;
+
+            // All good, now lets ADD row to ProjectParticipant as well
             let data_proj_part = {
-                id_project: param.id_project,
-                id_participant: json.id
+                id_project: id_project,
+                id_participant: id_participant
             }
 
             ProjectParticipant
@@ -52,7 +58,32 @@ exports.save = (req, res, next) => {
             .insert(data_proj_part)
             .then( json => {
                 if(!json.id)
-                    return res.send({ status: 'Error: Not added.' });
+                    return res.send({ status: 'Error: ProjectParticipant Not added.' });
+
+                //Go back if is not self_assessment 
+                if(!self_assessment)
+                    return res.send({ status: 'success' });
+
+                //All good, if is self assessment, let's add a new provider 
+                let provider = {
+                    id_participant: id_participant,
+                    id_project: id_project,
+                    relationship: 1, //Self
+                    status: 1 // Invited
+                };
+
+                Provider
+                .query()
+                .insert(provider)
+                .then( json => {
+                    if(!json.id)
+                        return res.send({ status: 'Error: Provider Not added.' });
+
+                    return res.send({ status: 'success' });
+                })
+                .catch( err => {
+                    return res.status(500).send({ status: "Error 500: "+err });
+                });
 
                 return res.send({ status: 'success' });
             })
