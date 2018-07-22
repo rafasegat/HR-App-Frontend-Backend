@@ -10,7 +10,7 @@ const OrganizationList = (props) => {
 
     return(
         <div className="organizations">
-            {list.length > 0 ? 
+            {list!=undefined && list.length > 0 ? 
                 <ul className="organization-list">
                     {
                         list.map((value) => 

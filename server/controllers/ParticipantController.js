@@ -25,7 +25,32 @@ exports.all = (req, res, next) => {
       .catch( err => {
         return res.status(500).send({ status: "Error 500: "+err });
       });
-  };
+};
+
+exports.providers = (req, res, next) => {
+    const { body } = req;
+    const { id_participant } = body;
+    const { id_project } = body;
+    
+    if(!id_project)
+      return res.send({ status: "Error: Project required." });
+    
+      Provider
+      .query()
+      .select('a.*')
+      .join('participant as a', 'a.id', 'project_participant.id_participant')
+      .where('id_participant', id_participant)
+      .then( participants => {
+        if(participants.length == 0)
+          return res.send({ status: "No Participants.", data: participants });
+
+        return res.send({ status: 'success', data: participants });
+
+      })
+      .catch( err => {
+        return res.status(500).send({ status: "Error 500: "+err });
+      });
+};
 
 exports.save = (req, res, next) => {
     const { body } = req;

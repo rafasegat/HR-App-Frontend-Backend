@@ -11,7 +11,7 @@ const ProjectList = (props) => {
     
     return(
         <div className="projects">
-            {list.length > 0  ? 
+            {list!=undefined && list.length > 0  ? 
                 <ul className="project-list">
                     {
                         list.map((value) => 

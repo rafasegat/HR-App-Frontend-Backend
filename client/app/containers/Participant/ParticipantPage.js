@@ -18,7 +18,7 @@ class Participant extends Component {
             showParticipantModal: false,
             showFeedbackModal: false,
             id_project: getFromStorage('FB360_Project').id_project,
-            id_participant: -1
+            currentParticipant: []
         };
         
         // Events
@@ -70,10 +70,9 @@ class Participant extends Component {
         this.setState({ showParticipantModal: false });
     }
 
-    openFeedbackModal(id){
-        console.log(id)
+    openFeedbackModal(currentParticipant){
         this.setState({ 
-            id_participant: id,
+            currentParticipant: currentParticipant,
             showFeedbackModal: true 
         });
     }
@@ -107,7 +106,7 @@ class Participant extends Component {
             listParticipants,
             showParticipantModal,
             showFeedbackModal,
-            id_participant
+            currentParticipant
         } = this.state;
         
         if(isLoading)
@@ -138,7 +137,7 @@ class Participant extends Component {
                     <ModalHeader toggle={this.closeFeedbackModal}>Feedback Manager</ModalHeader>
                     <ModalBody>
                         <FeedbackForm
-                            id_participant={id_participant} 
+                            currentParticipant={currentParticipant} 
                             onSubmit={this.handleFeedbackSubmit}/>
                     </ModalBody>
                 </Modal>

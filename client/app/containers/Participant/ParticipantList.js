@@ -11,7 +11,7 @@ const ParticipantList = (props) => {
     
     return(
         <div className="participants">
-            {list.length > 0  ? 
+            {list!=undefined && list.length > 0  ? 
                <div>
                     <ReactTable
                         data={list}
@@ -66,7 +66,7 @@ const ParticipantList = (props) => {
                                 width: 100,
                                 Cell: row => (
                                     <a href="#"
-                                       onClick={event => openFeedbackModal(row.original.id)} >
+                                       onClick={event => openFeedbackModal(row.original)} >
                                       Edit
                                     </a>
                                   )

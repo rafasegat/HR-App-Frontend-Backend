@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Field, reduxForm, Control } from 'redux-form';
 import {validateEmail} from '../../utils/Tools'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { status as statusParticipant } from '../../flux/participant/ParticipantAction';
+import ProviderList from '../Provider/ProviderList';
 
 const validate = values => {
     const errors = {}
@@ -22,12 +24,10 @@ class FeedbackForm extends Component {
     constructor(props, match){
         super(props);
         this.state = {
-            id_participant: props.id_participant,
+            currentParticipant: props.currentParticipant,
             activeTab: '1'
         };
-
         this.toggle = this.toggle.bind(this);
-
     }
 
     toggle(tab) {
@@ -40,31 +40,27 @@ class FeedbackForm extends Component {
 
     render(){
         const {
-            id_participant
+            currentParticipant
         } = this.state;
+        
+        let status = statusParticipant.find(x => x.id_status === currentParticipant.status);
+        
         return(
             <div>
                 <Nav tabs>
                     <NavItem>
-                        <NavLink
-                        className="active"
-                        onClick={() => { this.toggle('1'); }}
-                        >
-                        Feedback Providers
+                        <NavLink className="active" onClick={() => { this.toggle('1'); }} >
+                            Feedback Providers
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink
-                        onClick={() => { this.toggle('2'); }}
-                        >
-                        Tasks
+                        <NavLink onClick={() => { this.toggle('2'); }} >
+                            Tasks
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink
-                        onClick={() => { this.toggle('3'); }}
-                        >
-                        Profile Settings
+                        <NavLink onClick={() => { this.toggle('3'); }} >
+                            Profile Settings
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -73,10 +69,14 @@ class FeedbackForm extends Component {
                     
                     <TabPane tabId="1">
                         <Row>
-                        <Col sm="12">
-                            <h4>Tab 1 Contents</h4>
-                            {id_participant}
-                        </Col>
+                            <Col sm="12">
+                                
+                                <h4>List of Feedback Providers</h4>
+                                <h5>Status: {status!=undefined && status.name}</h5>
+                                    <ProviderList 
+                                        currentParticipant={currentParticipant}
+                                    />
+                            </Col>
                         </Row>
                     </TabPane>
                     
