@@ -47,9 +47,36 @@ class ParticipantStore extends Store{
             }),
         }).then(res => res.json())
           .then(json => {
+            
+            if(json.status==404){
+                console.log('fdfd')
+                document.getElementById('btn-logout').click();
+            }
+
+            instance.invokeListeners(type, {data: json.data, status:'success'});
+            
+        }).catch(err => {
+            instance.invokeListeners(type, {status:'error'});
+        });
+    }
+
+    providers(type, payload){
+        let instance = this;
+        fetch('/api/participant/provider', {
+            method: 'POST',
+            headers: { 
+                        'Content-Type': 'application/json',
+                        'x-access-token': getFromStorage('feedback360').token
+                     },
+            body: JSON.stringify({ 
+                id_partcipant: payload
+            }),
+        }).then(res => res.json())
+          .then(json => {
                 instance.invokeListeners(type, {data: json.data, status:'success'});
             
         }).catch(err => {
+            console.log(err)
             instance.invokeListeners(type, {status:'error'});
         });
     }

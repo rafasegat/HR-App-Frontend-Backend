@@ -11,24 +11,23 @@ module.exports = (app, express) => {
     var token = req.headers['x-access-token'] ||
                 req.body.token || 
                 req.query.token;   
+    
     if (token) {
       jwt.verify(token, config.super_secret, function(err, decoded) {      
-        if (err) {
-          //res.redirect('/');
-          res.status(404).end('error');
-          return 
+        if (err) {    
+          res.status(404).send({
+              status: 404
+          });
+          return;
         } else {
           //req.decoded = decoded;    
           next();
         }
       });
     } else {
-      // res.status(401).send({ 
-      //     success: false, 
-      //     message: 'No token provided.' 
-      // });
-      //res.redirect('/');
-      res.status(404).end('error');
+      res.status(404).send({
+          status: 404
+      });
       return;
     }
   });
