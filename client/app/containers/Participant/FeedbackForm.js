@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, Control } from 'redux-form';
 import {validateEmail} from '../../utils/Tools'
+import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { status as statusParticipant } from '../../flux/participant/ParticipantAction';
+import ParticipantAction from '../../flux/participant/ParticipantAction';
 import ProviderList from '../Provider/ProviderList';
 
 const validate = values => {
@@ -25,9 +27,43 @@ class FeedbackForm extends Component {
         super(props);
         this.state = {
             currentParticipant: props.currentParticipant,
+            id_participant: props.currentParticipant.id,
+            id_project: getFromStorage('FB360_Project').id_project,
             activeTab: '1'
         };
+
         this.toggle = this.toggle.bind(this);
+        
+        let currentInstance = this;
+        ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
+    }
+
+    onParticipantStoreChanged(type, payload, currentInstance){
+        const { id_project } = this.state;
+        if(type===Action.PROVIDERS){
+            console.log(payload.data)
+            currentInstance.setState({
+                isLoading: false,
+                listParticipants: payload.data
+            });
+        }
+    }
+
+    componentDidMount(){
+        const { 
+                id_project,
+                id_participant 
+              } = this.state;
+
+        // If there's no organization, let's go back
+        if(!id_project)
+            this.props.history.push('/organizations');
+
+        this.setState({ isLoading: true });
+        ParticipantAction.providers({
+                                        id_participant: id_participant,
+                                        id_project: id_project
+                                   });
     }
 
     toggle(tab) {

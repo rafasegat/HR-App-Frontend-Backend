@@ -32,19 +32,22 @@ exports.providers = (req, res, next) => {
     const { id_participant } = body;
     const { id_project } = body;
     
-    if(!id_project)
-      return res.send({ status: "Error: Project required." });
+    if(!id_participant || !id_project)
+      return res.send({ status: "Error: Participant or Project params required." });
     
       Provider
       .query()
-      .select('a.*')
-      .join('participant as a', 'a.id', 'project_participant.id_participant')
-      .where('id_participant', id_participant)
-      .then( participants => {
-        if(participants.length == 0)
-          return res.send({ status: "No Participants.", data: participants });
+      .select('provider.relationship as provider_relationship, provider.status as provider_status, a.*')
+      .join('participant as a', 'a.id', 'provider.id_participant')
+      .where({
+                id_participant: id_participant,
+                id_project: id_project
+      })
+      .then( providers => {
+        if(providers.length == 0)
+          return res.send({ status: "No Providers.", data: providers });
 
-        return res.send({ status: 'success', data: participants });
+        return res.send({ status: 'success', data: providers });
 
       })
       .catch( err => {
