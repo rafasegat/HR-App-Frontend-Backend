@@ -5,6 +5,7 @@ import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { status as statusParticipant } from '../../flux/participant/ParticipantAction';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
+import * as Action from '../../flux/participant/ParticipantAction';
 import ProviderList from '../Provider/ProviderList';
 
 const validate = values => {
@@ -26,6 +27,7 @@ class FeedbackForm extends Component {
     constructor(props, match){
         super(props);
         this.state = {
+            listProviders: [],
             currentParticipant: props.currentParticipant,
             id_participant: props.currentParticipant.id,
             id_project: getFromStorage('FB360_Project').id_project,
@@ -39,12 +41,14 @@ class FeedbackForm extends Component {
     }
 
     onParticipantStoreChanged(type, payload, currentInstance){
+        
         const { id_project } = this.state;
+        
         if(type===Action.PROVIDERS){
             console.log(payload.data)
             currentInstance.setState({
                 isLoading: false,
-                listParticipants: payload.data
+                listProviders: payload.data
             });
         }
     }
@@ -60,6 +64,7 @@ class FeedbackForm extends Component {
             this.props.history.push('/organizations');
 
         this.setState({ isLoading: true });
+
         ParticipantAction.providers({
                                         id_participant: id_participant,
                                         id_project: id_project
@@ -76,6 +81,7 @@ class FeedbackForm extends Component {
 
     render(){
         const {
+            listProviders,
             currentParticipant
         } = this.state;
         
@@ -109,9 +115,10 @@ class FeedbackForm extends Component {
                                 
                                 <h4>List of Feedback Providers</h4>
                                 <h5>Status: {status!=undefined && status.name}</h5>
-                                    <ProviderList 
-                                        currentParticipant={currentParticipant}
-                                    />
+                                <ProviderList 
+                                    listProviders={listProviders}
+                                    currentParticipant={currentParticipant}
+                                />
                             </Col>
                         </Row>
                     </TabPane>
@@ -119,7 +126,9 @@ class FeedbackForm extends Component {
                     <TabPane tabId="2">
                         <Row>
                         <Col sm="12">
+
                             <h4>Tab 2 Contents</h4>
+
                         </Col>
                         </Row>
                     </TabPane>
@@ -127,7 +136,9 @@ class FeedbackForm extends Component {
                     <TabPane tabId="3">
                         <Row>
                         <Col sm="12">
+
                             <h4>Tab 3 Contents</h4>
+
                         </Col>
                         </Row>
                     </TabPane>

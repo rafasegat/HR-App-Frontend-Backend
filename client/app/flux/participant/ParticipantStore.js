@@ -12,6 +12,9 @@ class ParticipantStore extends Store{
         if(type===Action.SAVE){
             this.save(type, payload);
         }
+        if(type===Action.PROVIDERS){
+            this.providers(type, payload);
+        }
     }
 
     save(type, payload){
@@ -49,7 +52,6 @@ class ParticipantStore extends Store{
           .then(json => {
             
             if(json.status==404){
-                console.log('fdfd')
                 document.getElementById('btn-logout').click();
             }
 
@@ -62,18 +64,19 @@ class ParticipantStore extends Store{
 
     providers(type, payload){
         let instance = this;
-        fetch('/api/participant/provider', {
+        fetch('/api/participant/providers', {
             method: 'POST',
             headers: { 
                         'Content-Type': 'application/json',
                         'x-access-token': getFromStorage('feedback360').token
                      },
             body: JSON.stringify({ 
-                id_partcipant: payload
+                id_participant: payload.id_participant, 
+                id_project: payload.id_project
             }),
         }).then(res => res.json())
           .then(json => {
-                instance.invokeListeners(type, {data: json.data, status:'success'});
+            instance.invokeListeners(type, {data: json.data, status:'success'});
             
         }).catch(err => {
             console.log(err)

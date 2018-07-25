@@ -37,7 +37,7 @@ exports.providers = (req, res, next) => {
     
       Provider
       .query()
-      .select('provider.relationship as provider_relationship, provider.status as provider_status, a.*')
+      .select('provider.relationship as provider_relationship', 'provider.status as provider_status', 'a.*')
       .join('participant as a', 'a.id', 'provider.id_participant')
       .where({
                 id_participant: id_participant,

@@ -3,28 +3,28 @@ import ReactTable from "react-table";
 
 const ProviderList = (props) => {
     const { 
-        providerList
+        listProviders
     } = props;
-    
+    console.log(listProviders)
     return(
         <div className="providers">
             
             <ReactTable
-                data={providerList}
+                data={listProviders}
                 columns={[
                 {
                     Header: "Feedback Provider",
-                    id: "name"
+                    accessor: "name"
                     
                 },
                 {
                     Header: "Relationship",
-                    id: "relationship",
-                    width: 100
+                    accessor: "provider_relationship",
+                    width: 120
                 },
                 {
                     Header: "Status",
-                    id: "status",
+                    accessor: "provider_status",
                     width: 100
                 },
                 ]}

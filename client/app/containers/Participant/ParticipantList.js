@@ -25,7 +25,7 @@ const ParticipantList = (props) => {
                             },
                             {
                                 Header: "Position",
-                                id: "position",
+                                accessor: "position",
                                 width: 300
                             }
                             ]
