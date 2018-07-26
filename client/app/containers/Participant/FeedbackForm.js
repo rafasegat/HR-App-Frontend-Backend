@@ -5,6 +5,7 @@ import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { status as statusParticipant } from '../../flux/participant/ParticipantAction';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
+import AddProviderForm from '../../components/Provider/AddProviderForm';
 import * as Action from '../../flux/participant/ParticipantAction';
 import ProviderList from '../Provider/ProviderList';
 
@@ -31,26 +32,21 @@ class FeedbackForm extends Component {
             currentParticipant: props.currentParticipant,
             id_participant: props.currentParticipant.id,
             id_project: getFromStorage('FB360_Project').id_project,
-            activeTab: '1'
+            activeTab: '1',
+            showAddProvider: false,
+            newProvider: { 
+                            name: '',
+                            last: ''
+                         }
         };
 
         this.toggle = this.toggle.bind(this);
-        
+        this.showAddProvider = this.showAddProvider.bind(this);
+        this.updateDataProvider = this.updateDataProvider.bind(this);
+        this.handleSubmitAddProvider = this.handleSubmitAddProvider.bind(this);
+
         let currentInstance = this;
         ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
-    }
-
-    onParticipantStoreChanged(type, payload, currentInstance){
-        
-        const { id_project } = this.state;
-        
-        if(type===Action.PROVIDERS){
-            console.log(payload.data)
-            currentInstance.setState({
-                isLoading: false,
-                listProviders: payload.data
-            });
-        }
     }
 
     componentDidMount(){
@@ -79,10 +75,51 @@ class FeedbackForm extends Component {
         }
     }
 
+    onParticipantStoreChanged(type, payload, currentInstance){
+        
+        const { id_project } = this.state;
+        
+        if(type===Action.PROVIDERS){
+            currentInstance.setState({
+                isLoading: false,
+                listProviders: payload.data
+            });
+        }
+    }
+
+    showAddProvider(){
+        this.setState({
+            showAddProvider: true
+        });
+    }
+
+    updateDataProvider(data){
+        let field = data.field,
+            value = data.value;
+        const { newProvider } = this.state;
+        let newProviderAux = newProvider;
+        newProviderAux[field] = value;
+        this.setState({
+            newProvider: newProviderAux
+        });
+    }
+
+    handleSubmitAddProvider(){
+       const {
+            newProvider
+       } = this.state;
+
+       console.log(newProvider)
+        
+    }
+
     render(){
+
         const {
             listProviders,
-            currentParticipant
+            currentParticipant,
+            showAddProvider,
+            newProvider
         } = this.state;
         
         let status = statusParticipant.find(x => x.id_status === currentParticipant.status);
@@ -119,7 +156,16 @@ class FeedbackForm extends Component {
                                     listProviders={listProviders}
                                     currentParticipant={currentParticipant}
                                 />
-                            </Col>
+                                { showAddProvider && 
+                                    <AddProviderForm  
+                                        newProvider={newProvider} 
+                                        updateDataProvider={this.updateDataProvider}
+                                        handleSubmitAddProvider={this.handleSubmitAddProvider}
+                                    /> 
+                                }
+                                <button className="btn-primary" onClick={this.showAddProvider}>Add Provider</button>
+
+                            </Col> 
                         </Row>
                     </TabPane>
                     
