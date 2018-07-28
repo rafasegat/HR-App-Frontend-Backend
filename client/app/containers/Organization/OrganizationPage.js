@@ -15,12 +15,17 @@ class Organization extends Component {
             isLoading: false,
             isLogged: true,
             listOrganizations: [],
-            showModal: false
+            showModal: false,
+            modelOrganization: {
+                name: '',
+                id_user: getFromStorage('feedback360').user
+            }
         };
         
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.updateModelOrganization = this.updateModelOrganization.bind(this);
 
         let currentInstance = this;
         OrganizationAction.addListener((type, payload)=>currentInstance.onOrganizationStoreChanged(type, payload, currentInstance));
@@ -56,19 +61,34 @@ class Organization extends Component {
         this.setState({ showModal: true });
     }
 
-    handleSubmit(values){
+    updateModelOrganization(data){
+        const { 
+            modelOrganization 
+        } = this.state;
+        let aux = modelOrganization;
+        aux[data.field] = data.value;
+        this.setState({
+            modelOrganization: aux
+        });
+    }
+
+    handleSubmit(){
+        const { 
+            modelOrganization 
+        } = this.state;
+
         this.setState({
             isLoading: true
         });
-        values['id_user'] = getFromStorage('feedback360').user;
-        OrganizationAction.save(values);
+        OrganizationAction.save(modelOrganization);
     }
 
     render() {
         const {
             isLoading,
             listOrganizations,
-            showModal
+            showModal,
+            modelOrganization
         } = this.state;
         
         if(isLoading)
@@ -90,7 +110,10 @@ class Organization extends Component {
                  <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
                     <ModalHeader toggle={this.closeModal}>New Organization</ModalHeader>
                     <ModalBody>
-                        <OrganizationForm onSubmit={this.handleSubmit}/>
+                        <OrganizationForm 
+                            modelOrganization={modelOrganization}
+                            updateModelOrganization={this.updateModelOrganization}
+                            handleSubmit={this.handleSubmit}/>
                     </ModalBody>
                 </Modal>
                     

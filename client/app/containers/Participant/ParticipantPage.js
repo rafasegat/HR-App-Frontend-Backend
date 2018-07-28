@@ -18,13 +18,22 @@ class Participant extends Component {
             showParticipantModal: false,
             showFeedbackModal: false,
             id_project: getFromStorage('FB360_Project').id_project,
-            currentParticipant: []
+            currentParticipant: [],
+            modelParticipant: {
+                name: '',
+                email: '',
+                position: '',
+                self_assessment: true,
+                choose_own_feedback_provider: true,
+                feedback_provider_needs_approval: false,
+                id_participant_feedback_reviewer: null
+            }
         };
         
         // Events
         this.openParticipantModal = this.openParticipantModal.bind(this);
         this.closeParticipantModal = this.closeParticipantModal.bind(this);
-
+        this.updateModelParticipant = this.updateModelParticipant.bind(this);
         this.openFeedbackModal = this.openFeedbackModal.bind(this);
         this.closeFeedbackModal = this.closeFeedbackModal.bind(this);
 
@@ -81,20 +90,32 @@ class Participant extends Component {
         this.setState({ showFeedbackModal: false });
     }
 
+    updateModelParticipant(data){
+        const { 
+            modelParticipant 
+        } = this.state;
+        let aux = modelParticipant;
+        aux[data.field] = data.value;
+        this.setState({
+            modelParticipant: aux
+        });
+        console.log(this.state.modelParticipant)
+    }
+
     handleSubmit(values){
         // this.setState({ isLoading: true });
 
         values['status'] = Action.status.waiting_for_feedback.id;
 
         // Let's handle the cheboxes
-        if(!values['self_assessment'])
-            values['self_assessment'] = false;
+        // if(!values['self_assessment'])
+        //     values['self_assessment'] = false;
         
-        if(!values['choose_own_feedback_provider'])
-            values['choose_own_feedback_provider'] = false;
+        // if(!values['choose_own_feedback_provider'])
+        //     values['choose_own_feedback_provider'] = false;
         
-        if(!values['feedback_provider_needs_approval'])
-            values['feedback_provider_needs_approval'] = false;
+        // if(!values['feedback_provider_needs_approval'])
+        //     values['feedback_provider_needs_approval'] = false;
         
         // values['id_project_status'] = 1; // Collecting Feedback
         ParticipantAction.save(values);
@@ -106,7 +127,8 @@ class Participant extends Component {
             listParticipants,
             showParticipantModal,
             showFeedbackModal,
-            currentParticipant
+            currentParticipant,
+            modelParticipant
         } = this.state;
         
         if(isLoading)
@@ -129,7 +151,10 @@ class Participant extends Component {
                 <Modal isOpen={showParticipantModal} toggle={this.closeParticipantModal} className={this.props.className}>
                     <ModalHeader toggle={this.closeParticipantModal}>New Participant</ModalHeader>
                     <ModalBody>
-                        <ParticipantForm onSubmit={this.handleSubmit}/>
+                        <ParticipantForm
+                            modelParticipant={modelParticipant}
+                            updateModelParticipant={this.updateModelParticipant}
+                            handleSubmit={this.handleSubmit}/>
                     </ModalBody>
                 </Modal>
 

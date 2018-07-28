@@ -76,9 +76,8 @@ class FeedbackForm extends Component {
     }
 
     onParticipantStoreChanged(type, payload, currentInstance){
-        
         const { id_project } = this.state;
-        
+
         if(type===Action.PROVIDERS){
             currentInstance.setState({
                 isLoading: false,

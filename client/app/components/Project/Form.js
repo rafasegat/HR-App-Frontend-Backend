@@ -1,28 +1,27 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import RenderField from '../Form/RenderField'
+import {InputText} from 'primereact/components/inputtext/InputText';
 
-const validate = values => {
-  const errors = {}
-  if (!values.name) {
-    errors.name = 'Required'
-  }
-  return errors;
-}
-
-const OrganizationForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+const ProjectForm = props => {
+  const { 
+    modelProject,
+    updateModelProject,
+    handleSubmit
+  } = props;
+  
   return (
-    <form onSubmit={handleSubmit}>
-      <Field name="name" type="text" component={RenderField}  label="Name" />
-      <div>
-        <button className="btn-primary" type="submit" disabled={submitting}>Submit </button>
+    <div className="project-form">
+      
+      <div class="form-group">
+        <label>Name</label>
+        <InputText id="name" value={modelProject.name} onChange={(e) => updateModelProject({field: 'name', value: e.target.value}) } />
       </div>
-    </form>
+
+      <div>
+        <button onClick={handleSubmit} className="btn-primary" type="submit">Submit</button>
+      </div>
+
+    </div>
   );
 };
 
-export default reduxForm({
-  form: 'organization',
-  validate
-})(OrganizationForm);
+export default ProjectForm;

@@ -1,73 +1,100 @@
 import React from 'react';
-import { Field, reduxForm, Control } from 'redux-form';
-import RenderField from '../Form/RenderField'
 import {validateEmail} from '../../utils/Tools'
+import {InputText} from 'primereact/components/inputtext/InputText';
+import {Checkbox} from 'primereact/components/checkbox/Checkbox';
+import {AutoComplete} from 'primereact/components/autocomplete/AutoComplete';
 
-const validate = values => {
-  const errors = {}
-  if (!values.name) {
-    errors.name = 'Required'
-  }
-  if (!values.email) {
-    errors.email = 'Required'
-  }
-  if( !validateEmail(values.email) ){
-    errors.email = 'Email not valid.'
-  }
-  return errors;
-}
 
 const ParticipantForm = props => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+  const { 
+    handleSubmit,
+    modelParticipant,
+    updateModelParticipant
+  } = props;
+  
+  let options = ['Audi', 'BMW', 'Fiat', 'Ford', 'Honda', 'Jaguar', 'Mercedes', 'Renault', 'Volvo'];
+
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="participant-form">
       
-      <h3>Personal Details</h3>
-      <Field name="name" type="text" component={RenderField}  label="Name" />
-      <Field name="email" type="text" component={RenderField}  label="Email" />
-      <Field name="position" type="text" component={RenderField}  label="Position" />
+      <div className="form-group">
+
+        <h3>Personal Details</h3>
+
+        <div className="form-input">
+          <label>Name</label>
+          <InputText value={modelParticipant.name} onChange={(e) => updateModelParticipant({field: 'name', value: e.target.value}) } />
+        </div>
+
+        <div className="form-input">
+          <label>Email</label>
+          <InputText value={modelParticipant.email} onChange={(e) => updateModelParticipant({field: 'email', value: e.target.value}) } />
+        </div>
+
+        <div className="form-input">
+          <label>Position</label>
+          <InputText value={modelParticipant.position} onChange={(e) => updateModelParticipant({field: 'position', value: e.target.value}) } />
+        </div>
       
-      <h3>360 Feedback</h3>
-      <h4>Self Assessment</h4>
-      <Field type="checkbox" 
-             name="self_assessment"
-             defaultChecked={true} 
-             id="self_assessment" 
-             component={RenderField} 
-             label="Invite to submit a self-assessment"
-            />
-      <br/>
-      <h4>Feedback providers</h4>
-      <h5>You can choose the feedback providers after adding this person, or invite them to choose.</h5>
-      
-      <Field 
-        type="checkbox" 
-        name="choose_own_feedback_provider" 
-        id="choose_own_feedback_provider" 
-        component={RenderField}  
-        label="Invite to choose own feedback providers"/>
-      
-      <Field 
-        type="checkbox" 
-        name="feedback_provider_needs_approval" 
-        id="feedback_provider_needs_approval" 
-        component={RenderField}  
-        label="Their list of feedback providers needs approval" />
-      
-      <br/>
-      <h4>Report reviewer</h4>
-      <h5>Adding a report reviewer makes it easy to share the feedback report with (e.g.) their coach or line manager.</h5>
-      <Field name="id_participant_feedback_reviewer" check={true} type="text" component={RenderField}  label="Report Reviewer" description=""/>
-      
-      <div>
-        <button className="btn-primary" type="submit" disabled={submitting}>Save</button>
       </div>
 
-    </form>
+      <div className="form-group">
+
+        <h3>360 Feedback</h3>
+        <h4>Self Assessment</h4>
+        
+        <div className="form-input">
+          <label>Invite yourself to submit a self-assessment</label>
+          <Checkbox 
+            checked={modelParticipant.self_assessment} 
+            onChange={(e) => updateModelParticipant({field: 'self_assessment', value: e.checked}) } ></Checkbox>
+        </div>
+      
+      </div>
+      
+      <div className="form-group">
+
+        <h4>Feedback providers</h4>
+        <h5>You can choose the feedback providers after adding this person, or invite them to choose.</h5>
+        
+        <div className="form-input">
+            <label>Invite to choose own feedback providers</label>
+            <Checkbox 
+              checked={modelParticipant.choose_own_feedback_provider} 
+              onChange={(e) => updateModelParticipant({field: 'choose_own_feedback_provider', value: e.checked}) } ></Checkbox>
+        </div>
+        
+        <div className="form-input">
+            <label>Their list of feedback providers needs approval</label>
+            <Checkbox 
+              checked={modelParticipant.feedback_provider_needs_approval} 
+              onChange={(e) => updateModelParticipant({field: 'feedback_provider_needs_approval', value: e.checked}) } ></Checkbox>
+        </div>
+      
+      </div>
+
+      <div className="form-group">
+      
+        <h4>Report reviewer</h4>
+        <h5>Adding a report reviewer makes it easy to share the feedback report with (e.g.) their coach or line manager.</h5>
+        
+        <div className="form-input">
+            <label>Report Reviewer</label>
+            <AutoComplete 
+              value={modelParticipant.id_participant_feedback_reviewer} 
+              suggestions={options}
+              completeMethod={(e) => updateModelParticipant({field: 'id_participant_feedback_reviewer', value: e.target.value}) }
+            />
+        </div>
+      
+      </div>
+      
+      <div>
+        <button onClick={handleSubmit} className="btn-primary" type="submit">Save</button>
+      </div>
+
+    </div>
   );
 };
 
-export default reduxForm({
-  form: 'new_participant',
-  validate
-})(ParticipantForm);
+export default ParticipantForm;

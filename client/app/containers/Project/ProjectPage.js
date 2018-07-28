@@ -15,11 +15,17 @@ class Project extends Component {
             isLoading: false,
             listProjects: [],
             showModal: false,
-            id_organization: null
+            id_organization: null,
+            modelProject: {
+                name: '',
+                id_organization: null,
+                status: null
+            }
         };
         
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.updateModelProject = this.updateModelProject.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.redirectParticipants = this.redirectParticipants.bind(this);
 
@@ -84,8 +90,20 @@ class Project extends Component {
         this.props.history.push('/participants');
     }
 
-    handleSubmit(values){
+    updateModelProject(data){
+        const { 
+            modelProject 
+        } = this.state;
+        let aux = modelProject;
+        aux[data.field] = data.value;
+        this.setState({
+            modelProject: aux
+        });
+    }
+
+    handleSubmit(){
         const {
+            modelProject,
             id_organization
         } = this.state;
 
@@ -93,16 +111,17 @@ class Project extends Component {
             isLoading: true
         });
 
-        values['id_organization'] = id_organization;
-        values['id_project_status'] = 1; // Collecting Feedback
-        ProjectAction.save(values);
+        modelProject['id_organization'] = id_organization;
+        modelProject['status'] = 1; // Collecting Feedback
+        ProjectAction.save(modelProject);
     }
 
     render() {
         const {
             isLoading,
             listProjects,
-            showModal
+            showModal,
+            modelProject
         } = this.state;
         
         if(isLoading)
@@ -122,9 +141,12 @@ class Project extends Component {
                     </div>
                 </div>
                 <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
-                    <ModalHeader toggle={this.closeModal}>New Organization</ModalHeader>
+                    <ModalHeader toggle={this.closeModal}>New Project</ModalHeader>
                     <ModalBody>
-                        <ProjectForm onSubmit={this.handleSubmit}/>
+                        <ProjectForm 
+                            modelProject={modelProject}
+                            updateModelProject={this.updateModelProject}
+                            handleSubmit={this.handleSubmit}/>
                     </ModalBody>
                 </Modal>
             </section>
