@@ -19,6 +19,8 @@ class Participant extends Component {
             showFeedbackModal: false,
             id_project: getFromStorage('FB360_Project').id_project,
             currentParticipant: [],
+            reportReviewerSuggestions: [],
+            reportReviewerData: ['Audi', 'BMW', 'Fiat', 'Ford', 'Honda', 'Jaguar', 'Mercedes', 'Renault', 'Volvo'],
             modelParticipant: {
                 name: '',
                 email: '',
@@ -36,6 +38,7 @@ class Participant extends Component {
         this.updateModelParticipant = this.updateModelParticipant.bind(this);
         this.openFeedbackModal = this.openFeedbackModal.bind(this);
         this.closeFeedbackModal = this.closeFeedbackModal.bind(this);
+        this.filterReportReviewer = this.filterReportReviewer.bind(this);
 
         this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -99,26 +102,34 @@ class Participant extends Component {
         this.setState({
             modelParticipant: aux
         });
-        console.log(this.state.modelParticipant)
+        console.log(modelParticipant)
     }
 
-    handleSubmit(values){
-        // this.setState({ isLoading: true });
-
-        values['status'] = Action.status.waiting_for_feedback.id;
-
-        // Let's handle the cheboxes
-        // if(!values['self_assessment'])
-        //     values['self_assessment'] = false;
+    filterReportReviewer(event) {
+        const {
+            reportReviewerSuggestions,
+            reportReviewerData
+        } = this.state;
         
-        // if(!values['choose_own_feedback_provider'])
-        //     values['choose_own_feedback_provider'] = false;
-        
-        // if(!values['feedback_provider_needs_approval'])
-        //     values['feedback_provider_needs_approval'] = false;
+        let results = reportReviewerData.filter((e) => {
+            return e.toLowerCase().startsWith(event.query.toLowerCase());
+        });
+        this.setState({ reportReviewerSuggestions: results });
+    }
+
+    handleSubmit(){
+        const { 
+            modelParticipant 
+        } = this.state;
+
+         //this.setState({ isLoading: true });
+
+         modelParticipant['status'] = 1; // waiting_for_feedback
+
         
         // values['id_project_status'] = 1; // Collecting Feedback
-        ParticipantAction.save(values);
+        console.log(modelParticipant)
+        //ParticipantAction.save(values);
     }
 
     render() {
@@ -128,7 +139,9 @@ class Participant extends Component {
             showParticipantModal,
             showFeedbackModal,
             currentParticipant,
-            modelParticipant
+            modelParticipant,
+            reportReviewerData,
+            reportReviewerSuggestions
         } = this.state;
         
         if(isLoading)
@@ -154,7 +167,11 @@ class Participant extends Component {
                         <ParticipantForm
                             modelParticipant={modelParticipant}
                             updateModelParticipant={this.updateModelParticipant}
-                            handleSubmit={this.handleSubmit}/>
+                            handleSubmit={this.handleSubmit}
+                            reportReviewerData={reportReviewerData}
+                            reportReviewerSuggestions={reportReviewerSuggestions}
+                            filterReportReviewer={this.filterReportReviewer}
+                        />
                     </ModalBody>
                 </Modal>
 

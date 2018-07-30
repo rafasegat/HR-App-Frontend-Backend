@@ -4,19 +4,19 @@ import {InputText} from 'primereact/components/inputtext/InputText';
 import {Checkbox} from 'primereact/components/checkbox/Checkbox';
 import {AutoComplete} from 'primereact/components/autocomplete/AutoComplete';
 
-
 const ParticipantForm = props => {
   const { 
     handleSubmit,
     modelParticipant,
-    updateModelParticipant
+    updateModelParticipant,
+    reportReviewerData,
+    reportReviewerSuggestions,
+    filterReportReviewer
   } = props;
   
-  let options = ['Audi', 'BMW', 'Fiat', 'Ford', 'Honda', 'Jaguar', 'Mercedes', 'Renault', 'Volvo'];
 
   return (
     <div className="participant-form">
-      
       <div className="form-group">
 
         <h3>Personal Details</h3>
@@ -81,9 +81,11 @@ const ParticipantForm = props => {
         <div className="form-input">
             <label>Report Reviewer</label>
             <AutoComplete 
+              dropdown={true}
               value={modelParticipant.id_participant_feedback_reviewer} 
-              suggestions={options}
-              completeMethod={(e) => updateModelParticipant({field: 'id_participant_feedback_reviewer', value: e.target.value}) }
+              suggestions={reportReviewerSuggestions}
+              completeMethod={filterReportReviewer}
+              onChange={(e) => updateModelParticipant({field: 'id_participant_feedback_reviewer', value: e.value}) }
             />
         </div>
       
