@@ -3,6 +3,7 @@ import {validateEmail} from '../../utils/Tools'
 import {InputText} from 'primereact/components/inputtext/InputText';
 import {Checkbox} from 'primereact/components/checkbox/Checkbox';
 import {AutoComplete} from 'primereact/components/autocomplete/AutoComplete';
+import {Button} from 'primereact/components/button/Button';
 
 const ParticipantForm = props => {
   const { 
@@ -23,7 +24,7 @@ const ParticipantForm = props => {
 
         <div className="form-input">
           <label>Name</label>
-          <InputText value={modelParticipant.name} onChange={(e) => updateModelParticipant({field: 'name', value: e.target.value}) } />
+          <InputText validateOnly={true} value={modelParticipant.name} onChange={(e) => updateModelParticipant({field: 'name', value: e.target.value}) } />
         </div>
 
         <div className="form-input">
@@ -92,7 +93,7 @@ const ParticipantForm = props => {
       </div>
       
       <div>
-        <button onClick={handleSubmit} className="btn-primary" type="submit">Save</button>
+        <Button onClick={handleSubmit} className="btn-primary" label="Save" />
       </div>
 
     </div>
