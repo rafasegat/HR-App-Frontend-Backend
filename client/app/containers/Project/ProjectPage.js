@@ -20,7 +20,9 @@ class Project extends Component {
                 name: '',
                 id_organization: null,
                 status: null
-            }
+            },
+            messageValidation: '',
+            submitDisabled: true
         };
         
         this.openModal = this.openModal.bind(this);
@@ -99,12 +101,33 @@ class Project extends Component {
         this.setState({
             modelProject: aux
         });
+        this.validateForm();
+    }
+
+    validateForm(){
+        const { 
+            modelProject 
+        } = this.state;
+
+        let message = '';
+
+        if(!modelProject.name)
+            message += 'Name cannot be blank.';
+        
+        if(message)
+            this.setState({ submitDisabled: true  });
+        else
+            this.setState({ submitDisabled: false  });
+        
+        this.setState({ messageValidation: message  });
+        
     }
 
     handleSubmit(){
         const {
             modelProject,
-            id_organization
+            id_organization,
+            submitDisabled
         } = this.state;
 
         this.setState({
@@ -113,7 +136,9 @@ class Project extends Component {
 
         modelProject['id_organization'] = id_organization;
         modelProject['status'] = 1; // Collecting Feedback
-        ProjectAction.save(modelProject);
+
+        if(!submitDisabled)
+            ProjectAction.save(modelProject);
     }
 
     render() {
@@ -121,7 +146,9 @@ class Project extends Component {
             isLoading,
             listProjects,
             showModal,
-            modelProject
+            modelProject,
+            messageValidation,
+            submitDisabled
         } = this.state;
         
         if(isLoading)
@@ -146,7 +173,10 @@ class Project extends Component {
                         <ProjectForm 
                             modelProject={modelProject}
                             updateModelProject={this.updateModelProject}
-                            handleSubmit={this.handleSubmit}/>
+                            handleSubmit={this.handleSubmit}
+                            messageValidation={messageValidation}
+                            submitDisabled={submitDisabled}
+                        />
                     </ModalBody>
                 </Modal>
             </section>

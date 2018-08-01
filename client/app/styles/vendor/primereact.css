@@ -6,17 +6,17 @@
 }
 .ui-helper-hidden-accessible {
     border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
+    /* clip: rect(0 0 0 0); */
+    /* height: 1px; */
     margin: -1px;
     overflow: hidden;
     padding: 0;
     position: absolute;
-    width: 1px;
+    /* width: 1px; */
 }
 .ui-helper-hidden-accessible input,
 .ui-helper-hidden-accessible select {
-    transform: scale(0);
+    /* transform: scale(0); */
 }
 .ui-helper-reset {
     margin: 0;
@@ -922,6 +922,7 @@ button.ui-button::-moz-focus-inner {
     cursor: pointer;
     vertical-align: middle;
     margin-right: .25em;
+    margin-top: -5px;
 }
 
 .ui-chkbox .ui-chkbox-box {

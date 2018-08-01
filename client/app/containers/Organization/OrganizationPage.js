@@ -19,7 +19,9 @@ class Organization extends Component {
             modelOrganization: {
                 name: '',
                 id_user: getFromStorage('feedback360').user
-            }
+            },
+            messageValidation: '',
+            submitDisabled: true
         };
         
         this.openModal = this.openModal.bind(this);
@@ -70,17 +72,40 @@ class Organization extends Component {
         this.setState({
             modelOrganization: aux
         });
+        this.validateForm();
+    }
+
+    validateForm(){
+        const { 
+            modelOrganization 
+        } = this.state;
+
+        let message = '';
+
+        if(!modelOrganization.name)
+            message += 'Name cannot be blank.';
+        
+        if(message)
+            this.setState({ submitDisabled: true  });
+        else
+            this.setState({ submitDisabled: false  });
+        
+        this.setState({ messageValidation: message  });
+        
     }
 
     handleSubmit(){
         const { 
-            modelOrganization 
+            modelOrganization,
+            submitDisabled
         } = this.state;
 
         this.setState({
             isLoading: true
         });
-        OrganizationAction.save(modelOrganization);
+
+        if(!submitDisabled)
+            OrganizationAction.save(modelOrganization);
     }
 
     render() {
@@ -88,7 +113,9 @@ class Organization extends Component {
             isLoading,
             listOrganizations,
             showModal,
-            modelOrganization
+            modelOrganization,
+            messageValidation,
+            submitDisabled
         } = this.state;
         
         if(isLoading)
@@ -113,7 +140,10 @@ class Organization extends Component {
                         <OrganizationForm 
                             modelOrganization={modelOrganization}
                             updateModelOrganization={this.updateModelOrganization}
-                            handleSubmit={this.handleSubmit}/>
+                            handleSubmit={this.handleSubmit}
+                            messageValidation={messageValidation}
+                            submitDisabled={submitDisabled}
+                        />
                     </ModalBody>
                 </Modal>
                     

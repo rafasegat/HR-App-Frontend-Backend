@@ -1,11 +1,14 @@
 import React from 'react';
 import {InputText} from 'primereact/components/inputtext/InputText';
+import {Button} from 'primereact/components/button/Button';
 
 const OrganizationForm = props => {
   const { 
     handleSubmit,
     modelOrganization,
-    updateModelOrganization 
+    updateModelOrganization,
+    messageValidation,
+    submitDisabled
   } = props;
   
   return (
@@ -17,8 +20,10 @@ const OrganizationForm = props => {
       </div>
 
       <div>
-        <button onClick={handleSubmit} type="submit" className="btn-primary" >Submit </button>
+        <Button onClick={handleSubmit} type="submit" className="btn-primary" disabled={submitDisabled} label="Save"/>
+        <div className='messageErrors'>{messageValidation}</div>
       </div>
+
     </div>
   );
 };

@@ -8,7 +8,8 @@ import ParticipantList from './ParticipantList';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
 import FeedbackForm from './FeedbackForm';
 import * as Action from '../../flux/participant/ParticipantAction';
- 
+import {validateEmail} from '../../utils/Tools'
+
 class Participant extends Component {
     constructor(props, match){
         super(props);
@@ -29,7 +30,9 @@ class Participant extends Component {
                 choose_own_feedback_provider: true,
                 feedback_provider_needs_approval: false,
                 id_participant_feedback_reviewer: null
-            }
+            },
+            messageValidation: '',
+            submitDisabled: true
         };
         
         // Events
@@ -102,7 +105,7 @@ class Participant extends Component {
         this.setState({
             modelParticipant: aux
         });
-        console.log(modelParticipant)
+        this.validateForm();
     }
 
     filterReportReviewer(event) {
@@ -117,19 +120,44 @@ class Participant extends Component {
         this.setState({ reportReviewerSuggestions: results });
     }
 
+    validateForm(){
+        const { 
+            modelParticipant 
+        } = this.state;
+
+        let message = '';
+
+        if(!modelParticipant.name)
+            message += 'Name cannot be blank.\n';
+
+        if(!modelParticipant.email)
+            message += 'Email cannot be blank.\n';
+
+        if(!validateEmail(modelParticipant.email))
+            message += 'Email not valid.\n';
+        
+        if(message)
+            this.setState({ submitDisabled: true  });
+        else
+            this.setState({ submitDisabled: false  });
+        
+        this.setState({ messageValidation: message  });
+        
+    }
+
     handleSubmit(){
         const { 
             modelParticipant 
         } = this.state;
 
-         //this.setState({ isLoading: true });
+        this.setState({ isLoading: true });
 
          modelParticipant['status'] = 1; // waiting_for_feedback
 
         
         // values['id_project_status'] = 1; // Collecting Feedback
         console.log(modelParticipant)
-        //ParticipantAction.save(values);
+        ParticipantAction.save(modelParticipant);
     }
 
     render() {
@@ -141,7 +169,9 @@ class Participant extends Component {
             currentParticipant,
             modelParticipant,
             reportReviewerData,
-            reportReviewerSuggestions
+            reportReviewerSuggestions,
+            messageValidation,
+            submitDisabled
         } = this.state;
         
         if(isLoading)
@@ -171,6 +201,8 @@ class Participant extends Component {
                             reportReviewerData={reportReviewerData}
                             reportReviewerSuggestions={reportReviewerSuggestions}
                             filterReportReviewer={this.filterReportReviewer}
+                            messageValidation={messageValidation}
+                            submitDisabled={submitDisabled}
                         />
                     </ModalBody>
                 </Modal>

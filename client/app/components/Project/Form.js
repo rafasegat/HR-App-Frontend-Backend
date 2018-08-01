@@ -1,11 +1,14 @@
 import React from 'react';
 import {InputText} from 'primereact/components/inputtext/InputText';
+import {Button} from 'primereact/components/button/Button';
 
 const ProjectForm = props => {
   const { 
     modelProject,
     updateModelProject,
-    handleSubmit
+    handleSubmit,
+    messageValidation,
+    submitDisabled
   } = props;
   
   return (
@@ -17,7 +20,8 @@ const ProjectForm = props => {
       </div>
 
       <div>
-        <button onClick={handleSubmit} className="btn-primary" type="submit">Submit</button>
+        <Button onClick={handleSubmit} className="btn-primary" type="submit" label="Save" disabled={submitDisabled} />
+        <div className='messageErrors'>{messageValidation}</div>
       </div>
 
     </div>

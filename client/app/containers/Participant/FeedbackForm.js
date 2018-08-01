@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, Control } from 'redux-form';
 import {validateEmail} from '../../utils/Tools'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
@@ -8,20 +7,6 @@ import ParticipantAction from '../../flux/participant/ParticipantAction';
 import AddProviderForm from '../../components/Provider/AddProviderForm';
 import * as Action from '../../flux/participant/ParticipantAction';
 import ProviderList from '../Provider/ProviderList';
-
-const validate = values => {
-    const errors = {}
-    if (!values.name) {
-        errors.name = 'Required'
-    }
-    if (!values.email) {
-        errors.email = 'Required'
-    }
-    if( !validateEmail(values.email) ){
-        errors.email = 'Email not valid.'
-    }
-    return errors;
-}
 
 class FeedbackForm extends Component {
 
@@ -34,9 +19,9 @@ class FeedbackForm extends Component {
             id_project: getFromStorage('FB360_Project').id_project,
             activeTab: '1',
             showAddProvider: false,
-            newProvider: { 
+            modelProvider: { 
                             name: '',
-                            last: ''
+                            relationship: ''
                          }
         };
 
@@ -93,22 +78,21 @@ class FeedbackForm extends Component {
     }
 
     updateDataProvider(data){
-        let field = data.field,
-            value = data.value;
-        const { newProvider } = this.state;
-        let newProviderAux = newProvider;
-        newProviderAux[field] = value;
+        const { modelProvider } = this.state;
+        let aux = modelProvider;
+        aux[data.field] = data.value;
         this.setState({
-            newProvider: newProviderAux
+            modelProvider: aux
         });
+        console.log(modelProvider)
     }
 
     handleSubmitAddProvider(){
        const {
-            newProvider
+        modelProvider
        } = this.state;
 
-       console.log(newProvider)
+       console.log(modelProvider)
         
     }
 
@@ -118,7 +102,7 @@ class FeedbackForm extends Component {
             listProviders,
             currentParticipant,
             showAddProvider,
-            newProvider
+            modelProvider
         } = this.state;
         
         let status = statusParticipant.find(x => x.id_status === currentParticipant.status);
@@ -157,7 +141,7 @@ class FeedbackForm extends Component {
                                 />
                                 { showAddProvider && 
                                     <AddProviderForm  
-                                        newProvider={newProvider} 
+                                        modelProvider={modelProvider} 
                                         updateDataProvider={this.updateDataProvider}
                                         handleSubmitAddProvider={this.handleSubmitAddProvider}
                                     /> 
@@ -195,7 +179,4 @@ class FeedbackForm extends Component {
     }
 }
 
-export default reduxForm({
-    form: 'feedback',
-    validate
-})(FeedbackForm);
+export default FeedbackForm;
