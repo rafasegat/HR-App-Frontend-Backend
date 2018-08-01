@@ -25,7 +25,7 @@ const AddProviderForm = props => {
 
           <div className="form-group">
             <label>Relationship</label>
-            <select value={modelProvider.relationship} onChange={(e) => console.log(e) ) }>
+            <select value={modelProvider.relationship} onChange={(e) => updateDataProvider({field: 'relationship', value: e.target.value}) }>
               <option value="self">Self Assessment</option>
               <option value="2 cdscds">2 cdscds</option>
               <option>3 cddscs</option>
