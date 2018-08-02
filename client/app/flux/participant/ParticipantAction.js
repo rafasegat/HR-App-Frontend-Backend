@@ -30,3 +30,19 @@ export const status = [
     { id_status: 2, name: 'Choosing feedback providers' },
     { id_status: 3, name: 'Closed' }
 ];
+
+// 1 - Self
+// 2 - Line Manager
+// 3 - Peer
+// 4 - Direct Report
+// 5 - Customer
+// 6 - Supplier
+export const relationship_provider = [
+    { id_relationship: 1, name: 'Self' },
+    { id_relationship: 2, name: 'Line Manager' },
+    { id_relationship: 3, name: 'Peer' },
+    { id_relationship: 4, name: 'Direct Report' },
+    { id_relationship: 5, name: 'Customer' },
+    { id_relationship: 6, name: 'Supplier' }
+];
+

@@ -3,41 +3,44 @@ import {AutoComplete} from 'primereact/components/autocomplete/AutoComplete';
 import {SelectButton} from 'primereact/components/selectbutton/SelectButton';
 import {InputText} from 'primereact/components/inputtext/InputText';
 import {Button} from 'primereact/components/button/Button';
+import Select from '../../components/Form/Select';
+import {relationship_provider} from '../../flux/provider/ProviderAction';
 
 const AddProviderForm = props => {
 
   const { 
     handleSubmitAddProvider,
     modelProvider,
-    updateDataProvider
+    updateDataProvider,
+    messageValidation,
+    submitDisabled
   } = props;
-
+  
   return (
     <div className="form-add-provider">
 
       <div className="form-section">
-        <div className="form-subsection">
+        <div className="form-subsection row">
 
-          <div className="form-group">
+          <h3>Add new provider</h3>
+
+          <div className="form-group  col-lg-6">
+            <label>Relationship</label>
+            <Select id="relationship" options={relationship_provider} value={modelProvider.relationship} onChange={(e) => updateDataProvider({field: 'relationship', value: e.target.value}) }/>
+          </div>
+          
+          <div className="form-group col-lg-6">
             <label>Name</label>
-            <InputText value={modelProvider.name} onChange={(e) => updateDataProvider({field: 'name', value: e.target.value}) } />
+            <InputText id="name" value={modelProvider.name} onChange={(e) => updateDataProvider({field: 'name', value: e.target.value}) } />
           </div>
 
-          <div className="form-group">
-            <label>Relationship</label>
-            <select value={modelProvider.relationship} onChange={(e) => updateDataProvider({field: 'relationship', value: e.target.value}) }>
-              <option value="self">Self Assessment</option>
-              <option value="2 cdscds">2 cdscds</option>
-              <option>3 cddscs</option>
-              <option>4 cdscds</option>
-            </select>
+          <div>
+            <Button className="btn-primary" onClick={handleSubmitAddProvider} label="Add" disabled={submitDisabled}/>
+            <div className='messageErrors'>{messageValidation}</div>
           </div>
         
         </div>
 
-          <div>
-            <Button className="btn-primary" onClick={handleSubmitAddProvider} label="Add" />
-          </div>
       </div>
     
     </div>

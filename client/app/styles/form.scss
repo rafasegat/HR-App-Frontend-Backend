@@ -15,6 +15,7 @@
         margin-bottom: 15px;
         margin-top: 15px;
         padding-bottom: 15px;
+        width: 100%;
     }
     .form-subsection{
         padding: 15px;
@@ -34,6 +35,16 @@
         outline: 0;
         line-height: 30px;
         height: 30px;
+    }
+    select {
+        width: 100%;
+        background: #FFFFFF;
+        border-radius: 0;
+        border: 1px solid rgb(204, 204, 204);
+        height: 30px;
+        -webkit-appearance: none;
+        padding-left: 15px;
+        outline: 0;
     }
     .ui-autocomplete-input {
         width: auto;
