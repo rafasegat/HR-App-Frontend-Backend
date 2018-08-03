@@ -13,7 +13,8 @@ const AddProviderForm = props => {
     modelProvider,
     updateDataProvider,
     messageValidation,
-    submitDisabled
+    submitDisabled,
+    controlRelationshipFields
   } = props;
   
   return (
@@ -26,7 +27,18 @@ const AddProviderForm = props => {
 
           <div className="form-group  col-lg-6">
             <label>Relationship</label>
-            <Select id="relationship" options={relationship_provider} value={modelProvider.relationship} onChange={(e) => updateDataProvider({field: 'relationship', value: e.target.value}) }/>
+            <Select 
+              id="relationship" 
+              options={relationship_provider} 
+              value={modelProvider.relationship} 
+              onChange={
+                (e) => { 
+                  
+                  updateDataProvider({field: 'relationship', value: e.target.value})
+                  controlRelationshipFields(e.target.value)
+
+                } 
+            } />
           </div>
           
           <div className="form-group col-lg-6">
