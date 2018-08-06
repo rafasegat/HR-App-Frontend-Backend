@@ -31,7 +31,7 @@ class FeedbackForm extends Component {
             submitDisabled: true,
             modelProvider: { 
                              name: '',
-                             relationship: '',
+                             relationship: 1, // Default: Self assessment
                              id_project: id_project,
                              id_participant: id_participant
                            }
@@ -101,8 +101,12 @@ class FeedbackForm extends Component {
 
         let message = '';
 
-        if(!modelProvider.name)
+        if( modelProvider.relationship != 1 ){
+
+            if(!modelProvider.name)
             message += 'Name cannot be blank.\n';
+
+        }
 
         if(!modelProvider.relationship)
             message += 'Select Relationship.\n';

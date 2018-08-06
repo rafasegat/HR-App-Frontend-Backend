@@ -13,8 +13,8 @@ const AddProviderForm = props => {
     modelProvider,
     updateDataProvider,
     messageValidation,
-    submitDisabled,
-    controlRelationshipFields
+    submitDisabled
+    
   } = props;
   
   return (
@@ -27,26 +27,20 @@ const AddProviderForm = props => {
 
           <div className="form-group  col-lg-6">
             <label>Relationship</label>
-            <Select 
-              id="relationship" 
-              options={relationship_provider} 
-              value={modelProvider.relationship} 
-              onChange={
-                (e) => { 
-                  
-                  updateDataProvider({field: 'relationship', value: e.target.value})
-                  controlRelationshipFields(e.target.value)
-
-                } 
-            } />
+            <Select  id="relationship" options={relationship_provider} value={modelProvider.relationship} onChange={ (e) => { updateDataProvider({field: 'relationship', value: e.target.value}) } } />
           </div>
           
-          <div className="form-group col-lg-6">
-            <label>Name</label>
-            <InputText id="name" value={modelProvider.name} onChange={(e) => updateDataProvider({field: 'name', value: e.target.value}) } />
-          </div>
+          {  modelProvider.relationship!=1 &&
+          
+            <div className="form-group col-lg-6">
+              <label>Participant</label>
+              <Select  id="id_participant" options={participant_provider} value={modelProvider.id_participant} onChange={ (e) => { updateDataProvider({field: 'id_participant', value: e.target.value}) } } />
+              {/* <InputText id="name"  value={modelProvider.name} onChange={(e) => updateDataProvider({field: 'name', value: e.target.value}) } /> */}
+            </div>
 
-          <div>
+          }
+
+          <div className="col-lg-12">
             <Button className="btn-primary" onClick={handleSubmitAddProvider} label="Add" disabled={submitDisabled}/>
             <div className='messageErrors'>{messageValidation}</div>
           </div>
