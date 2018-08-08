@@ -59,7 +59,8 @@ class App extends Component{
   }
 
   onClickLogout() {
-    setInStorage('feedback360', "");
+    setInStorage('FB360_Token', "");
+    setInStorage('FB360_Project', "");
     this.props.history.push('/');
   }
 

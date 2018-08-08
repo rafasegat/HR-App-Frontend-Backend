@@ -18,7 +18,7 @@ class Participant extends Component {
             listParticipants: [],
             showParticipantModal: false,
             showFeedbackModal: false,
-            id_project: getFromStorage('FB360_Project').id_project,
+            id_project: getFromStorage('FB360_Project').id,
             currentParticipant: [],
             reportReviewerSuggestions: [],
             reportReviewerData: ['Audi', 'BMW', 'Fiat', 'Ford', 'Honda', 'Jaguar', 'Mercedes', 'Renault', 'Volvo'],

@@ -18,10 +18,7 @@ class ProjectStore extends Store{
         let instance = this;
         fetch('/api/project/save', {
             method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
+            headers: instance.headers(),
             body: JSON.stringify({
                 data: payload
             }),
@@ -38,10 +35,7 @@ class ProjectStore extends Store{
         let instance = this;
         fetch('/api/project/all', {
             method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
+            headers: instance.headers(),
             body: JSON.stringify({ 
                 id_organization: payload
             }),

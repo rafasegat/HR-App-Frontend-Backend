@@ -11,7 +11,7 @@ import {
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
 
-  const obj = getFromStorage('app_feedback360');
+  const obj = getFromStorage('FB360_Token');
   
   return (
     <Route

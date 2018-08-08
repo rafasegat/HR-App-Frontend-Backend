@@ -21,13 +21,10 @@ class ParticipantStore extends Store{
         let instance = this;
         fetch('/api/participant/save', {
             method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
+            headers: instance.headers(),
             body: JSON.stringify({
                 data: payload,
-                param: {id_project: getFromStorage('FB360_Project').id_project}
+                param: { id_project: getFromStorage('FB360_Project').id }
             }),
         }).then(res => res.json())
           .then(json => {
@@ -41,10 +38,7 @@ class ParticipantStore extends Store{
         let instance = this;
         fetch('/api/participant/all', {
             method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
+            headers: instance.headers(),
             body: JSON.stringify({ 
                 id_project: payload
             }),
@@ -66,10 +60,7 @@ class ParticipantStore extends Store{
         let instance = this;
         fetch('/api/participant/providers', {
             method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
+            headers: instance.headers(),
             body: JSON.stringify({ 
                 id_participant: payload.id_participant, 
                 id_project: payload.id_project

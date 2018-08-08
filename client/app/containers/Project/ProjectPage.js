@@ -86,7 +86,7 @@ class Project extends Component {
     redirectParticipants(id_project) {
         // Let's set the global project
         setInStorage('FB360_Project', { 
-            id_project: id_project
+            id: id_project
         });
         // redirect to participants
         this.props.history.push('/participants');

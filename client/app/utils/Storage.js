@@ -1,3 +1,8 @@
+// Global Variables
+//
+// FB360_Token : { token: ... , user: ... }
+// FB360_Project : { id : ... }
+//
 export function getFromStorage(key){
     if(!key)
         return null;

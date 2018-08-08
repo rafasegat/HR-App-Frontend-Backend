@@ -10,7 +10,7 @@ exports.all = (req, res, next) => {
     if(!id_project)
       return res.send({ status: "Error: Project required." });
     
-      ProjectParticipant
+    ProjectParticipant
       .query()
       .select('a.*')
       .join('participant as a', 'a.id', 'project_participant.id_participant')
@@ -21,10 +21,9 @@ exports.all = (req, res, next) => {
 
         return res.send({ status: 'success', data: participants });
 
-      })
-      .catch( err => {
+    }).catch( err => {
         return res.status(500).send({ status: "Error 500: "+err });
-      });
+    });
 };
 
 exports.providers = (req, res, next) => {

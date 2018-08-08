@@ -19,7 +19,7 @@ class FeedbackForm extends Component {
         super(props);
 
         let id_participant = props.currentParticipant.id,
-            id_project = getFromStorage('FB360_Project').id_project;
+            id_project = getFromStorage('FB360_Project').id;
 
         this.state = {
             listProviders: [],
@@ -34,7 +34,9 @@ class FeedbackForm extends Component {
                              relationship: 1, // Default: Self assessment
                              id_project: id_project,
                              id_participant: id_participant
-                           }
+                           },
+            participantProviderOptions: []
+
         };
 
         this.toggle = this.toggle.bind(this);
@@ -62,6 +64,8 @@ class FeedbackForm extends Component {
                                         id_participant: id_participant,
                                         id_project: id_project
                                    });
+
+        ParticipantAction.all(id_project);
     }
 
     toggle(tab) {
@@ -81,6 +85,13 @@ class FeedbackForm extends Component {
                 listProviders: payload.data
             });
         }
+        if(type===ActionParticipant.ALL){
+            console.log()
+            currentInstance.setState({
+                isLoading: false,
+                participantProviderOptions: payload.data
+            });
+        }
     }
 
     onProviderStoreChanged(type, payload, currentInstance){
@@ -89,7 +100,7 @@ class FeedbackForm extends Component {
         if(type===ActionProvider.SAVE){
             currentInstance.setState({
                 isLoading: false,
-                listProviders: payload.data
+                //listProviders: payload.data
             });
         }
     }
@@ -147,7 +158,8 @@ class FeedbackForm extends Component {
             showAddProvider,
             modelProvider,
             messageValidation,
-            submitDisabled
+            submitDisabled,
+            participantProviderOptions
         } = this.state;
         
         let status = statusParticipant.find(x => x.id_status === currentParticipant.status);
@@ -191,6 +203,7 @@ class FeedbackForm extends Component {
                                     handleSubmitAddProvider={this.handleSubmitAddProvider}
                                     submitDisabled={submitDisabled}
                                     messageValidation={messageValidation}
+                                    participantProviderOptions={participantProviderOptions}
                                 />
 
                             </Col> 

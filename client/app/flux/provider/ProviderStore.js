@@ -18,10 +18,7 @@ class ProviderStore extends Store{
         let instance = this;
         fetch('/api/provider/save', {
             method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
+            headers: instance.headers(),
             body: JSON.stringify({
                 data: payload
             }),
@@ -38,12 +35,9 @@ class ProviderStore extends Store{
         let instance = this;
         fetch('/api/provider/all', {
             method: 'POST',
-            headers: { 
-                        'Content-Type': 'application/json',
-                        'x-access-token': getFromStorage('feedback360').token
-                     },
+            headers: instance.headers(),
             body: JSON.stringify({ 
-                id_user: getFromStorage('feedback360').user
+                id_user: getFromStorage('FB360_Token').user
             }),
         }).then(res => res.json())
           .then(json => {

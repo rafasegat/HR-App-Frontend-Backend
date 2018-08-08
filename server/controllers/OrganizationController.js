@@ -24,7 +24,7 @@ exports.all = (req, res, next) => {
         return res.status(500).send({ status: "Error 500: "+err });
       });
 
-  };
+};
 
 exports.save = (req, res, next) => {
     const { body } = req;

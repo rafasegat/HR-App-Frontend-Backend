@@ -18,7 +18,7 @@ class Organization extends Component {
             showModal: false,
             modelOrganization: {
                 name: '',
-                id_user: getFromStorage('feedback360').user
+                id_user: getFromStorage('FB360_Token').user
             },
             messageValidation: '',
             submitDisabled: true

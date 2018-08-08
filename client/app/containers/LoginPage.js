@@ -27,7 +27,7 @@ class Login extends Component{
   } 
 
   componentDidMount(){
-    const obj = getFromStorage('feedback360');
+    const obj = getFromStorage('FB360_Token');
     if(obj && obj.token){
       const { token } = obj;
       // Verify token
@@ -87,7 +87,7 @@ class Login extends Component{
       .then(json => {
         if (json.success) {
           // set our token on storage
-          setInStorage('feedback360', { 
+          setInStorage('FB360_Token', { 
             token: json.token,
             user: json.user
           });

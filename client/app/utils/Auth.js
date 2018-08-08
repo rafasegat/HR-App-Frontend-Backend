@@ -4,7 +4,8 @@ import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../utils/Storage';
 
 const PrivateRoute = ({ component: Component }) => {
-    const obj = getFromStorage('feedback360');
+    const obj = getFromStorage('FB360_Token');
+    console.log(obj)
     if(obj.token){
         return (
             <Route component={Component} />
