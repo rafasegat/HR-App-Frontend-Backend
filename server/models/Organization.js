@@ -9,3 +9,4 @@ class Organization extends Model {
 }
 
 module.exports = Organization;
+

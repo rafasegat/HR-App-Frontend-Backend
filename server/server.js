@@ -10,6 +10,11 @@ const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
 const morgan = require('morgan');
 
+//GraphQL
+const express_graphql = require('express-graphql');
+const { graphql_schema } = require('./graphQL/schema');
+const { buildSchema } = require('graphql');
+
 const isDev = process.env.NODE_ENV !== 'production';
 const port  = process.env.PORT || 8006;  
 
@@ -30,6 +35,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
 
 app.use(morgan('dev'));
+
+// GraphQL
+var root = {
+  message: () => 'Hello World!'
+};
+var schema = buildSchema(`
+    type Query {
+        message: String
+    }
+`);
+app.use('/graphql', express_graphql({
+  schema: graphql_schema,
+  rootValue: root,
+  graphiql: true
+}));
 
 // API routes
 require('./routes')(app, express);
