@@ -53,7 +53,7 @@ class Project extends Component {
         }
         if(type===Action.SAVE){
             if(payload.status==='success'){
-                ProjectAction.all(id_organization);
+                ProjectAction.all({ id_organization: id_organization });
                 currentInstance.closeModal();
             }
         }
@@ -72,7 +72,7 @@ class Project extends Component {
             isLoading: true
         });
 
-        ProjectAction.all(id_organization);
+        ProjectAction.all({ id_organization: id_organization });
     }
 
     closeModal() {

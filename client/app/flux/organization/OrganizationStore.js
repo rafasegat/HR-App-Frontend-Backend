@@ -32,20 +32,38 @@ class OrganizationStore extends Store{
     }
 
     all(type, payload){
-        let instance = this;
-        fetch('/api/organization/all', {
+        let instance = this,
+            id_user = getFromStorage('FB360_Token').user;
+
+        fetch('/graphql', {
             method: 'POST',
             headers: instance.headers(),
             body: JSON.stringify({ 
-                id_user: getFromStorage('FB360_Token').user
+                query: '{ organizations(id_user: ' + id_user + ') { id, name, status } }' 
             }),
         }).then(res => res.json())
           .then(json => {
-            instance.invokeListeners(type, { data: json.data, status: 'success' });
+            console.log(json);
+            instance.invokeListeners(type, { data: json.data.organizations, status: 'success' });
             
         }).catch(err => {
             instance.invokeListeners(type, { status: 'Error: '+err });
         });
+
+
+        // fetch('/api/organization/all', {
+        //     method: 'POST',
+        //     headers: instance.headers(),
+        //     body: JSON.stringify({ 
+        //         id_user: getFromStorage('FB360_Token').user
+        //     }),
+        // }).then(res => res.json())
+        //   .then(json => {
+        //     instance.invokeListeners(type, { data: json.data, status: 'success' });
+            
+        // }).catch(err => {
+        //     instance.invokeListeners(type, { status: 'Error: '+err });
+        // });
     }
 }
 
