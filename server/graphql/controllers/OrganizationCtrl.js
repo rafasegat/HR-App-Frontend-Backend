@@ -1,27 +1,25 @@
 
-const Organization = require('../models/Organization');
-const Tools = require('../common/tools');
+const Organization = require('../../models/Organization');
+const Tools = require('../../common/tools');
 
-exports.all = (req, res, next) => {
-    const { body } = req;
-    const { id_user } = body;
+exports.all = () => {
     
-    if(!id_user)
-        return res.send({ status: "Error: User required." });
+    //if(!id_user)
+    //    return res.send({ status: "Error: User required." });
 
     Organization
       .query()
-      .where('id_user', id_user)
+      .where('id_user', 1)
       .then( organizations => {
         if(organizations.length == 0)
-          return res.send({ status: "No organizations.", data: organizations });
-        
-        return res.send({ status: 'success', data: organizations });
+          return { status: "No organizations.", data: organizations };
+
+        return { status: 'success', data: organizations };
 
       })
       .catch( err => {
           console.log(err)
-        return res.status(500).send({ status: "Error 500: "+err });
+            return { status: "Error 500: "+err };
       });
 
 };
