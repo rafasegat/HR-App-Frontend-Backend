@@ -35,44 +35,62 @@ class ParticipantStore extends Store{
     }
 
     all(type, payload){
-        let instance = this;
-        fetch('/api/participant/all', {
+        let instance = this,
+            id_project = payload.id_project,
+            query = `{ 
+                        participants( id_project:  ${id_project} )
+                            { 
+                                id, 
+                                name, 
+                                email, 
+                                position, 
+                                status, self_assessment, 
+                                choose_own_feedback_provider, 
+                                feedback_provider_needs_approval, 
+                                id_participant_feedback_reviewer
+                            } 
+                    }` ;
+        fetch('/graphql', {
             method: 'POST',
             headers: instance.headers(),
-            body: JSON.stringify({ 
-                id_project: payload
-            }),
+            body: JSON.stringify({ query: query  }),
         }).then(res => res.json())
           .then(json => {
-            
-            if(json.status==404){
-                document.getElementById('btn-logout').click();
-            }
-
-            instance.invokeListeners(type, {data: json.data, status:'success'});
-            
-        }).catch(err => {
-            instance.invokeListeners(type, {status:'error'});
-        });
+            if(json.status==404) document.getElementById('btn-logout').click();
+            instance.invokeListeners(type, {data: json.data.participants, status:'success'});
+        }).catch(err => { instance.invokeListeners(type, {status:'error'}); });
     }
 
     providers(type, payload){
-        let instance = this;
-        fetch('/api/participant/providers', {
+        let instance = this,
+            query = `{ 
+                        providersByParticipant( 
+                            id_participant:  ${payload.id_participant}, 
+                            id_project:  ${payload.id_project} 
+                        )
+                        { 
+                            id, 
+                            name, 
+                            email, 
+                            position, 
+                            status, 
+                            self_assessment, 
+                            choose_own_feedback_provider, 
+                            feedback_provider_needs_approval, 
+                            id_participant_feedback_reviewer,
+                            provider_relationship, 
+                            provider_status 
+                        } 
+                    }` ;
+        fetch('/graphql', {
             method: 'POST',
             headers: instance.headers(),
-            body: JSON.stringify({ 
-                id_participant: payload.id_participant, 
-                id_project: payload.id_project
-            }),
+            body: JSON.stringify({ query }),
         }).then(res => res.json())
           .then(json => {
-            instance.invokeListeners(type, {data: json.data, status:'success'});
-            
-        }).catch(err => {
-            console.log(err)
-            instance.invokeListeners(type, {status:'error'});
-        });
+            if(json.status==404) document.getElementById('btn-logout').click();
+            instance.invokeListeners(type, {data: json.data.providersByParticipant, status:'success'}); })
+          .catch(err => { instance.invokeListeners(type, {status:'error'}); });
     }
 }
 

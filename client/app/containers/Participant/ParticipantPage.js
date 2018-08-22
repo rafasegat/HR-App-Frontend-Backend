@@ -60,7 +60,7 @@ class Participant extends Component {
         }
         if(type===Action.SAVE){
             if(payload.status==='success'){
-                ParticipantAction.all(id_project);
+                ParticipantAction.all({ id_project: id_project });
                 currentInstance.closeParticipantModal();
             }
         }
@@ -74,7 +74,7 @@ class Participant extends Component {
             this.props.history.push('/organizations');
         
         this.setState({ isLoading: true });
-        ParticipantAction.all(id_project);
+        ParticipantAction.all({ id_project: id_project });
     }
 
     openParticipantModal() {

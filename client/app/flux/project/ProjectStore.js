@@ -23,32 +23,28 @@ class ProjectStore extends Store{
                 data: payload
             }),
         }).then(res => res.json())
-          .then(json => {
-          instance.invokeListeners(type, {status:'success'}); 
-
-        }).catch(err => {
-            instance.invokeListeners(type, {status:'error'});
-        });
+          .then(json => { instance.invokeListeners(type, {status:'success'});  })
+          .catch(err => { instance.invokeListeners(type, {status:'error'});  });
     }
 
     all(type, payload){
         let instance = this,
-            id_organization = payload.id_organization;
-
+            id_organization = payload.id_organization,
+            query = `{ 
+                        projects( id_organization:  ${id_organization} )
+                            { 
+                                id, name, status, id_organization 
+                            } 
+                    }` ;
         fetch('/graphql', {
             method: 'POST',
             headers: instance.headers(),
             body: JSON.stringify({ 
-                query: '{ projects(id_organization: ' + id_organization + ') { id, name, status, id_organization } }' 
+                query: query
             }),
         }).then(res => res.json())
-          .then(json => {
-            console.log(json);
-            instance.invokeListeners(type, { data: json.data.projects, status: 'success' });
-            
-        }).catch(err => {
-            instance.invokeListeners(type, { status: 'Error: '+err });
-        });
+          .then(json => { instance.invokeListeners(type, { data: json.data.projects, status: 'success' }); })
+          .catch(err => { instance.invokeListeners(type, { status: 'Error: '+err }); });
     }
 }
 

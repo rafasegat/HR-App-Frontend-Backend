@@ -1,5 +1,6 @@
 import Dispatcher from "../Dispatcher";
 import Store from "../Store";
+import { formatInput } from '../../utils/Tools'
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import * as Action from '../../flux/organization/OrganizationAction';
@@ -23,12 +24,8 @@ class OrganizationStore extends Store{
                 data: payload
             }),
         }).then(res => res.json())
-          .then(json => {
-          instance.invokeListeners(type, {status:'success'}); 
-
-        }).catch(err => {
-            instance.invokeListeners(type, {status:'error'});
-        });
+          .then(json => { instance.invokeListeners(type, {status:'success'}); })
+          .catch(err => { instance.invokeListeners(type, {status:'error'}); });
     }
 
     all(type, payload){
@@ -42,28 +39,8 @@ class OrganizationStore extends Store{
                 query: '{ organizations(id_user: ' + id_user + ') { id, name, status } }' 
             }),
         }).then(res => res.json())
-          .then(json => {
-            console.log(json);
-            instance.invokeListeners(type, { data: json.data.organizations, status: 'success' });
-            
-        }).catch(err => {
-            instance.invokeListeners(type, { status: 'Error: '+err });
-        });
-
-
-        // fetch('/api/organization/all', {
-        //     method: 'POST',
-        //     headers: instance.headers(),
-        //     body: JSON.stringify({ 
-        //         id_user: getFromStorage('FB360_Token').user
-        //     }),
-        // }).then(res => res.json())
-        //   .then(json => {
-        //     instance.invokeListeners(type, { data: json.data, status: 'success' });
-            
-        // }).catch(err => {
-        //     instance.invokeListeners(type, { status: 'Error: '+err });
-        // });
+          .then(json => { instance.invokeListeners(type, { data: json.data.organizations, status: 'success' }); })
+          .catch(err => { instance.invokeListeners(type, { status: 'Error: '+err }); });
     }
 }
 

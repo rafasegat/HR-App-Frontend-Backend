@@ -65,7 +65,7 @@ class FeedbackForm extends Component {
                                         id_project: id_project
                                    });
 
-        ParticipantAction.all(id_project);
+        ParticipantAction.all({id_project: id_project});
     }
 
     toggle(tab) {
