@@ -14,7 +14,6 @@ const AddProviderForm = props => {
     updateDataProvider,
     messageValidation,
     submitDisabled,
-    participantProviderOptions
   } = props;
   
   return (
@@ -30,12 +29,20 @@ const AddProviderForm = props => {
             <Select  id="relationship" options={relationship_provider} value={modelProvider.relationship} onChange={ (e) => { updateDataProvider({field: 'relationship', value: e.target.value}) } } />
           </div>
           
-          {  modelProvider.relationship!=1 &&
+          {  modelProvider.relationship != 1  &&
           
             <div className="form-group col-lg-6">
               <label>Participant</label>
-              <Select  id="id_participant" options={participantProviderOptions} value={modelProvider.id_participant} onChange={ (e) => { updateDataProvider({field: 'id_participant', value: e.target.value}) } } />
-              {/* <InputText id="name"  value={modelProvider.name} onChange={(e) => updateDataProvider({field: 'name', value: e.target.value}) } /> */}
+              {/* <Select  id="id_participant" options={props.participantProviderOptions} value={modelProvider.id_participant} onChange={ (e) => { updateDataProvider({field: 'id_participant', value: e.target.value}) } } /> */}
+
+              <select id="id_participant" value={modelProvider.id_participant} onChange={ (e) => { updateDataProvider({field: 'id_participant', value: e.target.value}) } }>
+              {
+                props.participantProviderOptions.map((value) =>
+                  <option key={value.id} value={value.id}>{value.name + ' - ' + value.position}</option>
+                )
+              }
+              </select>
+
             </div>
 
           }

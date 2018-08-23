@@ -20,6 +20,9 @@ module.exports.graphql_root = {
     participants: (args) => {
         return ParticipantCtrl.getAll(args);
     },
+    participantsLessCurrent: (args) => {
+        return ParticipantCtrl.getAllLessCurrent(args);
+    },
 
     // Providers
     providersByParticipant: (args) => {

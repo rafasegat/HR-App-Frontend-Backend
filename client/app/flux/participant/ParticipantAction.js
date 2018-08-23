@@ -4,6 +4,9 @@ export default {
     all: function(payload){
         Dispatcher().dispatch(ALL, payload);
     },
+    allLessCurrent: function(payload){
+        Dispatcher().dispatch(ALL_LESS_CURRENT, payload);
+    },
     save: function(payload){
         Dispatcher().dispatch(SAVE, payload);
     },
@@ -16,6 +19,7 @@ export default {
 }
 
 export const ALL = 'all-participants';
+export const ALL_LESS_CURRENT = 'all-participants-less-current';
 export const PROVIDERS = 'providers-participants';
 export const SAVE = 'save-participants';
 

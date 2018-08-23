@@ -16,10 +16,7 @@ module.exports = (app) => {
   // Participants
   app.post('/api/participant/save', ParticipantController.save);
 
-
-
   // Provider
-  app.post('/api/provider/all', ProviderController.all);
   app.post('/api/provider/save', ProviderController.save);
 
 };

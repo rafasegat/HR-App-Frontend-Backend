@@ -14,6 +14,21 @@ exports.getAll = (args) => {
     .catch( err => { return { status: "Error 500: "+err }; });
 };
 
+exports.getAllLessCurrent = (args) => {
+    return ProjectParticipantModel
+    .query()
+    .select('a.*')
+    .join('participant as a', 'a.id', 'project_participant.id_participant')
+    .where({
+        'id_project': args.id_project
+    })
+    .whereNot({
+        'a.id': args.id_participant
+    })
+    .then( results => { return results; })
+    .catch( err => { return { status: "Error 500: "+err }; });
+};
+
 exports.getProvidersByParticipant = (args) => {
     return ProviderModel
       .query()

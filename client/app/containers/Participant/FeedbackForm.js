@@ -61,11 +61,18 @@ class FeedbackForm extends Component {
         this.setState({ isLoading: true });
 
         ParticipantAction.providers({
-                                        id_participant: id_participant,
-                                        id_project: id_project
-                                   });
+            id_participant: id_participant,
+            id_project: id_project
+        });
 
-        ParticipantAction.all({id_project: id_project});
+        ParticipantAction.all({ 
+            id_project: id_project 
+        });
+        
+        ParticipantAction.allLessCurrent({ 
+            id_project: id_project,
+            id_participant: id_participant
+        });
     }
 
     toggle(tab) {
@@ -85,8 +92,7 @@ class FeedbackForm extends Component {
                 listProviders: payload.data
             });
         }
-        if(type===ActionParticipant.ALL){
-            console.log()
+        if(type===ActionParticipant.ALL_LESS_CURRENT){
             currentInstance.setState({
                 isLoading: false,
                 participantProviderOptions: payload.data

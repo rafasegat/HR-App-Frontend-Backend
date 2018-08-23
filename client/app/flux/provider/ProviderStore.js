@@ -31,22 +31,6 @@ class ProviderStore extends Store{
         });
     }
 
-    all(type, payload){
-        let instance = this;
-        fetch('/api/provider/all', {
-            method: 'POST',
-            headers: instance.headers(),
-            body: JSON.stringify({ 
-                id_user: getFromStorage('FB360_Token').user
-            }),
-        }).then(res => res.json())
-          .then(json => {
-            instance.invokeListeners(type, { data: json.data, status: 'success' });
-            
-        }).catch(err => {
-            instance.invokeListeners(type, { status: 'Error: '+err });
-        });
-    }
 }
 
 export default new ProviderStore(Dispatcher);

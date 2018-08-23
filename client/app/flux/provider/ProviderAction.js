@@ -1,9 +1,6 @@
 import Dispatcher from "../Dispatcher";
 
 export default {
-    all: function(payload){
-        Dispatcher().dispatch(ALL, payload);
-    },
     save: function(payload){
         Dispatcher().dispatch(SAVE, payload);
     },
@@ -14,7 +11,6 @@ export default {
 
 export const ALL = 'all-providers';
 export const SAVE = 'save-providers';
-
 
 export const relationship_provider = [
     { key: 1, name: 'Self Assessment' },

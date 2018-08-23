@@ -60,6 +60,8 @@ module.exports.graphql_schema = buildSchema(`
 
         participants(id_project: ID!): [Participant]
 
+        participantsLessCurrent(id_project: ID!, id_participant: ID!): [Participant]
+
         providersByParticipant(id_participant: ID!, id_project: ID!): [Provider]
 
     }
