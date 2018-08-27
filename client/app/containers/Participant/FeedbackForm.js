@@ -6,6 +6,7 @@ import { status as statusParticipant } from '../../flux/participant/ParticipantA
 
 import ParticipantAction from '../../flux/participant/ParticipantAction';
 import ProviderAction from '../../flux/provider/ProviderAction';
+import { relationship_provider_info, status_provider_info } from '../../flux/provider/ProviderAction';
 
 import AddProviderForm from '../../components/Provider/AddProviderForm';
 
@@ -30,10 +31,13 @@ class FeedbackForm extends Component {
             messageValidation: '',
             submitDisabled: true,
             modelProvider: { 
-                             name: '',
-                             relationship: 1, // Default: Self assessment
+                             relationship: relationship_provider_info.self_assessment.key,
                              id_project: id_project,
-                             id_participant: id_participant
+                             id_participant: id_participant,
+                             id_provider: null,
+                             external_name: '',
+                             external_email: '',
+                             status: null
                            },
             participantProviderOptions: []
 
@@ -50,9 +54,9 @@ class FeedbackForm extends Component {
 
     componentDidMount(){
         const { 
-                id_project,
-                id_participant 
-              } = this.state;
+            id_project,
+            id_participant 
+        } = this.state;
 
         // If there's no organization, let's go back
         if(!id_project)
@@ -72,6 +76,11 @@ class FeedbackForm extends Component {
         ParticipantAction.allLessCurrent({ 
             id_project: id_project,
             id_participant: id_participant
+        });
+
+        this.updateDataProvider({
+            field: 'relationship',
+            value: relationship_provider_info.self_assessment.key
         });
     }
 
@@ -101,12 +110,19 @@ class FeedbackForm extends Component {
     }
 
     onProviderStoreChanged(type, payload, currentInstance){
-        const { id_project } = this.state;
+        const { 
+            id_project,
+            id_participant 
+          } = this.state;
 
         if(type===ActionProvider.SAVE){
             currentInstance.setState({
-                isLoading: false,
-                //listProviders: payload.data
+                isLoading: false
+            });
+            // Load providers again
+            ParticipantAction.providers({
+                id_participant: id_participant,
+                id_project: id_project
             });
         }
     }
@@ -118,10 +134,34 @@ class FeedbackForm extends Component {
 
         let message = '';
 
-        if( modelProvider.relationship != 1 ){
+        if( modelProvider.relationship == relationship_provider_info.line_manager.key ||
+            modelProvider.relationship == relationship_provider_info.peer.key ||
+            modelProvider.relationship == relationship_provider_info.direct_report.key ){
 
-            if(!modelProvider.name)
-            message += 'Name cannot be blank.\n';
+            if(!modelProvider.id_provider)
+                message += 'Provider cannot be blank.\n';
+
+        }
+
+        if( modelProvider.relationship == relationship_provider_info.customer.key ||
+            modelProvider.relationship == relationship_provider_info.supplier.key ){
+
+            if(!modelProvider.external_name)
+                message += 'External Name cannot be blank.\n';
+            
+            if(!modelProvider.external_email)
+                message += 'External Email cannot be blank.\n';
+
+            if(!validateEmail(modelProvider.external_email))
+                message += 'External Email is invalid.\n';
+
+        }
+
+        if( modelProvider.relationship == relationship_provider_info.customer.key ||
+            modelProvider.relationship == relationship_provider_info.supplier.key ){
+
+                if(modelProvider.id_provider)
+                    message += 'Provider must be blank.\n';
 
         }
 
@@ -138,9 +178,37 @@ class FeedbackForm extends Component {
     }
 
     updateDataProvider(data){
-        const { modelProvider } = this.state;
+        const { 
+            modelProvider, 
+            id_participant 
+        } = this.state;
         let aux = modelProvider;
         aux[data.field] = data.value;
+
+        // Clear id_provider if change relationship
+        if(  data.field =='relationship' ) {
+                    aux['id_provider'] = null;
+        }
+
+        // Clear id_provider if is Self aassessment / Customer / Supplier
+        if(  data.field =='relationship' &&
+             data.value == relationship_provider_info.self_assessment.key
+         ) {
+                    aux['id_provider'] = id_participant;
+        }
+
+        // Clear external if is 
+        if(  data.field =='relationship' &&
+           ( data.value == relationship_provider_info.self_assessment.key ||
+             data.value == relationship_provider_info.line_manager.key ||
+             data.value == relationship_provider_info.peer.key ||
+             data.value == relationship_provider_info.direct_report.key
+            )
+         ) {
+                aux['external_name'] = '';
+                aux['external_email'] = '';
+        }
+
         this.setState({
             modelProvider: aux
         });
@@ -151,13 +219,15 @@ class FeedbackForm extends Component {
     handleSubmitAddProvider(){
        const {
         modelProvider,
+        id_participant
        } = this.state;
-       console.log(modelProvider)
+
+       modelProvider.status = status_provider_info.invited.key;
+
        ProviderAction.save(modelProvider);
     }
 
     render(){
-
         const {
             listProviders,
             currentParticipant,

@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactTable from "react-table";
+import { relationship_provider } from '../../flux/provider/ProviderAction';
 
 const ProviderList = (props) => {
     const { 
         listProviders
     } = props;
-    
+    console.log(relationship_provider.filter(e =>  1 == e.key)[0])
     return(
         <div className="providers">
             <ReactTable
@@ -22,14 +23,8 @@ const ProviderList = (props) => {
                     width: 150,
                     Cell: row => (
                         <span>
-                            {
-                              row.value === 1 ? 'Self Assessment'
-                            : row.value === 2 ? 'Line Manager'
-                            : row.value === 3 ? 'Peer'
-                            : row.value === 4 ? 'Direct Report'
-                            : row.value === 5 ? 'Customer'
-                            : row.value === 6 ? 'Supplier'
-                            : '--'
+                            { 
+                                relationship_provider.filter(e =>  row.value == e.key)[0].value
                             }
                         </span>
                       )
@@ -62,7 +57,7 @@ const ProviderList = (props) => {
                     width: 100,
                     Cell: row => (
                         <a href="#" onClick={event => openFeedbackModal(row.original)} >
-                          Send email
+                          <i className="far fa-trash-alt"></i>
                         </a>
                     )
                 },

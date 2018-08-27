@@ -33,7 +33,7 @@ exports.getProvidersByParticipant = (args) => {
     return ProviderModel
       .query()
       .select('provider.relationship as provider_relationship', 'provider.status as provider_status', 'a.*')
-      .join('participant as a', 'a.id', 'provider.id_participant')
+      .join('participant as a', 'a.id', 'provider.id_provider')
       .where({
                 id_participant: args.id_participant,
                 id_project: args.id_project

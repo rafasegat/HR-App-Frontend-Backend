@@ -14,7 +14,7 @@ exports.save = (req, res, next) => {
         .insert(data)
         .then( json => {
             if(!json.id)
-                return res.send({ status: 'Error: Participant Not added.' });
+                return res.send({ status: 'Error: Provider Not added.' });
 
             return res.send({ status: 'success' });
                 

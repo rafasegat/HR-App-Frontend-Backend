@@ -4,11 +4,13 @@
 @import 'vendor/bootstrap';
 @import 'vendor/react-table';
 @import 'vendor/primereact';
+@import 'vendor/fontawesome';
 
 /*=== Imports */
-@import 'variables';
+@import 'variables';  
 @import 'form';
 @import 'button';
+@import 'fonts';
 
 /*=== General styles */
 ul { 

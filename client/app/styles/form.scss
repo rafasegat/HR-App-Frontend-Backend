@@ -38,13 +38,14 @@
     }
     select {
         width: 100%;
-        background: #FFFFFF;
+        background: #FFFFFF url(/assets/img/arrow-down.png) no-repeat 98% center;
         border-radius: 0;
         border: 1px solid rgb(204, 204, 204);
         height: 30px;
         -webkit-appearance: none;
         padding-left: 15px;
         outline: 0;
+        cursor: pointer;
     }
     .ui-autocomplete-input {
         width: auto;
