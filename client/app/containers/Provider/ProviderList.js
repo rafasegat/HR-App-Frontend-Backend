@@ -6,7 +6,7 @@ const ProviderList = (props) => {
     const { 
         listProviders
     } = props;
-    console.log(relationship_provider.filter(e =>  1 == e.key)[0])
+
     return(
         <div className="providers">
             <ReactTable
@@ -23,9 +23,7 @@ const ProviderList = (props) => {
                     width: 150,
                     Cell: row => (
                         <span>
-                            { 
-                                relationship_provider.filter(e =>  row.value == e.key)[0].value
-                            }
+                            { relationship_provider.filter(e =>  row.value == e.key)[0].value }
                         </span>
                       )
                 },
@@ -53,16 +51,14 @@ const ProviderList = (props) => {
                 },
                 {
                     Header: "Action",
-                    accessor: "provider_status",
+                    accessor: "id",
                     width: 100,
                     Cell: row => (
-                        <a href="#" onClick={event => openFeedbackModal(row.original)} >
-                          <i className="far fa-trash-alt"></i>
-                        </a>
+                        <i className="far fa-trash-alt btn-icon" onClick={event => props.handleDeleteProvider(row.original.id)}></i>
                     )
                 },
                 ]}
-                defaultPageSize={10}
+                defaultPageSize={5}
                 className="-striped -highlight"
             />
 

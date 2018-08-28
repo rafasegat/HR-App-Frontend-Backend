@@ -24,3 +24,25 @@ exports.save = (req, res, next) => {
         });
     }
 }
+
+exports.delete = (req, res, next) => {
+    const { body } = req;
+    const { data } = body;
+    const { param } = body;
+
+    Provider
+    .where({
+        id: param.id_provider
+    })
+    .delete()
+    .then( json => {
+        if(!json.id)
+            return res.send({ status: 'Error: Provider Not Deleted.' });
+
+        return res.send({ status: 'success' });
+            
+    })
+    .catch( err => {
+        return res.status(500).send({ status: "Error 500: "+err });
+    });
+}

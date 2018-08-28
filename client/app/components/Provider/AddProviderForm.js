@@ -37,7 +37,8 @@ const AddProviderForm = props => {
           
               <div className="form-group col-lg-12">
                 <label>Participant</label>
-                <select id="id_provider" value={modelProvider.id_provider || ''} 
+                <select id="id_provider" 
+                        value={modelProvider.id_provider || ''} 
                         onChange={ (e) => { updateDataProvider({field: 'id_provider', value: e.target.value}) } }>
                   <option value='' disabled>Select the Participant Provider</option>
                 {
@@ -53,8 +54,8 @@ const AddProviderForm = props => {
           
           {  
               (
-               modelProvider.relationship == relationship_provider_info.customer.id || // Customer
-               modelProvider.relationship == relationship_provider_info.supplier.id    // Supplier 
+               modelProvider.relationship == relationship_provider_info.customer.key || // Customer
+               modelProvider.relationship == relationship_provider_info.supplier.key    // Supplier 
               ) && 
               
               <div className="col-lg-12">

@@ -46,6 +46,7 @@ class FeedbackForm extends Component {
         this.toggle = this.toggle.bind(this);
         this.updateDataProvider = this.updateDataProvider.bind(this);
         this.handleSubmitAddProvider = this.handleSubmitAddProvider.bind(this);
+        this.handleDeleteProvider = this.handleDeleteProvider.bind(this);
 
         let currentInstance = this;
         ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
@@ -227,6 +228,10 @@ class FeedbackForm extends Component {
        ProviderAction.save(modelProvider);
     }
 
+    handleDeleteProvider(id){
+        console.log('Gab is deleted!!!', id)
+    }
+
     render(){
         const {
             listProviders,
@@ -271,6 +276,7 @@ class FeedbackForm extends Component {
                                 <ProviderList 
                                     listProviders={listProviders}
                                     currentParticipant={currentParticipant}
+                                    handleDeleteProvider={this.handleDeleteProvider}
                                 />
                                 
                                 <AddProviderForm  

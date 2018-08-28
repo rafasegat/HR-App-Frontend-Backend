@@ -18,5 +18,6 @@ module.exports = (app) => {
 
   // Provider
   app.post('/api/provider/save', ProviderController.save);
+  app.post('/api/provider/delete', ProviderController.delete);
 
 };

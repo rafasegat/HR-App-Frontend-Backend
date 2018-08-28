@@ -4,6 +4,9 @@ export default {
     save: function(payload){
         Dispatcher().dispatch(SAVE, payload);
     },
+    delete: function(payload){
+        Dispatcher().dispatch(DELETE, payload);
+    },
     addListener(fn){
         Dispatcher().getStore('ProviderStore').addListener(fn);
     }
@@ -11,6 +14,7 @@ export default {
 
 export const ALL = 'all-providers';
 export const SAVE = 'save-providers';
+export const DELETE = 'delete-provider';
 
 export const relationship_provider_info = {
     self_assessment: { key: 1, value: 'Self Assessment' },
@@ -31,6 +35,6 @@ export const relationship_provider = [
 ];
 
 export const status_provider_info = {
-    invited: { key: 1, value: 'Invited' },
+    invited:   { key: 1, value: 'Invited' },
     responded: { key: 2, value: 'Responded' }
 };

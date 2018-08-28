@@ -11,3 +11,10 @@
     cursor: pointer;
     @include transition(.3s);
 }
+
+.btn-icon {
+    cursor: pointer;
+    :hover {
+        color: $primary-color;
+    }
+}
