@@ -70,18 +70,17 @@ class ParticipantStore extends Store{
                         participantsLessCurrent( 
                             id_project:  ${payload.id_project} ,
                             id_participant: ${payload.id_participant}
-                            
                         )
-                            { 
-                                id, 
-                                name, 
-                                email, 
-                                position, 
-                                status, self_assessment, 
-                                choose_own_feedback_provider, 
-                                feedback_provider_needs_approval, 
-                                id_participant_feedback_reviewer
-                            } 
+                        { 
+                            id, 
+                            name, 
+                            email, 
+                            position, 
+                            status, self_assessment, 
+                            choose_own_feedback_provider, 
+                            feedback_provider_needs_approval, 
+                            id_participant_feedback_reviewer
+                        } 
                     }` ;
         fetch('/graphql', {
             method: 'POST',
