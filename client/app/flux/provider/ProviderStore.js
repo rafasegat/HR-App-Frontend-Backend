@@ -12,6 +12,9 @@ class ProviderStore extends Store{
         if(type===Action.SAVE){
             this.save(type, payload);
         }
+        if(type===Action.DELETE){
+            this.delete(type, payload);
+        }
     }
 
     save(type, payload){
@@ -23,12 +26,21 @@ class ProviderStore extends Store{
                 data: payload
             }),
         }).then(res => res.json())
-          .then(json => {
-          instance.invokeListeners(type, {status:'success'}); 
+          .then(json => { instance.invokeListeners(type, {status:'success'}); })
+          .catch(err => { instance.invokeListeners(type, {status:'error'}); });
+    }
 
-        }).catch(err => {
-            instance.invokeListeners(type, {status:'error'});
-        });
+    delete(type, payload){
+        let instance = this;
+        fetch('/api/provider/delete', {
+            method: 'POST',
+            headers: instance.headers(),
+            body: JSON.stringify({
+                data: payload
+            }),
+        }).then(res => res.json())
+          .then(json => { instance.invokeListeners(type, {status:'success' }); })
+          .catch(err => { instance.invokeListeners(type, {status:'error'}); });
     }
 
 }

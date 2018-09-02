@@ -126,6 +126,15 @@ class FeedbackForm extends Component {
                 id_project: id_project
             });
         }
+        if(type===ActionProvider.DELETE){
+            currentInstance.setState({
+                isLoading: false
+            });
+            ParticipantAction.providers({
+                id_participant: id_participant,
+                id_project: id_project
+            });
+        }
     }
 
     validateForm(){
@@ -213,7 +222,6 @@ class FeedbackForm extends Component {
         this.setState({
             modelProvider: aux
         });
-        console.log(modelProvider)
         this.validateForm();
     }
 
@@ -229,7 +237,11 @@ class FeedbackForm extends Component {
     }
 
     handleDeleteProvider(id){
-        console.log('Gab is deleted!!!', id)
+        
+        ProviderAction.delete({
+            id: id
+        })
+
     }
 
     render(){
