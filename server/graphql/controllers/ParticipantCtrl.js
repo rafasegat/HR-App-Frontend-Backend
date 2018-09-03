@@ -32,7 +32,11 @@ exports.getAllLessCurrent = (args) => {
 exports.getProvidersByParticipant = (args) => {
     return ProviderModel
       .query()
-      .select('provider.relationship as provider_relationship', 'provider.status as provider_status', 'a.*')
+      .select(
+            'provider.id as pk_id_provider',
+            'provider.relationship as provider_relationship', 
+            'provider.status as provider_status', 
+            'a.*')
       .join('participant as a', 'a.id', 'provider.id_provider')
       .where({
                 id_participant: args.id_participant,

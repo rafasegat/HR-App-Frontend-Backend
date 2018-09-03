@@ -3,6 +3,7 @@ import {validateEmail} from '../../utils/Tools'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { status as statusParticipant } from '../../flux/participant/ParticipantAction';
+import Loading from '../../components/Common/Loading';
 
 import ParticipantAction from '../../flux/participant/ParticipantAction';
 import ProviderAction from '../../flux/provider/ProviderAction';
@@ -30,6 +31,7 @@ class FeedbackForm extends Component {
             activeTab: '1',
             messageValidation: '',
             submitDisabled: true,
+            isLoading: false,
             modelProvider: { 
                              relationship: relationship_provider_info.self_assessment.key,
                              id_project: id_project,
@@ -98,7 +100,7 @@ class FeedbackForm extends Component {
 
         if(type===ActionParticipant.PROVIDERS){
             currentInstance.setState({
-                isLoading: false,
+                //isLoading: false,
                 listProviders: payload.data
             });
         }
@@ -117,9 +119,9 @@ class FeedbackForm extends Component {
           } = this.state;
 
         if(type===ActionProvider.SAVE){
-            currentInstance.setState({
-                isLoading: false
-            });
+            // currentInstance.setState({
+            //     isLoading: false
+            // });
             // Load providers again
             ParticipantAction.providers({
                 id_participant: id_participant,
@@ -233,11 +235,18 @@ class FeedbackForm extends Component {
 
        modelProvider.status = status_provider_info.invited.key;
 
+       this.setState({ isLoading: true });
+
        ProviderAction.save(modelProvider);
     }
 
     handleDeleteProvider(id){
         
+        if(!id)
+            return;
+
+        this.setState({ isLoading: true });
+
         ProviderAction.delete({
             id: id
         })
@@ -252,11 +261,15 @@ class FeedbackForm extends Component {
             modelProvider,
             messageValidation,
             submitDisabled,
-            participantProviderOptions
+            participantProviderOptions,
+            isLoading
         } = this.state;
         
         let status = statusParticipant.find(x => x.id_status === currentParticipant.status);
-        
+
+        if(isLoading)
+            return (<Loading />);
+
         return(
             <div>
                 <Nav tabs>

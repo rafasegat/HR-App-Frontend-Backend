@@ -111,7 +111,8 @@ class ParticipantStore extends Store{
                             feedback_provider_needs_approval, 
                             id_participant_feedback_reviewer,
                             provider_relationship, 
-                            provider_status 
+                            provider_status,
+                            pk_id_provider
                         } 
                     }` ;
         fetch('/graphql', {

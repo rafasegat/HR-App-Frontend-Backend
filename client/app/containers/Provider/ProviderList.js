@@ -54,7 +54,7 @@ const ProviderList = (props) => {
                     accessor: "id",
                     width: 100,
                     Cell: row => (
-                        <i className="far fa-trash-alt btn-icon" onClick={event => props.handleDeleteProvider(row.original.id)}></i>
+                        <i className="far fa-trash-alt btn-icon" onClick={event => props.handleDeleteProvider(row.original.pk_id_provider)}></i>
                     )
                 },
                 ]}

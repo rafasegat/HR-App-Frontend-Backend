@@ -47,6 +47,7 @@ module.exports.graphql_schema = buildSchema(`
         choose_own_feedback_provider: Int
         feedback_provider_needs_approval: Int
         id_participant_feedback_reviewer: Int,
+        pk_id_provider: Int!
         provider_relationship: Int,
         provider_status: Int
 
