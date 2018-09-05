@@ -6,7 +6,7 @@ import Sidebar from '../components/Common/Sidebar';
 import Footer from '../components/Common/Footer';
 import HeaderMain from '../components/Common/Header/HeaderMain';
 import HeaderLogin from '../components/Common/Header/HeaderLogin';
-
+import LoadingProvider from '../context/Loading.context';
 
 class App extends Component{
   constructor(props){
@@ -80,6 +80,9 @@ class App extends Component{
           {children}
         </main>
         <Footer />
+        <LoadingProvider isLoading={false}>
+          Hiiii im a idiot
+        </LoadingProvider>
       </>
     );
   }

@@ -5,8 +5,12 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap'
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
 import OrganizationForm from '../../components/Organization/Form';
+
 import OrganizationAction from '../../flux/organization/OrganizationAction';
 import * as Action from '../../flux/organization/OrganizationAction';
+
+//Context
+import { LocaleContext } from '../../context/Loading';
 
 class Organization extends Component {
     constructor(props){
@@ -52,6 +56,7 @@ class Organization extends Component {
         this.setState({
             isLoading: true
         });
+        //LocaleContext.hideLoading();
         OrganizationAction.all();
     }
 
@@ -110,16 +115,12 @@ class Organization extends Component {
 
     render() {
         const {
-            isLoading,
             listOrganizations,
             showModal,
             modelOrganization,
             messageValidation,
             submitDisabled
         } = this.state;
-        
-        if(isLoading)
-            return (<Loading />);
 
         return (
             <section className="organizations">
@@ -146,7 +147,13 @@ class Organization extends Component {
                         />
                     </ModalBody>
                 </Modal>
-                    
+                
+                <LocaleContext.Consumer>
+                    {(context) => (
+                        "sdsdds"
+                    )}
+                </LocaleContext.Consumer>
+                
             </section>
         );
     }

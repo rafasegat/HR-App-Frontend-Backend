@@ -40,7 +40,7 @@ const store = createStore(rootReducer);
 
 render((
   <Router>
-    <Provider store={store}>
+    {/* <Provider store={store}> */}
       <App browser={Router}>
         <Switch>
           <Route exact path="/" component={LoginPage}/>
@@ -50,6 +50,6 @@ render((
           <Route component={NotFoundPage}/>
         </Switch>
       </App>
-    </Provider>
+    {/* </Provider> */}
   </Router>
 ), document.getElementById('app'));
