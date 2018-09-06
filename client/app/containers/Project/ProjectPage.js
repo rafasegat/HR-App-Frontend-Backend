@@ -152,7 +152,7 @@ class Project extends Component {
         } = this.state;
         
         if(isLoading)
-            return (<Loading />);
+            return(<Loading />);
 
         return (
             <section className="projects">

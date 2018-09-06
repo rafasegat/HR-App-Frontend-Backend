@@ -1,4 +1,5 @@
 import React from 'react';
+import Loading from '../components/Common/Loading';
 
 export const LoadingContext = React.createContext();
 
@@ -8,20 +9,20 @@ class LoadingProvider extends React.Component {
     this.state = {
         isLoading: false
     };
-  }
 
-  hide = () => {
-    this.setState({
-        isLoading: false
-    });
-    console.log('hide')
-  }
+    this.show = () => {
+      this.setState({
+          isLoading: true
+      });
+      console.log('shiow')
+    }
 
-  show = () => {
-    this.setState({
-        isLoading: true
-    });
-    console.log('show')
+    this.hide = () => {
+      this.setState({
+          isLoading: false
+      });
+    }
+
   }
 
   render() {
@@ -30,26 +31,15 @@ class LoadingProvider extends React.Component {
     } = this.state;
 
     return (
-      <LoadingContext.Provider 
-      value={{ 
-        show: this.show,
-        hide: this.hide
+      <LoadingContext.Provider value={{ 
+          show: this.show,
+          hide: this.hide
       }}>
-        <div className="loading">
-            <div className="container-fluid h-100">
-                <div className="row align-items-center h-100">
-                    <div className="col-12">
-                        <div className="spinner"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {this.props.children}
+        {isLoading && <Loading /> }
+        { this.props.children }
       </LoadingContext.Provider>
     );
   }
 }
 
 export default LoadingProvider;
-
-export const LoadingConsumer = LoadingContext.Consumer;

@@ -1,8 +1,7 @@
 import React from 'react';
-import { LoadingConsumer } from '../../context/Loading.context';
+import { LoadingContext } from '../../context/Loading.context';
 
-const Loading = () => (
-    <LoadingConsumer>
+const Loading = (props) => (
     <div className="loading">
         <div className="container-fluid h-100">
             <div className="row align-items-center h-100">
@@ -12,7 +11,6 @@ const Loading = () => (
             </div>
         </div>
     </div>
-    </LoadingConsumer>
 );
 
 export default Loading; 

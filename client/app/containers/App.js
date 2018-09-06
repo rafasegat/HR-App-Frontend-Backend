@@ -7,6 +7,7 @@ import Footer from '../components/Common/Footer';
 import HeaderMain from '../components/Common/Header/HeaderMain';
 import HeaderLogin from '../components/Common/Header/HeaderLogin';
 import LoadingProvider from '../context/Loading.context';
+import Loading from '../components/Common/Loading';
 
 class App extends Component{
   constructor(props){
@@ -72,16 +73,15 @@ class App extends Component{
     const { children } = this.props;
     return (
       <>
-        {  headerType=='login' ? <HeaderLogin/> : 
-            <HeaderMain onClickLogout={this.onClickLogout}/> 
-        }
-        <main className="main">
-          { showSidebar && <Sidebar /> }
-          {children}
-        </main>
-        <Footer />
-        <LoadingProvider isLoading={false}>
-          Hiiii im a idiot
+        <LoadingProvider>
+          {  headerType=='login' ? <HeaderLogin/> : 
+              <HeaderMain onClickLogout={this.onClickLogout}/> 
+          }
+          <main className="main">
+            { showSidebar && <Sidebar /> }
+            {children}
+          </main>
+          <Footer />
         </LoadingProvider>
       </>
     );
