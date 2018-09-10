@@ -119,9 +119,9 @@ class FeedbackForm extends Component {
           } = this.state;
 
         if(type===ActionProvider.SAVE){
-            // currentInstance.setState({
-            //     isLoading: false
-            // });
+            currentInstance.setState({
+                isLoading: false
+            });
             // Load providers again
             ParticipantAction.providers({
                 id_participant: id_participant,
