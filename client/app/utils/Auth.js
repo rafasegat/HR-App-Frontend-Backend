@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../utils/Storage';
+import { getFromStorage } from '../utils/Storage';
 
 const PrivateRoute = ({ component: Component }) => {
     const obj = getFromStorage('FB360_Token');

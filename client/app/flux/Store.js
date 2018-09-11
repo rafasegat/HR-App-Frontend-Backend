@@ -1,4 +1,4 @@
-import { getFromStorage, setInStorage } from '../utils/Storage';
+import { getFromStorage } from '../utils/Storage';
 
 class Store{
     constructor(dispatcher){

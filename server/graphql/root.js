@@ -1,7 +1,8 @@
 const OrganizationCtrl = require('./controllers/OrganizationCtrl');
 const ProjectCtrl = require('./controllers/ProjectCtrl');
 const ParticipantCtrl = require('./controllers/ParticipantCtrl');
-const OrganizationModel = require('../models/Organization');
+const ProviderCustomerCtrl = require('./controllers/ProviderCustomerCtrl');
+
 var async = require("async");
 
 module.exports.graphql_root = {
@@ -27,6 +28,11 @@ module.exports.graphql_root = {
     // Providers
     providersByParticipant: (args) => {
         return ParticipantCtrl.getProvidersByParticipant(args);
+    },
+
+    // Providers Customers
+    provider_customers: (args) => {
+        return ProviderCustomerCtrl.getAll(args);
     }
 
 };

@@ -2,7 +2,7 @@ import Dispatcher from "../Dispatcher";
 import Store from "../Store";
 import { formatInput } from '../../utils/Tools'
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../../utils/Storage';
+import { getFromStorage } from '../../utils/Storage';
 import * as Action from '../../flux/organization/OrganizationAction';
 
 class OrganizationStore extends Store{

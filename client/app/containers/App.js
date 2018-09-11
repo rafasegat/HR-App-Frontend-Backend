@@ -62,6 +62,7 @@ class App extends Component{
   onClickLogout() {
     setInStorage('FB360_Token', "");
     setInStorage('FB360_Project', "");
+    setInStorage('FB360_Organization', "");
     this.props.history.push('/');
   }
 

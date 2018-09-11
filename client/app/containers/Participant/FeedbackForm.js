@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {validateEmail} from '../../utils/Tools'
-import { getFromStorage, setInStorage } from '../../utils/Storage';
+import { getFromStorage } from '../../utils/Storage';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { status as statusParticipant } from '../../flux/participant/ParticipantAction';
 import Loading from '../../components/Common/Loading';

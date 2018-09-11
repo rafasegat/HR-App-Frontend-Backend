@@ -11,6 +11,7 @@ import LoginPage from './containers/LoginPage';
 import PrivateRoute from './utils/Auth';
 import OrganizationPage from './containers/Organization/OrganizationPage';
 import ParticipantPage from './containers/Participant/ParticipantPage';
+import ProviderCustomerPage from './containers/ProviderCustomer/ProviderCustomerPage';
 import ProjectPage from './containers/Project/ProjectPage';
 import NotFoundPage from './containers/NotFoundPage';
 
@@ -23,12 +24,14 @@ import OrganizationStore from './flux/organization/OrganizationStore';
 import ProjectStore from './flux/project/ProjectStore';
 import ParticipantStore from './flux/participant/ParticipantStore';
 import ProviderStore from './flux/provider/ProviderStore';
+import ProviderCustomerStore from './flux/provider-customer/ProviderCustomerStore';
 
 // Registrando o dispatcher e stores
 Dispatcher().registerStore('OrganizationStore', OrganizationStore);
 Dispatcher().registerStore('ProjectStore', ProjectStore);
 Dispatcher().registerStore('ParticipantStore', ParticipantStore);
 Dispatcher().registerStore('ProviderStore', ProviderStore);
+Dispatcher().registerStore('ProviderCustomerStore', ProviderCustomerStore);
 
 
 // Handle our Redux Form stuffs
@@ -47,6 +50,7 @@ render((
           <PrivateRoute path="/organizations" component={OrganizationPage}/>
           <PrivateRoute path="/projects/:organization_id" component={ProjectPage}/>
           <PrivateRoute path="/participants" component={ParticipantPage}/>
+          <PrivateRoute path="/provider-customers" component={ProviderCustomerPage}/>
           <Route component={NotFoundPage}/>
         </Switch>
       </App>

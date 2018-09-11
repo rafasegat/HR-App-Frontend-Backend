@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
-import { getFromStorage, setInStorage } from '../../utils/Storage';
+import { getFromStorage } from '../../utils/Storage';
 import Loading from '../../components/Common/Loading';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 import ParticipantForm from '../../components/Participant/ParticipantForm';

@@ -2,9 +2,9 @@ import Dispatcher from "../Dispatcher";
 import Store from "../Store";
 import 'whatwg-fetch';
 import { getFromStorage } from '../../utils/Storage';
-import * as Action from '../../flux/provider/ProviderAction';
+import * as Action from '../../flux/provider-customer/ProviderCustomerAction';
 
-class ProviderStore extends Store{
+class ProviderCustomerStore extends Store{
     reduce(type, payload){
         if(type===Action.ALL){
             this.all(type, payload);
@@ -12,14 +12,11 @@ class ProviderStore extends Store{
         if(type===Action.SAVE){
             this.save(type, payload);
         }
-        if(type===Action.DELETE){
-            this.delete(type, payload);
-        }
     }
 
     save(type, payload){
         let instance = this;
-        fetch('/api/provider/save', {
+        fetch('/api/provider-customer/save', {
             method: 'POST',
             headers: instance.headers(),
             body: JSON.stringify({
@@ -30,19 +27,20 @@ class ProviderStore extends Store{
           .catch(err => { instance.invokeListeners(type, {status:'error'}); });
     }
 
-    delete(type, payload){
-        let instance = this;
-        fetch('/api/provider/delete', {
+    all(type, payload){
+        let instance = this,
+            id_organization = payload.id_organization;
+
+        fetch('/graphql', {
             method: 'POST',
             headers: instance.headers(),
-            body: JSON.stringify({
-                data: payload
+            body: JSON.stringify({ 
+                query: '{ provider_customers ( id_organization: ' + id_organization + ') { id, name, email, organization } }' 
             }),
         }).then(res => res.json())
-          .then(json => { instance.invokeListeners(type, {status:'success' }); })
-          .catch(err => { instance.invokeListeners(type, {status:'error'}); });
+          .then(json => { instance.invokeListeners(type, { data: json.data.provider_customers, status: 'success' }); })
+          .catch(err => { instance.invokeListeners(type, { status: 'Error: '+err }); });
     }
-
 }
 
-export default new ProviderStore(Dispatcher);
+export default new ProviderCustomerStore(Dispatcher);

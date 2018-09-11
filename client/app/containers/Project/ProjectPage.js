@@ -67,6 +67,10 @@ class Project extends Component {
         // If there's no organization, let's go back
         if(!id_organization)
             this.props.history.push('/organizations');
+
+        setInStorage('FB360_Organization', { 
+            id: id_organization
+        });
         
         this.setState({
             isLoading: true

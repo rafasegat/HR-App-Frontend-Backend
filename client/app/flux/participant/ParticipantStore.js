@@ -1,7 +1,7 @@
 import Dispatcher from "../Dispatcher";
 import Store from "../Store";
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../../utils/Storage';
+import { getFromStorage } from '../../utils/Storage';
 import * as Action from '../../flux/participant/ParticipantAction';
 
 class ParticipantStore extends Store{

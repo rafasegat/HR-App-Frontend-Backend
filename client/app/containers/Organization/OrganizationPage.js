@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect, withRouter } from 'react-router'
-import { getFromStorage, setInStorage } from '../../utils/Storage';
+import { getFromStorage } from '../../utils/Storage';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';

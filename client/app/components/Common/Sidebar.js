@@ -8,6 +8,9 @@ const Sidebar = () => (
                 <li>
                     <Link to={'participants'} >Participants</Link>
                 </li>
+                <li>
+                    <Link to={'provider-customers'} >Provider Customers</Link>
+                </li>
             </ul>
         </div>
     </div>

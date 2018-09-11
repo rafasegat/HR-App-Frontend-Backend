@@ -14,7 +14,7 @@ const ProjectForm = props => {
   return (
     <div className="project-form">
       
-      <div class="form-group">
+      <div className="form-group">
         <label>Name</label>
         <InputText id="name" value={modelProject.name} onChange={(e) => updateModelProject({field: 'name', value: e.target.value}) } />
       </div>
