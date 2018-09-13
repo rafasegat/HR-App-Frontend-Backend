@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactTable from "react-table";
+import BtnDelete from '../../components/Form/BtnDelete';
+import BtnEdit from '../../components/Form/BtnEdit';
 
 const ProviderCustomerList = (props) => {
     const { 
         list,
         openModal,
-        redirectParticipants
+        redirectParticipants,
+        handleEdit,
+        handleDelete
     } = props;
     
     return(
@@ -24,13 +28,13 @@ const ProviderCustomerList = (props) => {
                             accessor: "email"
                         },
                         {
-                            Header: "Edit",
+                            Header: "Action",
                             accessor: "",
-                            width: 100,
+                            width: 75,
                             Cell: row => (
                                 <div className="btn-action">
-                                    <i className="far fa-edit btn-icon" onClick={event => props.handleEdit(row.original.id)}></i>
-                                    <i className="far fa-trash-alt btn-icon" onClick={event => props.handleDelete(row.original.id)}></i>
+                                    <BtnEdit handleEdit={props.handleEdit} row={row}/>
+                                    <BtnDelete handleDelete={props.handleDelete} row={row}/>
                                 </div>
                             )
                         }

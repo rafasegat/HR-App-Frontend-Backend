@@ -17,24 +17,27 @@ class ProviderCustomer extends Component {
             id_organization = getFromStorage('FB360_Organization').id;
 
         this.state = {
-            isLoading: false,
+            isLoading: false, 
             listProviderCustomer: [],
             showModal: false,
             id_project: id_project,
             id_organization: id_organization,
             modelCurrent: {
+                id: null,
                 name: '',
                 email: '',
                 id_organization: id_organization
             },
+            modelCurrentAux: {},
             messageValidation: '',
             submitDisabled: true
         };
-
+        
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.updateModel = this.updateModel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
 
         let currentInstance = this;
         ProviderCustomerAction.addListener((type, payload)=>currentInstance.onProviderCustomerStoreChanged(type, payload, currentInstance));
@@ -59,8 +62,12 @@ class ProviderCustomer extends Component {
     componentDidMount(){
         const { 
             id_project,
-            id_organization 
+            id_organization,
+            modelCurrent,
+            modelCurrentAux
         } = this.state;
+
+        this.setState({ modelCurrentAux: modelCurrent });
 
         // If there's no organization, let's go back
         if(!id_project)
@@ -73,7 +80,18 @@ class ProviderCustomer extends Component {
         ProviderCustomerAction.all({ id_organization: id_organization });
     }
 
+    cleanModel(){
+        const {
+            modelCurrent,
+            modelCurrentAux
+        } = this.state;
+        for(var prop in modelCurrentAux){
+            modelCurrent[prop] = modelCurrentAux[prop];
+        }
+    }
+
     openModal() {
+        this.cleanModel();
         this.setState({ showModal: true });
     }
 
@@ -126,6 +144,29 @@ class ProviderCustomer extends Component {
         ProviderCustomerAction.save(modelCurrent);
     }
 
+    handleDelete(id){
+        console.log(id)
+    }
+
+    handleEdit(id){
+        const {
+            listProviderCustomer,
+            modelCurrent
+        } = this.state;
+        
+        const currentRow = listProviderCustomer.filter((el) => {
+            return el.id == id;
+        });
+
+        for(var prop in currentRow[0]){
+            if (modelCurrent.hasOwnProperty(prop)) {
+                modelCurrent[prop] = currentRow[0][prop];
+            }
+        }
+        
+        this.openModal();
+    }
+
     render(){
         const { 
             isLoading,
@@ -150,6 +191,8 @@ class ProviderCustomer extends Component {
                                 <ProviderCustomerList 
                                     list={listProviderCustomer}
                                     openModal={this.openModal}
+                                    handleEdit={this.handleEdit}
+                                    handleDelete={this.handleDelete}
                                 />
                             </div>
                         </div>

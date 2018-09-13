@@ -19,6 +19,9 @@ const ProviderCustomerForm = props => {
       
       <div className="form-section">
         <h3>Customer</h3>
+        
+        <input type="hidden" value={modelCurrent.id} onChange={(e) => updateModel({field: 'id', value: e.target.value}) } />
+        
         <div className="form-group">
           <label>Name</label>
           <InputText value={modelCurrent.name} onChange={(e) => updateModel({field: 'name', value: e.target.value}) } />
