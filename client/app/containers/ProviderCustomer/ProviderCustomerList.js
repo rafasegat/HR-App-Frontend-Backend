@@ -6,8 +6,7 @@ import BtnEdit from '../../components/Form/BtnEdit';
 const ProviderCustomerList = (props) => {
     const { 
         list,
-        openModal,
-        redirectParticipants,
+        handleNew,
         handleEdit,
         handleDelete
     } = props;
@@ -42,14 +41,20 @@ const ProviderCustomerList = (props) => {
                         ]}
                         defaultPageSize={10}
                         className="-striped -highlight"
+                        getTdProps={(state, rowInfo, column, instance) => {
+                            return {
+                              onClick: (e, handleOriginal) => {
+                                if(typeof rowInfo !== 'undefined')
+                                    props.handleEdit(rowInfo.original.id);
+                              }
+                            }
+                        }}
                     />
                 </div>
             :
                 <div>No data. Create the first one!</div>
             }
-            <button className="btn-primary" onClick={openModal}>
-                NEW
-            </button>
+            <button className="btn-primary" onClick={handleNew}>NEW</button>
         </div>
     );
 

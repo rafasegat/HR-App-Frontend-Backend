@@ -16,6 +16,11 @@ class ProviderCustomerStore extends Store{
 
     save(type, payload){
         let instance = this;
+        
+        if(payload.id == -1){
+            delete payload.id;
+        }
+        console.log(payload);
         fetch('/api/provider-customer/save', {
             method: 'POST',
             headers: instance.headers(),
@@ -35,7 +40,7 @@ class ProviderCustomerStore extends Store{
             method: 'POST',
             headers: instance.headers(),
             body: JSON.stringify({ 
-                query: '{ provider_customers ( id_organization: ' + id_organization + ') { id, name, email, organization } }' 
+                query: '{ provider_customers ( id_organization: ' + id_organization + ') { id, name, email, id_organization } }' 
             }),
         }).then(res => res.json())
           .then(json => { instance.invokeListeners(type, { data: json.data.provider_customers, status: 'success' }); })

@@ -57,6 +57,7 @@ module.exports.graphql_schema = buildSchema(`
         id: Int!
         name: String!
         email: String
+        id_organization: Int
         organization: String
     }
 

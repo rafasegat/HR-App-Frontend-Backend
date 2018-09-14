@@ -77,3 +77,25 @@
         }
     }
 }
+
+.ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover { 
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.1);
+ }
+
+ .btn-delete { 
+     position: relative;
+     display: inline-block;
+     .tooltip-yes-no{
+        color: #fff;
+        background: #2F353E;
+        border-radius: 5px;
+        color: #fff;
+        padding: 5px 10px;
+        position: absolute;
+        font-size: 12px;
+        line-height: 1.4em;
+        z-index: 900000;
+        display: inline-block;
+     }
+}

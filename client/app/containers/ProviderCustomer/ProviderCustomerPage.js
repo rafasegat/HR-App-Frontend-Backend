@@ -14,21 +14,22 @@ class ProviderCustomer extends Component {
         super(props);
 
         let id_project = getFromStorage('FB360_Project').id,
-            id_organization = getFromStorage('FB360_Organization').id;
-
+            id_organization = getFromStorage('FB360_Organization').id,
+            model = {
+                id: -1,
+                name: '',
+                email: '',
+                id_organization: id_organization
+            };
+        console.log(model)
         this.state = {
             isLoading: false, 
             listProviderCustomer: [],
             showModal: false,
             id_project: id_project,
             id_organization: id_organization,
-            modelCurrent: {
-                id: null,
-                name: '',
-                email: '',
-                id_organization: id_organization
-            },
-            modelCurrentAux: {},
+            modelCurrent: model,
+            modelCurrentDefault: model,
             messageValidation: '',
             submitDisabled: true
         };
@@ -36,6 +37,7 @@ class ProviderCustomer extends Component {
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.updateModel = this.updateModel.bind(this);
+        this.handleNew = this.handleNew.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
 
@@ -63,11 +65,8 @@ class ProviderCustomer extends Component {
         const { 
             id_project,
             id_organization,
-            modelCurrent,
-            modelCurrentAux
+            modelCurrent
         } = this.state;
-
-        this.setState({ modelCurrentAux: modelCurrent });
 
         // If there's no organization, let's go back
         if(!id_project)
@@ -80,22 +79,23 @@ class ProviderCustomer extends Component {
         ProviderCustomerAction.all({ id_organization: id_organization });
     }
 
-    cleanModel(){
+    refreshModel(){
         const {
             modelCurrent,
-            modelCurrentAux
+            modelCurrentDefault
         } = this.state;
-        for(var prop in modelCurrentAux){
-            modelCurrent[prop] = modelCurrentAux[prop];
-        }
+        let aux = modelCurrentDefault;
+        this.setState({
+            modelCurrent: aux
+        });
     }
 
     openModal() {
-        this.cleanModel();
         this.setState({ showModal: true });
     }
 
     closeModal() {
+        this.refreshModel();
         this.setState({ showModal: false });
     }
 
@@ -104,10 +104,12 @@ class ProviderCustomer extends Component {
             modelCurrent 
         } = this.state;
         let aux = modelCurrent;
+        console.log(modelCurrent)
         aux[data.field] = data.value;
         this.setState({
             modelCurrent: aux
         });
+        
         this.validateForm();
     }
 
@@ -115,25 +117,15 @@ class ProviderCustomer extends Component {
         const { 
             modelCurrent
         } = this.state;
-
         let message = '';
 
-        if(!modelCurrent.name)
-            message += 'Name cannot be blank.\n';
-
-        if(!modelCurrent.email)
-            message += 'Email cannot be blank.\n';
-
-        if(!validateEmail(modelCurrent.email))
-            message += 'Email not valid.\n';
+        if(!modelCurrent.name) message += 'Name cannot be blank.\n';
+        if(!modelCurrent.email) message += 'Email cannot be blank.\n';
+        if(!validateEmail(modelCurrent.email)) message += 'Email not valid.\n';
+        if(message) this.setState({ submitDisabled: true  });
+        else this.setState({ submitDisabled: false  });
         
-        if(message)
-            this.setState({ submitDisabled: true  });
-        else
-            this.setState({ submitDisabled: false  });
-        
-        this.setState({ messageValidation: message  });
-        
+        this.setState({ messageValidation: message  }); 
     }
 
     handleSubmit(){
@@ -144,6 +136,11 @@ class ProviderCustomer extends Component {
         ProviderCustomerAction.save(modelCurrent);
     }
 
+    handleNew(){
+        this.refreshModel();
+        this.openModal();
+    }
+
     handleDelete(id){
         console.log(id)
     }
@@ -151,19 +148,19 @@ class ProviderCustomer extends Component {
     handleEdit(id){
         const {
             listProviderCustomer,
-            modelCurrent
+            modelCurrent,
+            modelCurrentDefault
         } = this.state;
-        
         const currentRow = listProviderCustomer.filter((el) => {
             return el.id == id;
         });
+        let aux = {};
+        for(var prop in currentRow[0])
+            aux[prop] = currentRow[0][prop];
 
-        for(var prop in currentRow[0]){
-            if (modelCurrent.hasOwnProperty(prop)) {
-                modelCurrent[prop] = currentRow[0][prop];
-            }
-        }
-        
+        this.setState({ 
+            modelCurrent: aux 
+        });
         this.openModal();
     }
 
@@ -190,7 +187,7 @@ class ProviderCustomer extends Component {
                                 <h2>Provider - External Customers</h2>
                                 <ProviderCustomerList 
                                     list={listProviderCustomer}
-                                    openModal={this.openModal}
+                                    handleNew={this.handleNew}
                                     handleEdit={this.handleEdit}
                                     handleDelete={this.handleDelete}
                                 />
