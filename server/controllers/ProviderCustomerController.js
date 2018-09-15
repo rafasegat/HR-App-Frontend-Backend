@@ -44,8 +44,8 @@ exports.delete = (req, res, next) => {
     const { body } = req;
     const { data } = body;
     const { param } = body;
-    console.log(data.id)
-    Provider
+    
+    ProviderCustomer
     .query()
     .where({
         id: data.id

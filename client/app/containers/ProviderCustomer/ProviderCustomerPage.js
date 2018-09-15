@@ -21,7 +21,6 @@ class ProviderCustomer extends Component {
                 email: '',
                 id_organization: id_organization
             };
-        console.log(model)
         this.state = {
             isLoading: false, 
             listProviderCustomer: [],
@@ -31,7 +30,8 @@ class ProviderCustomer extends Component {
             modelCurrent: model,
             modelCurrentDefault: model,
             messageValidation: '',
-            submitDisabled: true
+            submitDisabled: true,
+            showTooltip: -1
         };
         
         this.openModal = this.openModal.bind(this);
@@ -40,6 +40,7 @@ class ProviderCustomer extends Component {
         this.handleNew = this.handleNew.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
+        this.handleTooltip = this.handleTooltip.bind(this);
 
         let currentInstance = this;
         ProviderCustomerAction.addListener((type, payload)=>currentInstance.onProviderCustomerStoreChanged(type, payload, currentInstance));
@@ -57,6 +58,15 @@ class ProviderCustomer extends Component {
             if(payload.status==='success'){
                 ProviderCustomerAction.all({ id_organization: id_organization });
                 currentInstance.closeModal();
+            }
+        }
+        if(type===Action.DELETE){
+            if(payload.status==='success'){
+                currentInstance.setState({
+                    isLoading: false,
+                    showTooltip: -1 
+                });
+                ProviderCustomerAction.all({ id_organization: id_organization });
             }
         }
     }
@@ -104,7 +114,6 @@ class ProviderCustomer extends Component {
             modelCurrent 
         } = this.state;
         let aux = modelCurrent;
-        console.log(modelCurrent)
         aux[data.field] = data.value;
         this.setState({
             modelCurrent: aux
@@ -142,7 +151,12 @@ class ProviderCustomer extends Component {
     }
 
     handleDelete(id){
-        console.log(id)
+        ProviderCustomerAction.delete( { id: id } );
+        //this.setState({ isLoading: true });
+    }
+
+    handleTooltip(id){
+        this.setState({ showTooltip: id });
     }
 
     handleEdit(id){
@@ -171,7 +185,8 @@ class ProviderCustomer extends Component {
             showModal,
             modelCurrent,
             messageValidation,
-            submitDisabled
+            submitDisabled,
+            showTooltip
         } = this.state;
 
         if(isLoading)
@@ -190,6 +205,8 @@ class ProviderCustomer extends Component {
                                     handleNew={this.handleNew}
                                     handleEdit={this.handleEdit}
                                     handleDelete={this.handleDelete}
+                                    handleTooltip={this.handleTooltip}
+                                    showTooltip={showTooltip}
                                 />
                             </div>
                         </div>

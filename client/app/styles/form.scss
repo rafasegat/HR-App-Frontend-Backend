@@ -81,7 +81,15 @@
 .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover { 
     cursor: pointer;
     background: rgba(0, 0, 0, 0.1);
- }
+}
+
+.ReactTable .rt-th, .ReactTable .rt-td{
+     overflow: visible;
+}
+
+.ReactTable .rt-tbody{
+    overflow: visible;
+}
 
  .btn-delete { 
      position: relative;
@@ -97,5 +105,31 @@
         line-height: 1.4em;
         z-index: 900000;
         display: inline-block;
+        top: -32px;
+        right: -5px;
+        &:before {
+            top: 26px;
+            right: 12px;
+            border: solid;
+            content: "";
+            position: absolute;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #2F353E;
+        }
+        .tooltip-yes{
+            padding: 0 3px;
+            color: #F55E4F;
+            &:hover{
+               text-decoration: underline;
+            }
+        }
+        .tooltip-no{
+           color: #9ea3a8;
+           &:hover{
+               text-decoration: underline;
+           }
+        }
      }
+     
 }

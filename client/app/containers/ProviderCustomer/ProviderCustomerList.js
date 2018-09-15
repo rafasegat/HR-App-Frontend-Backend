@@ -8,7 +8,9 @@ const ProviderCustomerList = (props) => {
         list,
         handleNew,
         handleEdit,
-        handleDelete
+        handleDelete,
+        handleTooltip,
+        showTooltip
     } = props;
     
     return(
@@ -32,8 +34,12 @@ const ProviderCustomerList = (props) => {
                             width: 75,
                             Cell: row => (
                                 <div className="btn-action">
-                                    <BtnEdit handleEdit={props.handleEdit} row={row}/>
-                                    <BtnDelete handleDelete={props.handleDelete} row={row}/>
+                                    <BtnEdit handleEdit={handleEdit} row={row}/>
+                                    <BtnDelete 
+                                        handleDelete={handleDelete} 
+                                        handleTooltip={handleTooltip} 
+                                        showTooltip={showTooltip}
+                                        row={row}/>
                                 </div>
                             )
                         }
@@ -41,14 +47,16 @@ const ProviderCustomerList = (props) => {
                         ]}
                         defaultPageSize={10}
                         className="-striped -highlight"
-                        getTdProps={(state, rowInfo, column, instance) => {
-                            return {
-                              onClick: (e, handleOriginal) => {
-                                if(typeof rowInfo !== 'undefined')
-                                    props.handleEdit(rowInfo.original.id);
-                              }
-                            }
-                        }}
+                        // getTdProps={(state, rowInfo, column, instance) => {
+                        //     return {
+                        //       onClick: (e, handleOriginal) => {
+                        //         if(typeof rowInfo !== 'undefined')
+                        //             props.handleEdit(rowInfo.original.id);
+                                
+                        //         handleOriginal();
+                        //       }
+                        //     }
+                        // }}
                     />
                 </div>
             :

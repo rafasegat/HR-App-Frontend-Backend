@@ -7,6 +7,9 @@ export default {
     save: function(payload){
         Dispatcher().dispatch(SAVE, payload);
     },
+    delete: function(payload){
+        Dispatcher().dispatch(DELETE, payload);
+    },
     addListener(fn){
         Dispatcher().getStore('ProviderCustomerStore').addListener(fn);
     }
@@ -14,3 +17,4 @@ export default {
 
 export const ALL = 'all-provider-customers';
 export const SAVE = 'save-provider-customers';
+export const DELETE = 'delete-provider-customers';
