@@ -6,7 +6,6 @@ import ProviderCustomerOrganizationForm from '../../components/ProviderCustomerO
 import ProviderCustomerOrganizationList from './ProviderCustomerOrganizationList';
 import ProviderCustomerOrganizationAction from '../../flux/provider-customer-organization/ProviderCustomerOrganizationAction';
 import * as Action from '../../flux/provider-customer-organization/ProviderCustomerOrganizationAction';
-import { validateEmail } from '../../utils/Tools'
 
 class ProviderCustomerOrganization extends Component {
     constructor(props, match){
@@ -17,7 +16,6 @@ class ProviderCustomerOrganization extends Component {
             model = {
                 id: -1,
                 name: '',
-                email: '',
                 id_organization: id_organization
             };
         this.state = {
@@ -94,10 +92,6 @@ class ProviderCustomerOrganization extends Component {
             modelCurrent,
             modelCurrentDefault
         } = this.state;
-        // let aux = modelCurrentDefault;
-        // this.setState({
-        //     modelCurrent: aux
-        // });
         let aux = {};
         for(var prop in modelCurrentDefault)
             aux[prop] = modelCurrentDefault[prop];
@@ -135,8 +129,6 @@ class ProviderCustomerOrganization extends Component {
         let message = '';
 
         if(!modelCurrent.name) message += 'Name cannot be blank.\n';
-        if(!modelCurrent.email) message += 'Email cannot be blank.\n';
-        if(!validateEmail(modelCurrent.email)) message += 'Email not valid.\n';
         if(message) this.setState({ submitDisabled: true  });
         else this.setState({ submitDisabled: false  });
         

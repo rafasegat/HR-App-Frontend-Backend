@@ -1,8 +1,8 @@
-const ProviderCustomerModel = require('../../models/Provider_Customer');
+const ProviderCustomerOrganizationModel = require('../../models/Provider_Customer_Organization');
 const Tools = require('../../common/tools');
 
 exports.getAll = (args) => {
-      return ProviderCustomerModel
+      return ProviderCustomerOrganizationModel
       .query()
       .select('*')
       .where({

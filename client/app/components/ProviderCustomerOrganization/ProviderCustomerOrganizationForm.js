@@ -15,20 +15,16 @@ const ProviderCustomerForm = props => {
   } = props;
 
   return (
-    <div className="provider-customer-form">
+    <div className="provider-customer=organization-form">
       
       <div className="form-section">
-        <h3>Customer</h3>
+        <h3>Customer Organization</h3>
         
         <input type="hidden" value={modelCurrent.id} onChange={(e) => updateModel({field: 'id', value: e.target.value}) } />
         
         <div className="form-group">
           <label>Name</label>
           <InputText value={modelCurrent.name} onChange={(e) => updateModel({field: 'name', value: e.target.value}) } />
-        </div>
-        <div className="form-group">
-          <label>Email</label>
-          <InputText value={modelCurrent.email} onChange={(e) => updateModel({field: 'email', value: e.target.value}) } />
         </div>
       </div>
       

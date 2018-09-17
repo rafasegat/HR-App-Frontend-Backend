@@ -4,6 +4,7 @@ import { InputText } from 'primereact/components/inputtext/InputText';
 import { Checkbox } from 'primereact/components/checkbox/Checkbox';
 import { AutoComplete } from 'primereact/components/autocomplete/AutoComplete';
 import { Button } from 'primereact/components/button/Button';
+import Select from 'react-select'
 
 const ProviderCustomerForm = props => {
   const { 
@@ -13,6 +14,12 @@ const ProviderCustomerForm = props => {
     messageValidation,
     submitDisabled
   } = props;
+
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
 
   return (
     <div className="provider-customer-form">
@@ -29,6 +36,10 @@ const ProviderCustomerForm = props => {
         <div className="form-group">
           <label>Email</label>
           <InputText value={modelCurrent.email} onChange={(e) => updateModel({field: 'email', value: e.target.value}) } />
+        </div>
+        <div className="form-group">
+          <label>Organization</label>
+          <Select options={options} />
         </div>
       </div>
       

@@ -57,7 +57,7 @@ class ProviderCustomerOrganizationStore extends Store{
                 query: '{ provider_customer_organization ( id_organization: ' + id_organization + ') { id, name } }' 
             }),
         }).then(res => res.json())
-          .then(json => { instance.invokeListeners(type, { data: json.data.provider_customers, status: 'success' }); })
+          .then(json => { instance.invokeListeners(type, { data: json.data.provider_customer_organization, status: 'success' }); })
           .catch(err => { instance.invokeListeners(type, { status: 'Error: '+err }); });
     }
 
