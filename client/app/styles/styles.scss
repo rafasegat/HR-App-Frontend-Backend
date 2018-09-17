@@ -117,13 +117,27 @@ header {
     left: 0; 
     top: 0; 
     width: $sidebar-width;
-    padding: 15px;
-    padding-top: 175px;
+    padding: 150px 0 0 0;
     background: #060a18;
     ul.sidebar-menu{
         li {
+            display: block;
+            color: #FFFFFF;
+            padding: 5px 15px;
+            &:hover{
+                a {
+                }
+            }
             a {
                 color: #FFFFFF;
+                display: block;
+                
+            }
+            .sidebar-sub-menu{
+                li {
+                    font-size: 14px;
+                    padding-left: 5px;
+                }
             }
         }
     }

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { getFromStorage } from '../../utils/Storage';
 import Loading from '../../components/Common/Loading';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
-import ProviderCustomerForm from '../../components/ProviderCustomer/ProviderCustomerForm';
-import ProviderCustomerList from './ProviderCustomerList';
-import ProviderCustomerAction from '../../flux/provider-customer/ProviderCustomerAction';
-import * as Action from '../../flux/provider-customer/ProviderCustomerAction';
+import ProviderCustomerOrganizationForm from '../../components/ProviderCustomerOrganization/ProviderCustomerOrganizationForm';
+import ProviderCustomerOrganizationList from './ProviderCustomerOrganizationList';
+import ProviderCustomerOrganizationAction from '../../flux/provider-customer-organization/ProviderCustomerOrganizationAction';
+import * as Action from '../../flux/provider-customer-organization/ProviderCustomerOrganizationAction';
 import { validateEmail } from '../../utils/Tools'
 
-class ProviderCustomer extends Component {
+class ProviderCustomerOrganization extends Component {
     constructor(props, match){
         super(props);
 
@@ -22,7 +22,7 @@ class ProviderCustomer extends Component {
             };
         this.state = {
             isLoading: false, 
-            listProviderCustomer: [],
+            listProviderCustomerOrganization: [],
             showModal: false,
             id_project: id_project,
             id_organization: id_organization,
@@ -43,20 +43,20 @@ class ProviderCustomer extends Component {
         this.handleTooltip = this.handleTooltip.bind(this);
 
         let currentInstance = this;
-        ProviderCustomerAction.addListener((type, payload)=>currentInstance.onProviderCustomerStoreChanged(type, payload, currentInstance));
+        ProviderCustomerOrganizationAction.addListener((type, payload)=>currentInstance.onProviderCustomerOrganizationStoreChanged(type, payload, currentInstance));
     }
 
-    onProviderCustomerStoreChanged(type, payload, currentInstance){
+    onProviderCustomerOrganizationStoreChanged(type, payload, currentInstance){
         const { id_organization } = this.state;
         if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
-                listProviderCustomer: payload.data
+                listProviderCustomerOrganization: payload.data
             });
         }
         if(type===Action.SAVE){
             if(payload.status==='success'){
-                ProviderCustomerAction.all({ id_organization: id_organization });
+                ProviderCustomerOrganizationAction.all({ id_organization: id_organization });
                 currentInstance.closeModal();
             }
         }
@@ -66,7 +66,7 @@ class ProviderCustomer extends Component {
                     isLoading: true,
                     showTooltip: -1 
                 });
-                ProviderCustomerAction.all({ id_organization: id_organization });
+                ProviderCustomerOrganizationAction.all({ id_organization: id_organization });
             }
         }
     }
@@ -86,7 +86,7 @@ class ProviderCustomer extends Component {
             this.props.history.push('/organizations');
         
         this.setState({ isLoading: true });
-        ProviderCustomerAction.all({ id_organization: id_organization });
+        ProviderCustomerOrganizationAction.all({ id_organization: id_organization });
     }
 
     refreshModel(){
@@ -148,7 +148,7 @@ class ProviderCustomer extends Component {
             modelCurrent 
         } = this.state;
         this.setState({ isLoading: true });
-        ProviderCustomerAction.save(modelCurrent);
+        ProviderCustomerOrganizationAction.save(modelCurrent);
     }
 
     handleNew(){
@@ -158,7 +158,7 @@ class ProviderCustomer extends Component {
 
     handleDelete(id){
         this.setState({ isLoading: true });
-        ProviderCustomerAction.delete( { id: id } );
+        ProviderCustomerOrganizationAction.delete( { id: id } );
     }
 
     handleTooltip(id){
@@ -167,10 +167,10 @@ class ProviderCustomer extends Component {
 
     handleEdit(id){
         const {
-            listProviderCustomer,
+            listProviderCustomerOrganization,
             modelCurrent
         } = this.state;
-        const currentRow = listProviderCustomer.filter((el) => {
+        const currentRow = listProviderCustomerOrganization.filter((el) => {
             return el.id == id;
         });
         let aux = {};
@@ -186,7 +186,7 @@ class ProviderCustomer extends Component {
     render(){
         const { 
             isLoading,
-            listProviderCustomer,
+            listProviderCustomerOrganization,
             showModal,
             modelCurrent,
             messageValidation,
@@ -205,8 +205,8 @@ class ProviderCustomer extends Component {
                         <div className="row">
                             <div className="col-lg-12">
                                 <h2>Provider - External Customers</h2>
-                                <ProviderCustomerList 
-                                    list={listProviderCustomer}
+                                <ProviderCustomerOrganizationList 
+                                    list={listProviderCustomerOrganization}
                                     handleNew={this.handleNew}
                                     handleEdit={this.handleEdit}
                                     handleDelete={this.handleDelete}
@@ -221,7 +221,7 @@ class ProviderCustomer extends Component {
                 <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
                     <ModalHeader toggle={this.closeModal}>Customer</ModalHeader>
                     <ModalBody>
-                        <ProviderCustomerForm
+                        <ProviderCustomerOrganizationForm
                             modelCurrent={modelCurrent}
                             updateModel={this.updateModel}
                             handleSubmit={this.handleSubmit}
@@ -237,4 +237,4 @@ class ProviderCustomer extends Component {
 
 }
 
-export default ProviderCustomer;
+export default ProviderCustomerOrganization;

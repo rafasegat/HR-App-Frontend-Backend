@@ -3,7 +3,7 @@ import ReactTable from "react-table";
 import BtnDelete from '../../components/Form/BtnDelete';
 import BtnEdit from '../../components/Form/BtnEdit';
 
-const ProviderCustomerList = (props) => {
+const ProviderCustomerOrganizationList = (props) => {
     const { 
         list,
         handleNew,
@@ -14,7 +14,7 @@ const ProviderCustomerList = (props) => {
     } = props;
     
     return(
-        <div className="provider-customer">
+        <div className="provider-customer-organization">
             {list!=undefined && list.length > 0  ? 
                <div>
                     <ReactTable
@@ -23,10 +23,6 @@ const ProviderCustomerList = (props) => {
                         {
                             Header: "Name",
                             accessor: "name"
-                        },
-                        {
-                            Header: "Email",
-                            accessor: "email"
                         },
                         {
                             Header: "Action",
@@ -52,10 +48,8 @@ const ProviderCustomerList = (props) => {
                               onClick: (e, handleOriginal) => {
                                 if(column.Header=='Action')
                                     return;
-
                                 if(typeof rowInfo !== 'undefined')
                                     props.handleEdit(rowInfo.original.id);
-                                
                               }
                             }
                         }}
@@ -70,4 +64,4 @@ const ProviderCustomerList = (props) => {
 
 }
 
-export default ProviderCustomerList;
+export default ProviderCustomerOrganizationList;

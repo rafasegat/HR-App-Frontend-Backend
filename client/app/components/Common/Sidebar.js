@@ -9,7 +9,15 @@ const Sidebar = () => (
                     <Link to={'participants'} >Participants</Link>
                 </li>
                 <li>
-                    <Link to={'provider-customers'} >Provider Customers</Link>
+                    Providers <i className="fas fa-angle-down"></i>
+                    <ul className="sidebar-sub-menu">
+                        <li>
+                            <Link to={'provider-customers'} >External Customers</Link>
+                        </li>
+                        <li>
+                            <Link to={'provider-customers-organization'} >External Customers Organization</Link>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
