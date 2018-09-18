@@ -12,15 +12,12 @@ const ProviderCustomerForm = props => {
     modelCurrent,
     updateModel,
     messageValidation,
-    submitDisabled
+    submitDisabled,
+    listProviderCustomerOrganization
   } = props;
 
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
-
+  const options = listProviderCustomerOrganization;
+  
   return (
     <div className="provider-customer-form">
       
@@ -39,7 +36,18 @@ const ProviderCustomerForm = props => {
         </div>
         <div className="form-group">
           <label>Organization</label>
-          <Select options={options} />
+          <Select 
+            options={options} 
+            getOptionValue={(option) => option.id} 
+            getOptionLabel={(option) => option.name} 
+            onChange={(e) => updateModel({field: 'id_provider_customer_organization', value: e.id}) }
+            value={
+              modelCurrent.id_provider_customer_organization && { 
+                value: modelCurrent.id_provider_customer_organization,
+                name: options.find(o => o.id === modelCurrent.id_provider_customer_organization).name,
+              }
+            }            
+            />
         </div>
       </div>
       

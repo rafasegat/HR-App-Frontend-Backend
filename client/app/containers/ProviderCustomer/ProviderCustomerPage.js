@@ -5,7 +5,9 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap'
 import ProviderCustomerForm from '../../components/ProviderCustomer/ProviderCustomerForm';
 import ProviderCustomerList from './ProviderCustomerList';
 import ProviderCustomerAction from '../../flux/provider-customer/ProviderCustomerAction';
+import ProviderCustomerOrganizationAction from '../../flux/provider-customer-organization/ProviderCustomerOrganizationAction';
 import * as Action from '../../flux/provider-customer/ProviderCustomerAction';
+import * as Action_2 from '../../flux/provider-customer-organization/ProviderCustomerOrganizationAction';
 import { validateEmail } from '../../utils/Tools'
 
 class ProviderCustomer extends Component {
@@ -18,11 +20,13 @@ class ProviderCustomer extends Component {
                 id: -1,
                 name: '',
                 email: '',
+                id_provider_customer_organization: null,
                 id_organization: id_organization
             };
         this.state = {
             isLoading: false, 
             listProviderCustomer: [],
+            listProviderCustomerOrganization: [],
             showModal: false,
             id_project: id_project,
             id_organization: id_organization,
@@ -44,6 +48,7 @@ class ProviderCustomer extends Component {
 
         let currentInstance = this;
         ProviderCustomerAction.addListener((type, payload)=>currentInstance.onProviderCustomerStoreChanged(type, payload, currentInstance));
+        ProviderCustomerOrganizationAction.addListener((type, payload)=>currentInstance.onProviderCustomerOrganizationStoreChanged(type, payload, currentInstance));
     }
 
     onProviderCustomerStoreChanged(type, payload, currentInstance){
@@ -71,6 +76,15 @@ class ProviderCustomer extends Component {
         }
     }
 
+    onProviderCustomerOrganizationStoreChanged(type, payload, currentInstance){
+        const { id_organization } = this.state;
+        if(type===Action_2.ALL){
+            currentInstance.setState({
+                listProviderCustomerOrganization: payload.data
+            });
+        }
+    }
+
     componentDidMount(){
         const { 
             id_project,
@@ -87,6 +101,7 @@ class ProviderCustomer extends Component {
         
         this.setState({ isLoading: true });
         ProviderCustomerAction.all({ id_organization: id_organization });
+        ProviderCustomerOrganizationAction.all({ id_organization: id_organization });
     }
 
     refreshModel(){
@@ -94,10 +109,6 @@ class ProviderCustomer extends Component {
             modelCurrent,
             modelCurrentDefault
         } = this.state;
-        // let aux = modelCurrentDefault;
-        // this.setState({
-        //     modelCurrent: aux
-        // });
         let aux = {};
         for(var prop in modelCurrentDefault)
             aux[prop] = modelCurrentDefault[prop];
@@ -187,6 +198,7 @@ class ProviderCustomer extends Component {
         const { 
             isLoading,
             listProviderCustomer,
+            listProviderCustomerOrganization,
             showModal,
             modelCurrent,
             messageValidation,
@@ -227,6 +239,7 @@ class ProviderCustomer extends Component {
                             handleSubmit={this.handleSubmit}
                             messageValidation={messageValidation}
                             submitDisabled={submitDisabled}
+                            listProviderCustomerOrganization={listProviderCustomerOrganization}
                         />
                     </ModalBody>
                 </Modal>

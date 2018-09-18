@@ -55,7 +55,7 @@ class ProviderCustomerStore extends Store{
             method: 'POST',
             headers: instance.headers(),
             body: JSON.stringify({ 
-                query: '{ provider_customers ( id_organization: ' + id_organization + ') { id, name, email, id_organization } }' 
+                query: '{ provider_customers ( id_organization: ' + id_organization + ') { id, name, email, id_provider_customer_organization, organization_name } }' 
             }),
         }).then(res => res.json())
           .then(json => { instance.invokeListeners(type, { data: json.data.provider_customers, status: 'success' }); })

@@ -29,6 +29,10 @@ const ProviderCustomerList = (props) => {
                             accessor: "email"
                         },
                         {
+                            Header: "Organization",
+                            accessor: "organization_name"
+                        },
+                        {
                             Header: "Action",
                             accessor: "",
                             width: 75,

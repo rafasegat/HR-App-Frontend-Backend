@@ -95,7 +95,6 @@ class ProviderCustomerOrganization extends Component {
         let aux = {};
         for(var prop in modelCurrentDefault)
             aux[prop] = modelCurrentDefault[prop];
-
         this.setState({ 
             modelCurrent: aux 
         });
