@@ -185,9 +185,11 @@ class ProviderCustomer extends Component {
             return el.id == id;
         });
         let aux = {};
-        for(var prop in currentRow[0])
-            aux[prop] = currentRow[0][prop];
-
+        for(var prop in currentRow[0]){
+            if(modelCurrent.hasOwnProperty(prop)){
+                aux[prop] = currentRow[0][prop];
+            }
+        }
         this.setState({ 
             modelCurrent: aux 
         });

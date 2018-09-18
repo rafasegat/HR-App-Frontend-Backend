@@ -54,7 +54,6 @@ exports.delete = (req, res, next) => {
     .then( json => {
         //if(!json.id)
         //    return res.send({ status: 'Error: Provider Not Deleted.' });
-        console.log(json)
         return res.send({ status: 'success' });
             
     })

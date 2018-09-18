@@ -29,7 +29,6 @@ exports.delete = (req, res, next) => {
     const { body } = req;
     const { data } = body;
     const { param } = body;
-    console.log(data.id)
     Provider
     .query()
     .where({
@@ -39,7 +38,6 @@ exports.delete = (req, res, next) => {
     .then( json => {
         //if(!json.id)
         //    return res.send({ status: 'Error: Provider Not Deleted.' });
-        console.log(json)
         return res.send({ status: 'success' });
             
     })

@@ -156,7 +156,6 @@ class Participant extends Component {
 
         
         // values['id_project_status'] = 1; // Collecting Feedback
-        console.log(modelParticipant)
         ParticipantAction.save(modelParticipant);
     }
 

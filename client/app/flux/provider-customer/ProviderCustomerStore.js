@@ -22,7 +22,6 @@ class ProviderCustomerStore extends Store{
         if(payload.id == -1){
             delete payload.id;
         }
-        console.log(payload);
         fetch('/api/provider-customer/save', {
             method: 'POST',
             headers: instance.headers(),

@@ -14,7 +14,6 @@ class LoadingProvider extends React.Component {
       this.setState({
           isLoading: true
       });
-      console.log('shiow')
     }
 
     this.hide = () => {
