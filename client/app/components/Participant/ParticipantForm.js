@@ -4,19 +4,19 @@ import {InputText} from 'primereact/components/inputtext/InputText';
 import {Checkbox} from 'primereact/components/checkbox/Checkbox';
 import {AutoComplete} from 'primereact/components/autocomplete/AutoComplete';
 import {Button} from 'primereact/components/button/Button';
+import Select from 'react-select';
 
 const ParticipantForm = props => {
   const { 
-    handleSubmit,
+    handleNewParticipant,
     modelParticipant,
     updateModelParticipant,
-    reportReviewerData,
-    reportReviewerSuggestions,
-    filterReportReviewer,
+    listParticipants,
     messageValidation,
     submitDisabled
   } = props;
   
+  let options = listParticipants;
 
   return (
     <div className="participant-form">
@@ -86,13 +86,19 @@ const ParticipantForm = props => {
           
           <div className="form-group">
               <label>Report Reviewer</label>
-              <AutoComplete 
-                dropdown={true}
-                value={modelParticipant.id_participant_feedback_reviewer} 
-                suggestions={reportReviewerSuggestions}
-                completeMethod={filterReportReviewer}
-                onChange={(e) => updateModelParticipant({field: 'id_participant_feedback_reviewer', value: e.value}) }
-              />
+              <Select 
+                options={options} 
+                getOptionValue={(option) => option.id} 
+                getOptionLabel={(option) => option.name + ' - ' + option.position} 
+                onChange={(e) => updateModelParticipant({field: 'id_participant_feedback_reviewer', value: e.id}) }
+                value={
+                  modelParticipant.id_provider_customer_organization && { 
+                    value: modelParticipant.id_provider_customer_organization,
+                    name: options.find(o => o.id === modelParticipant.id_participant_feedback_reviewer).name,
+                  }
+                }            
+                />
+
           </div>
         
         </div>
@@ -100,7 +106,7 @@ const ParticipantForm = props => {
        </div>
       
       <div>
-        <Button onClick={handleSubmit} className="btn-primary" label="Save"  disabled={submitDisabled} />
+        <Button onClick={handleNewParticipant} className="btn-primary" label="Save"  disabled={submitDisabled} />
         <div className='messageErrors'>{messageValidation}</div>
       </div>
 

@@ -37,12 +37,10 @@ class FeedbackForm extends Component {
                              id_project: id_project,
                              id_participant: id_participant,
                              id_provider: null,
-                             external_name: '',
-                             external_email: '',
+                             id_provider_customer: null,
                              status: null
                            },
             participantProviderOptions: []
-
         };
 
         this.toggle = this.toggle.bind(this);
@@ -61,7 +59,6 @@ class FeedbackForm extends Component {
             id_participant 
         } = this.state;
 
-        // If there's no organization, let's go back
         if(!id_project)
             this.props.history.push('/organizations');
 
@@ -199,7 +196,7 @@ class FeedbackForm extends Component {
 
         // Clear id_provider if change relationship
         if(  data.field =='relationship' ) {
-                    aux['id_provider'] = null;
+            aux['id_provider'] = null;
         }
 
         // Clear id_provider if is Self aassessment / Customer / Supplier
@@ -220,7 +217,6 @@ class FeedbackForm extends Component {
                 aux['external_name'] = '';
                 aux['external_email'] = '';
         }
-
         this.setState({
             modelProvider: aux
         });
@@ -232,25 +228,18 @@ class FeedbackForm extends Component {
         modelProvider,
         id_participant
        } = this.state;
-
        modelProvider.status = status_provider_info.invited.key;
-
        this.setState({ isLoading: true });
-
        ProviderAction.save(modelProvider);
     }
 
     handleDeleteProvider(id){
-        
         if(!id)
             return;
-
         this.setState({ isLoading: true });
-
         ProviderAction.delete({
             id: id
         })
-
     }
 
     render(){

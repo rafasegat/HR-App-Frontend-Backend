@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTable from "react-table";
+import BtnEdit from '../../components/Form/BtnEdit';
 
 const ParticipantList = (props) => {
     const { 
@@ -62,13 +63,9 @@ const ParticipantList = (props) => {
                             columns: [
                             {
                                 Header: "Edit",
-                                accessor: "visits",
                                 width: 100,
                                 Cell: row => (
-                                    <a href="#"
-                                       onClick={event => openFeedbackModal(row.original)} >
-                                      Edit
-                                    </a>
+                                    <BtnEdit handleEdit={openFeedbackModal} param={row.original.id}/>
                                   )
                             }
                             ]
@@ -76,6 +73,18 @@ const ParticipantList = (props) => {
                         ]}
                         defaultPageSize={10}
                         className="-striped -highlight"
+                        getTdProps={(state, rowInfo, column, instance) => {
+                            return {
+                              onClick: (e, handleOriginal) => {
+                                if(column.Header=='Action')
+                                    return;
+
+                                if(typeof rowInfo !== 'undefined')
+                                    props.openFeedbackModal(rowInfo.original);
+                                
+                              }
+                            }
+                        }}
                     />
                 </div>
             :

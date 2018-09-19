@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router'
 import { getFromStorage } from '../../utils/Storage';
 import Loading from '../../components/Common/Loading';
+import { validateEmail } from '../../utils/Tools'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 import ParticipantForm from '../../components/Participant/ParticipantForm';
 import ParticipantList from './ParticipantList';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
 import FeedbackForm from './FeedbackForm';
 import * as Action from '../../flux/participant/ParticipantAction';
-import {validateEmail} from '../../utils/Tools'
 
 class Participant extends Component {
     constructor(props, match){
@@ -20,8 +20,7 @@ class Participant extends Component {
             showFeedbackModal: false,
             id_project: getFromStorage('FB360_Project').id,
             currentParticipant: [],
-            reportReviewerSuggestions: [],
-            reportReviewerData: ['Audi', 'BMW', 'Fiat', 'Ford', 'Honda', 'Jaguar', 'Mercedes', 'Renault', 'Volvo'],
+            reportReviewerOptions: [],
             modelParticipant: {
                 name: '',
                 email: '',
@@ -41,9 +40,7 @@ class Participant extends Component {
         this.updateModelParticipant = this.updateModelParticipant.bind(this);
         this.openFeedbackModal = this.openFeedbackModal.bind(this);
         this.closeFeedbackModal = this.closeFeedbackModal.bind(this);
-        this.filterReportReviewer = this.filterReportReviewer.bind(this);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleNewParticipant = this.handleNewParticipant.bind(this);
 
         let currentInstance = this;
         ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
@@ -108,54 +105,28 @@ class Participant extends Component {
         this.validateForm();
     }
 
-    filterReportReviewer(event) {
-        const {
-            reportReviewerSuggestions,
-            reportReviewerData
-        } = this.state;
-        
-        let results = reportReviewerData.filter((e) => {
-            return e.toLowerCase().startsWith(event.query.toLowerCase());
-        });
-        this.setState({ reportReviewerSuggestions: results });
-    }
-
     validateForm(){
         const { 
             modelParticipant 
         } = this.state;
-
         let message = '';
 
-        if(!modelParticipant.name)
-            message += 'Name cannot be blank.\n';
-
-        if(!modelParticipant.email)
-            message += 'Email cannot be blank.\n';
-
-        if(!validateEmail(modelParticipant.email))
-            message += 'Email not valid.\n';
+        if(!modelParticipant.name) message += 'Name cannot be blank.\n';
+        if(!modelParticipant.email) message += 'Email cannot be blank.\n';
+        if(!validateEmail(modelParticipant.email)) message += 'Email not valid.\n';
         
-        if(message)
-            this.setState({ submitDisabled: true  });
-        else
-            this.setState({ submitDisabled: false  });
+        if(message) this.setState({ submitDisabled: true  });
+        else this.setState({ submitDisabled: false  });
         
         this.setState({ messageValidation: message  });
-        
     }
 
-    handleSubmit(){
+    handleNewParticipant(){
         const { 
             modelParticipant 
         } = this.state;
-
         this.setState({ isLoading: true });
-
-         modelParticipant['status'] = 1; // waiting_for_feedback
-
-        
-        // values['id_project_status'] = 1; // Collecting Feedback
+        modelParticipant['status'] = 1; // waiting_for_feedback
         ParticipantAction.save(modelParticipant);
     }
 
@@ -167,8 +138,7 @@ class Participant extends Component {
             showFeedbackModal,
             currentParticipant,
             modelParticipant,
-            reportReviewerData,
-            reportReviewerSuggestions,
+            reportReviewerOptions,
             messageValidation,
             submitDisabled
         } = this.state;
@@ -196,10 +166,8 @@ class Participant extends Component {
                         <ParticipantForm
                             modelParticipant={modelParticipant}
                             updateModelParticipant={this.updateModelParticipant}
-                            handleSubmit={this.handleSubmit}
-                            reportReviewerData={reportReviewerData}
-                            reportReviewerSuggestions={reportReviewerSuggestions}
-                            filterReportReviewer={this.filterReportReviewer}
+                            handleNewParticipant={this.handleNewParticipant}
+                            listParticipants={listParticipants}
                             messageValidation={messageValidation}
                             submitDisabled={submitDisabled}
                         />

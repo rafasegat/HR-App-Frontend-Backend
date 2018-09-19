@@ -38,7 +38,7 @@ const ProviderCustomerList = (props) => {
                             width: 75,
                             Cell: row => (
                                 <div className="btn-action">
-                                    <BtnEdit handleEdit={handleEdit} row={row}/>
+                                    <BtnEdit handleEdit={handleEdit} param={row.original.id}/>
                                     <BtnDelete 
                                         handleDelete={handleDelete} 
                                         handleTooltip={handleTooltip} 
