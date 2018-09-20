@@ -62,8 +62,8 @@ const ParticipantList = (props) => {
                             Header: 'Action',
                             columns: [
                             {
-                                Header: "Edit",
-                                width: 100,
+                                Header: "",
+                                width: 75,
                                 Cell: row => (
                                     <BtnEdit handleEdit={openFeedbackModal} param={row.original.id}/>
                                   )

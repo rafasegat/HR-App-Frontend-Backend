@@ -7,7 +7,7 @@ import { reducer as formReducer } from 'redux-form'
 
 // Containers
 import App from './containers/App';
-import LoginPage from './containers/LoginPage';
+import LoginPage from './containers/Login/LoginPage';
 import PrivateRoute from './utils/Auth';
 import OrganizationPage from './containers/Organization/OrganizationPage';
 import ParticipantPage from './containers/Participant/ParticipantPage';

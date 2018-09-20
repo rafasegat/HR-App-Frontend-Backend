@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import 'whatwg-fetch';
-import { getFromStorage, setInStorage } from '../utils/Storage';
-import SignIn from '../components/Login/SignIn/SignIn';
-import Loading from '../components/Common/Loading';
+import { getFromStorage, setInStorage } from '../../utils/Storage';
+import SignIn from '../../components/Login/SignIn/SignIn';
+import Loading from '../../components/Common/Loading';
 
 class Login extends Component{
   constructor(props){
@@ -18,12 +18,10 @@ class Login extends Component{
       signUpEmail: '',
       signUpPassword: '',
     };
-
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
     this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
-
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
-
   } 
 
   componentDidMount(){
@@ -60,6 +58,12 @@ class Login extends Component{
     this.setState({
       signInPassword: event.target.value,
     });
+  }
+
+  handleKeyPress(e){
+    if (e.key === 'Enter') {
+      this.onSignIn();
+    }
   }
 
   onSignIn() {
@@ -112,7 +116,6 @@ class Login extends Component{
   }
 
   render() {
-
     const {
       isLoading,
       token,
@@ -140,6 +143,7 @@ class Login extends Component{
                   onTextboxChangeSignInPassword={this.onTextboxChangeSignInPassword}
                   onSignIn={this.onSignIn}
                   error={signInError}
+                  onKeyPress={this.handleKeyPress}
                 />
               </div>
             </div>

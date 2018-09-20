@@ -7,7 +7,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap'
 import ParticipantForm from '../../components/Participant/ParticipantForm';
 import ParticipantList from './ParticipantList';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
-import FeedbackForm from './FeedbackForm';
+import ParticipantFeedbackModal from './ParticipantFeedbackModal';
 import * as Action from '../../flux/participant/ParticipantAction';
 
 class Participant extends Component {
@@ -34,7 +34,6 @@ class Participant extends Component {
             submitDisabled: true
         };
         
-        // Events
         this.openParticipantModal = this.openParticipantModal.bind(this);
         this.closeParticipantModal = this.closeParticipantModal.bind(this);
         this.updateModelParticipant = this.updateModelParticipant.bind(this);
@@ -173,13 +172,12 @@ class Participant extends Component {
                         />
                     </ModalBody>
                 </Modal>
-
                 <Modal isOpen={showFeedbackModal} toggle={this.closeFeedbackModal} className={this.props.className}>
                     <ModalHeader toggle={this.closeFeedbackModal}>Feedback Manager</ModalHeader>
                     <ModalBody>
-                        <FeedbackForm
+                        <ParticipantFeedbackModal
                             currentParticipant={currentParticipant} 
-                            onSubmit={this.handleFeedbackSubmit}/>
+                            handleFeedbackSubmit={this.handleFeedbackSubmit}/>
                     </ModalBody>
                 </Modal>
 

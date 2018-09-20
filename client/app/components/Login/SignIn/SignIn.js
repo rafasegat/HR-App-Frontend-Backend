@@ -2,22 +2,20 @@ import React from 'react';
 
 const SignIn = props => {
     return (
-        <div className="signin">
+        <div className="signin" >
             <p>Sign In</p>
-            <input 
-                type="email" 
-                placeholder="Email" 
+            <input name="feeback360-email" type="email" placeholder="Email" 
                 value={props.email} 
-                onChange={props.onTextboxChangeSignInEmail} />
+                onChange={props.onTextboxChangeSignInEmail}
+                onKeyPress={props.onKeyPress}
+                />
             <br/>
-            <input 
-                type="password" 
-                placeholder="Password" 
+            <input  name="feeback360-password" type="password" placeholder="Password" 
                 value={props.password} 
-                onChange={props.onTextboxChangeSignInPassword}/>
+                onChange={props.onTextboxChangeSignInPassword}
+                onKeyPress={props.onKeyPress}/>
             <br />
-            <button className="btn-primary" 
-                onClick={props.onSignIn}>
+            <button className="btn-primary" onClick={props.onSignIn} >
                 Sign In
             </button>
             <br />

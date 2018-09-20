@@ -98,13 +98,25 @@
     background: rgba(0, 0, 0, 0.1);
 }
 
-.ReactTable .rt-th, .ReactTable .rt-td{
-     overflow: visible;
+.ReactTable {
+    .rt-th, .ReactTable .rt-td{
+        overflow: visible;
+   }
+   .rt-tbody{
+        overflow: visible;
+   }
+   .center{
+       text-align: center;
+   }
+   .left{
+       text-align: left;
+   }
+   .right{
+       text-align: right;
+   }
 }
 
-.ReactTable .rt-tbody{
-    overflow: visible;
-}
+.ReactTable 
 
  .btn-delete { 
      position: relative;
