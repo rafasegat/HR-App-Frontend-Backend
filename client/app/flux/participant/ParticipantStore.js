@@ -101,18 +101,13 @@ class ParticipantStore extends Store{
                             id_project:  ${payload.id_project} 
                         )
                         { 
-                            id, 
-                            name, 
-                            email, 
-                            position, 
-                            status, 
-                            self_assessment, 
-                            choose_own_feedback_provider, 
-                            feedback_provider_needs_approval, 
-                            id_participant_feedback_reviewer,
-                            provider_relationship, 
-                            provider_status,
-                            pk_id_provider
+                            id
+                            id_provider
+                            name
+                            email
+                            position
+                            status
+                            relationship
                         } 
                     }` ;
         fetch('/graphql', {

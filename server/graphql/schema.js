@@ -38,19 +38,13 @@ module.exports.graphql_schema = buildSchema(`
     }
 
     type Provider {
-        id: Int!
+        id: Int
+        id_provider: Int
         name: String!
-        email: String
+        email: String!
         position: String
         status: Int
-        self_assessment: Int
-        choose_own_feedback_provider: Int
-        feedback_provider_needs_approval: Int
-        id_participant_feedback_reviewer: Int,
-        pk_id_provider: Int!
-        provider_relationship: Int,
-        provider_status: Int
-
+        relationship: Int
     }
 
     type ProviderCustomer {

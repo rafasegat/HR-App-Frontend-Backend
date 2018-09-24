@@ -6,7 +6,7 @@ const ProviderList = (props) => {
     const { 
         listProviders
     } = props;
-
+    
     return(
         <div className="providers">
             <ReactTable
@@ -19,7 +19,7 @@ const ProviderList = (props) => {
                 },
                 {
                     Header: "Relationship",
-                    accessor: "provider_relationship",
+                    accessor: "relationship",
                     width: 150,
                     Cell: row => (
                         <span>
@@ -29,7 +29,7 @@ const ProviderList = (props) => {
                 },
                 {
                     Header: "Status",
-                    accessor: "provider_status",
+                    accessor: "status",
                     width: 100,
                     Cell: row => (
                         <span>
@@ -54,7 +54,7 @@ const ProviderList = (props) => {
                     className: "center",
                     width: 100,
                     Cell: row => (
-                        <i className="far fa-trash-alt btn-icon" onClick={event => props.handleDeleteProvider(row.original.pk_id_provider)}></i>
+                        <i className="far fa-trash-alt btn-icon" onClick={event => props.handleDeleteProvider(row.original.id)}></i>
                     )
                 },
                 ]}

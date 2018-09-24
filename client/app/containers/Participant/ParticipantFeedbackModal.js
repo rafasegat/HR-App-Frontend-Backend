@@ -100,6 +100,14 @@ class ParticipantFeedbackModal extends Component {
         });
     }
 
+    componentWillUnmount(){
+        console.log('bye bye')
+        this.setState({ 
+            listProviders: [],
+            listProviderCustomers: []
+        });
+    }
+
     toggle(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
