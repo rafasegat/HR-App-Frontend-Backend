@@ -93,7 +93,6 @@ class ParticipantFeedbackModal extends Component {
         ProviderCustomerAction.all({ 
             id_organization: id_organization 
         });
-
         this.updateModelProvider({
             field: 'relationship',
             value: relationship_provider_info.self_assessment.key
@@ -168,8 +167,6 @@ class ParticipantFeedbackModal extends Component {
             });
         }
     }
-
-    
 
     validateForm(){
         const { 
@@ -293,7 +290,11 @@ class ParticipantFeedbackModal extends Component {
             return (<Loading />);
 
         return(
-            <div>
+            <div className="participant-feedback-modal">
+                <div className="participant-info">
+                    <h5>Participant: {currentParticipant.name} - {currentParticipant.position}</h5>
+                    <h5>Status: {status!=undefined && status.name}</h5>
+                </div>
                 <Nav tabs>
                     <NavItem>
                         <NavLink className="active" onClick={() => { this.toggle('1'); }} >
@@ -313,13 +314,10 @@ class ParticipantFeedbackModal extends Component {
                 </Nav>
 
                 <TabContent activeTab={this.state.activeTab}>
-                    
                     <TabPane tabId="1">
                         <Row>
                             <Col sm="12">
-                                
                                 <h4>List of Feedback Providers</h4>
-                                <h5>Status: {status!=undefined && status.name}</h5>
                                 <ProviderList 
                                     listProviders={listProviders}
                                     currentParticipant={currentParticipant}

@@ -29,7 +29,7 @@ h3{
 
 h4{
     font-size: 18px;
-    font-style: italic;
+    font-weight: 600;
 }
 
 h5{
@@ -164,4 +164,9 @@ header {
     }
 }
 
+.participant-feedback-modal {
+    .participant-info {
+        margin-bottom: 10px;
+    }
 
+}
