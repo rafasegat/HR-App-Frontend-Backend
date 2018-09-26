@@ -38,7 +38,7 @@ const ParticipantTaskList = (props) => {
                                     &#x25cf;&nbsp;
                                     </span> 
                                     {
-                                        row.value === 1 ? 'Waiting for feedback'
+                                      row.value === 1 ? 'Waiting for feedback'
                                     : row.value === 2 ? 'Choosing feedback providers'
                                     : row.value === 3 ? 'Choosing feedback providers'
                                     : '--'

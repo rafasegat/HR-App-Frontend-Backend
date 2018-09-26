@@ -184,7 +184,6 @@ class ParticipantFeedbackModal extends Component {
         let message = '';
 
         if( modelProvider.relationship == relationship_provider_info.self_assessment.key){
-            console.log(listProviders)
             message += 'Participant is already Self Assessing.\n';
         }
 
