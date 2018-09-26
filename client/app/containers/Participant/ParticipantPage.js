@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router'
 import { getFromStorage } from '../../utils/Storage';
 import Loading from '../../components/Common/Loading';
 import { validateEmail } from '../../utils/Tools'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody  } from 'reactstrap';
 import ParticipantForm from '../../components/Participant/ParticipantForm';
 import ParticipantList from './ParticipantList';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
 import ParticipantFeedbackModal from './ParticipantFeedbackModal';
 import * as Action from '../../flux/participant/ParticipantAction';
 
-class Participant extends Component {
+
+class Participant extends Component { 
     constructor(props, match){
         super(props);
         this.state = {
@@ -180,7 +180,6 @@ class Participant extends Component {
                             handleFeedbackSubmit={this.handleFeedbackSubmit}/>
                     </ModalBody>
                 </Modal>
-
             </section>
         );
     }

@@ -30,6 +30,25 @@ exports.getAllLessCurrent = (args) => {
     .catch( err => { return { status: "Error 500: "+err }; });
 };
 
+exports.getParticipantTasks = (args) => {
+    return ProviderModel
+    .query()
+    .select(
+        'a.name as name_participant_feedback_receiver',
+        'a.email as email_participant_feedback_receiver',
+        'a.position as position_participant_feedback_receiver',
+        'provider.status as status',
+        'provider.relationship as relationship_participant_feedback_receiver'
+    )
+    .join('participant as a', 'a.id', 'provider.id_participant')
+    .where({
+        'id_project': args.id_project,
+        'provider.id_provider': args.id_participant
+    })
+    .then( results => { return results; })
+    .catch( err => { return { status: "Error 500: "+err }; });
+};
+
 exports.getProvidersByParticipant = (args) => {
     return ProviderModel
       .query()

@@ -166,3 +166,12 @@
 .tab-content {
     padding-top: 15px;
 }
+
+
+.nav-tabs {
+    li.nav-item{
+        a{
+            cursor: pointer;
+        }
+    }
+}

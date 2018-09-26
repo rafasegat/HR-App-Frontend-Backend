@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
-import {validateEmail} from '../../utils/Tools'
+import {validateEmail} from '../../utils/Tools';
 import { getFromStorage } from '../../utils/Storage';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 import { status as statusParticipant } from '../../flux/participant/ParticipantAction';
 import Loading from '../../components/Common/Loading';
-
+import ParticipantTasksList from '../../components/Participant/ParticipantTasksList';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
 import * as ActionParticipant from '../../flux/participant/ParticipantAction';
-
 import ProviderAction from '../../flux/provider/ProviderAction';
 import * as ActionProvider from '../../flux/provider/ProviderAction';
-
 import ProviderCustomerAction from '../../flux/provider-customer/ProviderCustomerAction';
 import * as ActionProviderCustomer from '../../flux/provider-customer/ProviderCustomerAction';
-
 import { relationship_provider_info, status_provider_info } from '../../flux/provider/ProviderAction';
-
 import AddProviderForm from '../../components/Provider/AddProviderForm';
 
 
@@ -33,6 +29,7 @@ class ParticipantFeedbackModal extends Component {
         this.state = {
             listProviders: [],
             listProviderCustomers: [],
+            listParticipantTasks: [],
             currentParticipant: props.currentParticipant,
             id_participant: id_participant,
             id_project: id_project,
@@ -52,7 +49,7 @@ class ParticipantFeedbackModal extends Component {
             participantProviderOptions: []
         };
 
-        this.toggle = this.toggle.bind(this);
+        this.handleChangeTab = this.handleChangeTab.bind(this);
         this.updateModelProvider = this.updateModelProvider.bind(this);
         this.handleSubmitAddProvider = this.handleSubmitAddProvider.bind(this);
         this.handleDeleteProvider = this.handleDeleteProvider.bind(this);
@@ -84,6 +81,11 @@ class ParticipantFeedbackModal extends Component {
         ParticipantAction.all({ 
             id_project: id_project 
         });
+        // tasks
+        ParticipantAction.tasks({ 
+            id_project: id_project,
+            id_participant: id_participant
+        });
         // All participants less the current
         ParticipantAction.allLessCurrent({ 
             id_project: id_project,
@@ -107,7 +109,7 @@ class ParticipantFeedbackModal extends Component {
         });
     }
 
-    toggle(tab) {
+    handleChangeTab(tab) {
         if (this.state.activeTab !== tab) {
             this.setState({
                 activeTab: tab
@@ -122,6 +124,12 @@ class ParticipantFeedbackModal extends Component {
             currentInstance.setState({
                 //isLoading: false,
                 listProviders: payload.data
+            });
+        }
+        if(type==ActionParticipant.TASKS){
+            currentInstance.setState({
+                isLoading: false,
+                listParticipantTasks: payload.data
             });
         }
         if(type===ActionParticipant.ALL_LESS_CURRENT){
@@ -174,6 +182,11 @@ class ParticipantFeedbackModal extends Component {
         } = this.state;
 
         let message = '';
+
+        if( modelProvider.relationship == relationship_provider_info.self_assessment.key){
+            console.log(listProviders)
+            message += 'Participant is already Self Assessing.\n';
+        }
 
         // Relationship Manager/Peer/DirectReport
         if( modelProvider.relationship == relationship_provider_info.line_manager.key ||
@@ -246,7 +259,6 @@ class ParticipantFeedbackModal extends Component {
          ) {
                 aux['id_provider_customer'] = null;
         }
-        console.log(modelProvider)
         this.setState({
             modelProvider: aux
         });
@@ -275,13 +287,14 @@ class ParticipantFeedbackModal extends Component {
         const {
             listProviders,
             listProviderCustomers,
+            listParticipantTasks,
             currentParticipant,
-            showAddProvider,
             modelProvider,
             messageValidation,
             submitDisabled,
             participantProviderOptions,
-            isLoading
+            isLoading,
+            activeTab
         } = this.state;
         
         let status = statusParticipant.find(x => x.id_status === currentParticipant.status);
@@ -297,30 +310,31 @@ class ParticipantFeedbackModal extends Component {
                 </div>
                 <Nav tabs>
                     <NavItem>
-                        <NavLink className="active" onClick={() => { this.toggle('1'); }} >
+                        <NavLink 
+                            className={activeTab=='1' && 'active'}
+                            onClick={() => { this.handleChangeTab('1'); }} 
+                        >
                             Feedback Providers
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink onClick={() => { this.toggle('2'); }} >
+                        <NavLink 
+                            className={activeTab=='2' && 'active'}
+                            onClick={() => { this.handleChangeTab('2'); }} 
+                        >
                             Tasks
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink onClick={() => { this.toggle('3'); }} >
-                            Profile Settings
                         </NavLink>
                     </NavItem>
                 </Nav>
 
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={activeTab}>
                     <TabPane tabId="1">
                         <Row>
                             <Col sm="12">
                                 <h4>List of Feedback Providers</h4>
+                                <p>These participants will give feedback for {currentParticipant.name}.</p>
                                 <ProviderList 
                                     listProviders={listProviders}
-                                    currentParticipant={currentParticipant}
                                     handleDeleteProvider={this.handleDeleteProvider}
                                 />
                                 <AddProviderForm  
@@ -339,21 +353,15 @@ class ParticipantFeedbackModal extends Component {
                     
                     <TabPane tabId="2">
                         <Row>
-                        <Col sm="12">
+                            <Col sm="12">
 
-                            <h4>Tab 2 Contents</h4>
+                                <h4>List of Tasks</h4>
+                                <p>That's the tasks that {currentParticipant.name} must complete.</p>
+                                <ParticipantTasksList 
+                                    listParticipantTasks={listParticipantTasks}
+                                />
 
-                        </Col>
-                        </Row>
-                    </TabPane>
-
-                    <TabPane tabId="3">
-                        <Row>
-                        <Col sm="12">
-
-                            <h4>Tab 3 Contents</h4>
-
-                        </Col>
+                            </Col>
                         </Row>
                     </TabPane>
 

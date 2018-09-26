@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Route, Redirect, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import { getFromStorage, setInStorage } from '../utils/Storage';
-import PropTypes from 'prop-types';
 import Sidebar from '../components/Common/Sidebar'; 
 import Footer from '../components/Common/Footer';
 import HeaderMain from '../components/Common/Header/HeaderMain';
 import HeaderLogin from '../components/Common/Header/HeaderLogin';
 import LoadingProvider from '../context/Loading.context';
-import Loading from '../components/Common/Loading';
 
 class App extends Component{
   constructor(props){

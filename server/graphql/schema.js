@@ -37,6 +37,14 @@ module.exports.graphql_schema = buildSchema(`
         id_participant_feedback_reviewer: Int
     }
 
+    type ParticipantTasks {
+        name_participant_feedback_receiver: String, 
+        email_participant_feedback_receiver: String,
+        position_participant_feedback_receiver: String, 
+        status: Int,
+        relationship_participant_feedback_receiver: Int
+    }
+
     type Provider {
         id: Int
         id_provider: Int
@@ -70,6 +78,8 @@ module.exports.graphql_schema = buildSchema(`
         participants(id_project: ID!): [Participant]
 
         participantsLessCurrent(id_project: ID!, id_participant: ID!): [Participant]
+
+        participantTasks(id_project: ID!, id_participant: ID!): [ParticipantTasks]
 
         providersByParticipant(id_participant: ID!, id_project: ID!): [Provider]
 

@@ -1,6 +1,4 @@
 import React from 'react';
-import {AutoComplete} from 'primereact/components/autocomplete/AutoComplete';
-import {SelectButton} from 'primereact/components/selectbutton/SelectButton';
 import {InputText} from 'primereact/components/inputtext/InputText';
 import {Button} from 'primereact/components/button/Button';
 import {relationship_provider, relationship_provider_info} from '../../flux/provider/ProviderAction';

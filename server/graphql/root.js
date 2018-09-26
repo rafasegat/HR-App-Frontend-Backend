@@ -25,6 +25,9 @@ module.exports.graphql_root = {
     participantsLessCurrent: (args) => {
         return ParticipantCtrl.getAllLessCurrent(args);
     },
+    participantTasks: (args) => {
+        return ParticipantCtrl.getParticipantTasks(args);
+    },
 
     // Providers
     providersByParticipant: (args) => {

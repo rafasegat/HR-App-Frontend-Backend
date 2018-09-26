@@ -2,18 +2,19 @@ import React from 'react';
 import ReactTable from "react-table";
 import BtnEdit from '../../components/Form/BtnEdit';
 
+import "./ParticipantList.scss";
+
 const ParticipantList = (props) => {
     const { 
         list,
         openParticipantModal,
-        openFeedbackModal,
-        redirectParticipants
+        openFeedbackModal
     } = props;
     
     return(
         <div className="participants">
             {list!=undefined && list.length > 0  ? 
-               <div>
+               <div className="participants-list">
                     <ReactTable
                         data={list}
                         columns={[
@@ -59,11 +60,12 @@ const ParticipantList = (props) => {
                             ]
                         },
                         {
-                            Header: 'Action',
+                            Header: '',
                             columns: [
                             {
-                                Header: "",
-                                width: 75,
+                                Header: "Action",
+                                className: 'center',
+                                width: 100,
                                 Cell: row => (
                                     <BtnEdit handleEdit={openFeedbackModal} param={row.original.id}/>
                                   )
