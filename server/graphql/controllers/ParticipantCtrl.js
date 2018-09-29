@@ -59,7 +59,8 @@ exports.getProvidersByParticipant = (args) => {
         raw('if(??=5 or ??=6, ??, ??) as ??', ['provider.relationship', 'provider.relationship', 'b.email', 'a.email', 'email']),
         raw('if(??=5 or ??=6, "External Customer/Supplier", ??) as ??', ['provider.relationship', 'provider.relationship', 'a.position', 'position']),
         'provider.status as status',
-        'provider.relationship as relationship'
+        'provider.relationship as relationship',
+        'provider.id_provider_customer as id_provider_customer'
       )
       .leftJoin('participant as a', 'a.id', 'provider.id_provider')
       .leftJoin('provider_customer as b', 'b.id', 'provider.id_provider_customer')

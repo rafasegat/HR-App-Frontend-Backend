@@ -102,7 +102,10 @@
 }
 
 .ReactTable {
-    .rt-th, .ReactTable .rt-td{
+    .rt-th{
+        overflow: visible;
+   }
+   .rt-td{
         overflow: visible;
    }
    .rt-tbody{

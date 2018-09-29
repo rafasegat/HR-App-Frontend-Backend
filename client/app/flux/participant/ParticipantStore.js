@@ -136,7 +136,8 @@ class ParticipantStore extends Store{
                             email
                             position
                             status
-                            relationship
+                            relationship,
+                            id_provider_customer
                         } 
                     }` ;
         fetch('/graphql', {

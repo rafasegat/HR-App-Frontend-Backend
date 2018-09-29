@@ -7,18 +7,26 @@ import ParticipantForm from '../../components/Participant/ParticipantForm';
 import ParticipantList from './ParticipantList';
 import ParticipantAction from '../../flux/participant/ParticipantAction';
 import ParticipantFeedbackModal from './ParticipantFeedbackModal';
+import ProviderCustomerAction from '../../flux/provider-customer/ProviderCustomerAction';
+import * as ActionProviderCustomer from '../../flux/provider-customer/ProviderCustomerAction';
 import * as Action from '../../flux/participant/ParticipantAction';
 
 
 class Participant extends Component { 
     constructor(props, match){
         super(props);
+
+        let id_project = getFromStorage('FB360_Project').id,
+            id_organization = getFromStorage('FB360_Organization').id;
+
         this.state = {
             isLoading: false,
             listParticipants: [],
+            listProviderCustomers: [],
             showParticipantModal: false,
             showFeedbackModal: false,
-            id_project: getFromStorage('FB360_Project').id,
+            id_project: id_project,
+            id_organization: id_organization,
             currentParticipant: [],
             reportReviewerOptions: [],
             modelParticipant: {
@@ -43,7 +51,7 @@ class Participant extends Component {
 
         let currentInstance = this;
         ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
-
+        ProviderCustomerAction.addListener((type, payload)=>currentInstance.onProviderCustomerStoreChanged(type, payload, currentInstance));
     }
 
     onParticipantStoreChanged(type, payload, currentInstance){
@@ -62,14 +70,31 @@ class Participant extends Component {
         }
     }
 
+    onProviderCustomerStoreChanged(type, payload, currentInstance){
+        if(type===ActionProviderCustomer.ALL){
+            currentInstance.setState({
+                isLoading: false,
+                listProviderCustomers: payload.data
+            });
+        }
+    }
+
     componentDidMount(){
-        const { id_project } = this.state;
+        const { id_project, id_organization } = this.state;
 
         // If there's no organization, let's go back
         if(!id_project)
             this.props.history.push('/organizations');
-        
+
+
         this.setState({ isLoading: true });
+
+        //Customers
+        ProviderCustomerAction.all({ 
+            id_organization: id_organization 
+        });
+        
+        // Participants
         ParticipantAction.all({ id_project: id_project });
     }
 
@@ -133,6 +158,7 @@ class Participant extends Component {
         const {
             isLoading,
             listParticipants,
+            listProviderCustomers,
             showParticipantModal,
             showFeedbackModal,
             currentParticipant,
@@ -177,7 +203,9 @@ class Participant extends Component {
                     <ModalBody>
                         <ParticipantFeedbackModal
                             currentParticipant={currentParticipant} 
-                            handleFeedbackSubmit={this.handleFeedbackSubmit}/>
+                            handleFeedbackSubmit={this.handleFeedbackSubmit}
+                            listProviderCustomers={listProviderCustomers}
+                        />
                     </ModalBody>
                 </Modal>
             </section>

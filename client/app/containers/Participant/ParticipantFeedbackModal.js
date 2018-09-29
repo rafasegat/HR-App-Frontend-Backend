@@ -9,8 +9,6 @@ import ParticipantAction from '../../flux/participant/ParticipantAction';
 import * as ActionParticipant from '../../flux/participant/ParticipantAction';
 import ProviderAction from '../../flux/provider/ProviderAction';
 import * as ActionProvider from '../../flux/provider/ProviderAction';
-import ProviderCustomerAction from '../../flux/provider-customer/ProviderCustomerAction';
-import * as ActionProviderCustomer from '../../flux/provider-customer/ProviderCustomerAction';
 import { relationship_provider_info, status_provider_info } from '../../flux/provider/ProviderAction';
 import AddProviderForm from '../../components/Provider/AddProviderForm';
 
@@ -25,10 +23,10 @@ class ParticipantFeedbackModal extends Component {
         let id_participant = props.currentParticipant.id,
             id_project = getFromStorage('FB360_Project').id,
             id_organization = getFromStorage('FB360_Organization').id;
-
+        console.log(props.listProviderCustomers);
         this.state = {
             listProviders: [],
-            listProviderCustomers: [],
+            listProviderCustomers: props.listProviderCustomers,
             listParticipantTasks: [],
             currentParticipant: props.currentParticipant,
             id_participant: id_participant,
@@ -57,7 +55,6 @@ class ParticipantFeedbackModal extends Component {
         let currentInstance = this;
         ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
         ProviderAction.addListener((type, payload)=>currentInstance.onProviderStoreChanged(type, payload, currentInstance));
-        ProviderCustomerAction.addListener((type, payload)=>currentInstance.onProviderCustomerStoreChanged(type, payload, currentInstance));
     }
 
     componentDidMount(){
@@ -81,7 +78,7 @@ class ParticipantFeedbackModal extends Component {
         ParticipantAction.all({ 
             id_project: id_project 
         });
-        // tasks
+        // Tasks
         ParticipantAction.tasks({ 
             id_project: id_project,
             id_participant: id_participant
@@ -91,21 +88,18 @@ class ParticipantFeedbackModal extends Component {
             id_project: id_project,
             id_participant: id_participant
         });
-        //Customers
-        ProviderCustomerAction.all({ 
-            id_organization: id_organization 
-        });
+        
         this.updateModelProvider({
             field: 'relationship',
             value: relationship_provider_info.self_assessment.key
         });
+        this.validateForm();
     }
 
     componentWillUnmount(){
         console.log('bye bye')
         this.setState({ 
-            listProviders: [],
-            listProviderCustomers: []
+            listProviders: []
         });
     }
 
@@ -122,9 +116,15 @@ class ParticipantFeedbackModal extends Component {
 
         if(type===ActionParticipant.PROVIDERS){
             currentInstance.setState({
-                //isLoading: false,
+                isLoading: false,
                 listProviders: payload.data
             });
+            // Reset
+            this.updateModelProvider({
+                field: 'relationship',
+                value: relationship_provider_info.self_assessment.key
+            });
+            this.validateForm();
         }
         if(type==ActionParticipant.TASKS){
             currentInstance.setState({
@@ -167,62 +167,60 @@ class ParticipantFeedbackModal extends Component {
         }
     }
 
-    onProviderCustomerStoreChanged(type, payload, currentInstance){
-        if(type===ActionProviderCustomer.ALL){
-            currentInstance.setState({
-                isLoading: false,
-                listProviderCustomers: payload.data
-            });
-        }
-    }
-
     validateForm(){
         const { 
-            modelProvider 
+            modelProvider,
+            listProviders
         } = this.state;
 
-        let message = '';
+        let message = '',
+            aux_provider = null;
 
         if( modelProvider.relationship == relationship_provider_info.self_assessment.key){
-            message += 'Participant is already Self Assessing.\n';
+            aux_provider = listProviders.filter((e) => { return e.id_provider==modelProvider.id_provider; });
+            if(aux_provider.length > 0 )
+                message += 'Participant is already Self Assessing.\n';
         }
 
         // Relationship Manager/Peer/DirectReport
         if( modelProvider.relationship == relationship_provider_info.line_manager.key ||
             modelProvider.relationship == relationship_provider_info.peer.key ||
             modelProvider.relationship == relationship_provider_info.direct_report.key ){
-
             if(!modelProvider.id_provider)
                 message += 'Participant Provider cannot be blank.\n';
-
+            
+            aux_provider = listProviders.filter((e) => { return e.id_provider==modelProvider.id_provider; })
+            if(aux_provider.length > 0 && modelProvider.id_provider)
+                message += aux_provider[0].name + ' is already a Provider.\n';
         }
 
         // Relationship Customer or Supplier
         if( modelProvider.relationship == relationship_provider_info.customer.key ||
             modelProvider.relationship == relationship_provider_info.supplier.key ){
-
             if(!modelProvider.id_provider_customer)
                 message += 'External Customer cannot be blank.\n';
-
+            
+            aux_provider = listProviders.filter((e) => { return e.id_provider_customer==modelProvider.id_provider_customer; })
+            if(aux_provider.length > 0 && modelProvider.id_provider_customer)
+                message += 'Customer: ' + aux_provider[0].name + ' is already a Provider.\n';
+            
         }
 
 
         if( modelProvider.relationship == relationship_provider_info.customer.key ||
             modelProvider.relationship == relationship_provider_info.supplier.key ){
-
-                if(modelProvider.id_provider)
-                    message += 'Provider must be blank.\n';
-
+            if(modelProvider.id_provider)
+                message += 'Provider must be blank.\n';
         }
 
         if(!modelProvider.relationship)
             message += 'Select Relationship.\n';
         
-        if(message)
+        if(message){
             this.setState({ submitDisabled: true  });
-        else
+        } else {
             this.setState({ submitDisabled: false  });
-        
+        }
         this.setState({ messageValidation: message  });
         
     }

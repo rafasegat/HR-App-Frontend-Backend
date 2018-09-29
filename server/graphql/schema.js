@@ -53,6 +53,7 @@ module.exports.graphql_schema = buildSchema(`
         position: String
         status: Int
         relationship: Int
+        id_provider_customer: Int
     }
 
     type ProviderCustomer {
