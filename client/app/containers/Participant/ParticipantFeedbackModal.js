@@ -23,7 +23,7 @@ class ParticipantFeedbackModal extends Component {
         let id_participant = props.currentParticipant.id,
             id_project = getFromStorage('FB360_Project').id,
             id_organization = getFromStorage('FB360_Organization').id;
-        console.log(props.listProviderCustomers);
+            
         this.state = {
             listProviders: [],
             listProviderCustomers: props.listProviderCustomers,
@@ -74,10 +74,6 @@ class ParticipantFeedbackModal extends Component {
             id_participant: id_participant,
             id_project: id_project
         });
-        // All participants
-        ParticipantAction.all({ 
-            id_project: id_project 
-        });
         // Tasks
         ParticipantAction.tasks({ 
             id_project: id_project,
@@ -96,12 +92,6 @@ class ParticipantFeedbackModal extends Component {
         this.validateForm();
     }
 
-    componentWillUnmount(){
-        console.log('bye bye')
-        this.setState({ 
-            listProviders: []
-        });
-    }
 
     handleChangeTab(tab) {
         if (this.state.activeTab !== tab) {
@@ -113,7 +103,6 @@ class ParticipantFeedbackModal extends Component {
 
     onParticipantStoreChanged(type, payload, currentInstance){
         const { id_project } = this.state;
-
         if(type===ActionParticipant.PROVIDERS){
             currentInstance.setState({
                 isLoading: false,
@@ -177,9 +166,13 @@ class ParticipantFeedbackModal extends Component {
             aux_provider = null;
 
         if( modelProvider.relationship == relationship_provider_info.self_assessment.key){
-            aux_provider = listProviders.filter((e) => { return e.id_provider==modelProvider.id_provider; });
-            if(aux_provider.length > 0 )
-                message += 'Participant is already Self Assessing.\n';
+            if(listProviders && listProviders.length > 0){
+                if(listProviders[0]){
+                    aux_provider = listProviders.filter((e) => { return e.id_provider==modelProvider.id_provider; });
+                    if(aux_provider.length > 0 )
+                        message += 'Participant is already Self Assessing.\n';
+                }
+            }
         }
 
         // Relationship Manager/Peer/DirectReport
@@ -308,7 +301,7 @@ class ParticipantFeedbackModal extends Component {
                 <Nav tabs>
                     <NavItem>
                         <NavLink 
-                            className={activeTab=='1' && 'active'}
+                            className={activeTab=='1' ? 'active' : ''}
                             onClick={() => { this.handleChangeTab('1'); }} 
                         >
                             Feedback Providers
@@ -316,7 +309,7 @@ class ParticipantFeedbackModal extends Component {
                     </NavItem>
                     <NavItem>
                         <NavLink 
-                            className={activeTab=='2' && 'active'}
+                            className={activeTab=='2' ? 'active' : ''}
                             onClick={() => { this.handleChangeTab('2'); }} 
                         >
                             Tasks

@@ -17,6 +17,7 @@ class OrganizationStore extends Store{
 
     save(type, payload){
         let instance = this;
+        if(payload.id == -1) delete payload.id;
         fetch('/api/organization/save', {
             method: 'POST',
             headers: instance.headers(),

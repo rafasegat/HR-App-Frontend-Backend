@@ -17,7 +17,16 @@ class Participant extends Component {
         super(props);
 
         let id_project = getFromStorage('FB360_Project').id,
-            id_organization = getFromStorage('FB360_Organization').id;
+            id_organization = getFromStorage('FB360_Organization').id,
+            model = {
+                name: '',
+                email: '',
+                position: '',
+                self_assessment: true,
+                choose_own_feedback_provider: true,
+                feedback_provider_needs_approval: false,
+                id_participant_feedback_reviewer: null
+            };
 
         this.state = {
             isLoading: false,
@@ -29,15 +38,7 @@ class Participant extends Component {
             id_organization: id_organization,
             currentParticipant: [],
             reportReviewerOptions: [],
-            modelParticipant: {
-                name: '',
-                email: '',
-                position: '',
-                self_assessment: true,
-                choose_own_feedback_provider: true,
-                feedback_provider_needs_approval: false,
-                id_participant_feedback_reviewer: null
-            },
+            modelParticipant: model,
             messageValidation: '',
             submitDisabled: true
         };
@@ -48,6 +49,7 @@ class Participant extends Component {
         this.openFeedbackModal = this.openFeedbackModal.bind(this);
         this.closeFeedbackModal = this.closeFeedbackModal.bind(this);
         this.handleNewParticipant = this.handleNewParticipant.bind(this);
+        this.handleEditParticipant = this.handleEditParticipant.bind(this);
 
         let currentInstance = this;
         ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
@@ -154,6 +156,26 @@ class Participant extends Component {
         ParticipantAction.save(modelParticipant);
     }
 
+    handleEditParticipant(){
+        const {
+            listParticipants,
+            modelParticipant
+        } = this.state;
+        const currentRow = listParticipants.filter((el) => {
+            return el.id == id;
+        });
+        let aux = {};
+        for(var prop in currentRow[0]){
+            if(modelParticipant.hasOwnProperty(prop)){
+                aux[prop] = currentRow[0][prop];
+            }
+        }
+        this.setState({ 
+            modelParticipant: aux 
+        });
+        this.openModal();
+    }
+
     render() {
         const {
             isLoading,
@@ -205,6 +227,7 @@ class Participant extends Component {
                             currentParticipant={currentParticipant} 
                             handleFeedbackSubmit={this.handleFeedbackSubmit}
                             listProviderCustomers={listProviderCustomers}
+                            listParticipants={listParticipants}
                         />
                     </ModalBody>
                 </Modal>

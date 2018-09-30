@@ -5,18 +5,38 @@ const Tools = require('../common/tools');
 exports.save = (req, res, next) => {
     const { body } = req;
     const { data } = body;
+    const { param } = body;
     
-    if (!data.name)
-        return res.send({ success: false, message: 'Error: Name cannot be blank.' });
-
-    if(data.id){
-        // Update
-    } else {
-        Organization.query().insert(data)
-        .then( json => {
-            if(!json.id) return res.send({ status: "Not added.", data: json });
-            return res.send({ status: 'success', data: json });
+    if(data.id > 0){
+        Organization
+        .query()
+        .update(data)
+        .where({
+            id: data.id
         })
-        .catch( err => { return res.status(500).send({ status: "Error 500: "+err }); });
+        .then( json => {
+            if(!json.id)
+                return res.send({ status: 'Error: Organization Not Updated.' });
+
+            return res.send({ status: 'success' });
+                
+        })
+        .catch( err => {
+            return res.status(500).send({ status: "Error 500: "+err });
+        });
+    } else {
+        Organization
+        .query()
+        .insert(data)
+        .then( json => {
+            if(!json.id)
+                return res.send({ status: 'Error: Organization Not added.' });
+
+            return res.send({ status: 'success' });
+                
+        })
+        .catch( err => {
+            return res.status(500).send({ status: "Error 500: "+err });
+        });
     }
-  }
+}

@@ -1,7 +1,6 @@
 import Dispatcher from "../Dispatcher";
 import Store from "../Store";
 import 'whatwg-fetch';
-import { getFromStorage } from '../../utils/Storage';
 import * as Action from '../../flux/project/ProjectAction';
 
 class ProjectStore extends Store{
@@ -16,6 +15,7 @@ class ProjectStore extends Store{
 
     save(type, payload){
         let instance = this;
+        if(payload.id == -1) delete payload.id;
         fetch('/api/project/save', {
             method: 'POST',
             headers: instance.headers(),

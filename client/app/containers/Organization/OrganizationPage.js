@@ -1,37 +1,43 @@
 import React, { Component } from 'react';
-import { Route, Redirect, withRouter } from 'react-router'
 import { getFromStorage } from '../../utils/Storage';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
-import OrganizationForm from '../../components/Organization/Form';
-
+import OrganizationForm from '../../components/Organization/OrganizationForm';
 import OrganizationAction from '../../flux/organization/OrganizationAction';
 import * as Action from '../../flux/organization/OrganizationAction';
-
-//Context
-import { LoadingContext } from '../../context/Loading.context';
+import { organization_status_info } from '../../flux/organization/OrganizationAction';
 
 class Organization extends Component {
     constructor(props){
         super(props);
+
+        let user = getFromStorage('FB360_Token').user,
+            model = {
+                id: -1,
+                name: '',
+                id_user: user,
+                status: organization_status_info.in_progress.key
+            };
+
         this.state = {
             isLoading: false,
             isLogged: true,
             listOrganizations: [],
             showModal: false,
-            modelOrganization: {
-                name: '',
-                id_user: getFromStorage('FB360_Token').user
-            },
+            modelCurrent: model,
+            modelCurrentDefault: model,
             messageValidation: '',
             submitDisabled: true
         };
         
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.redirectToProjects = this.redirectToProjects.bind(this)
+        this.updateModel = this.updateModel.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleNew = this.handleNew.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.updateModelOrganization = this.updateModelOrganization.bind(this);
 
         let currentInstance = this;
         OrganizationAction.addListener((type, payload)=>currentInstance.onOrganizationStoreChanged(type, payload, currentInstance));
@@ -67,40 +73,80 @@ class Organization extends Component {
         this.setState({ showModal: true });
     }
 
-    updateModelOrganization(data){
-        const { 
-            modelOrganization 
+    refreshModel(){
+        const {
+            modelCurrent,
+            modelCurrentDefault
         } = this.state;
-        let aux = modelOrganization;
+        let aux = {};
+        for(var prop in modelCurrentDefault)
+            aux[prop] = modelCurrentDefault[prop];
+
+        this.setState({ 
+            modelCurrent: aux 
+        });
+    }
+
+    updateModel(data){
+        const { 
+            modelCurrent 
+        } = this.state;
+        let aux = modelCurrent;
         aux[data.field] = data.value;
         this.setState({
-            modelOrganization: aux
+            modelCurrent: aux
         });
         this.validateForm();
     }
 
     validateForm(){
         const { 
-            modelOrganization 
+            modelCurrent 
         } = this.state;
 
         let message = '';
 
-        if(!modelOrganization.name)
+        if(!modelCurrent.name)
             message += 'Name cannot be blank.';
         
-        if(message)
-            this.setState({ submitDisabled: true  });
-        else
-            this.setState({ submitDisabled: false  });
-        
-        this.setState({ messageValidation: message  });
-        
+        if(message) this.setState({ submitDisabled: true  });
+        else this.setState({ submitDisabled: false  });
+        this.setState({ messageValidation: message  });   
+    }
+
+    redirectToProjects(id){
+        let url = '/projects/' + id;
+        this.props.history.push(url);
+    }
+
+    handleEdit(id){
+        const {
+            listOrganizations,
+            modelCurrent
+        } = this.state;
+        const currentRow = listOrganizations.filter((el) => {
+            return el.id == id;
+        });
+        let aux = {};
+        for(var prop in currentRow[0]){
+            if(modelCurrent.hasOwnProperty(prop)){
+                aux[prop] = currentRow[0][prop];
+            }
+        }
+        this.setState({ 
+            modelCurrent: aux 
+        });
+        this.openModal();
+    }
+
+    handleNew(){
+        this.refreshModel();
+        this.openModal();
     }
 
     handleSubmit(){
         const { 
-            modelOrganization,
+            modelCurrent,
             submitDisabled
         } = this.state;
 
@@ -109,7 +155,7 @@ class Organization extends Component {
         });
 
         if(!submitDisabled)
-            OrganizationAction.save(modelOrganization);
+            OrganizationAction.save(modelCurrent);
     }
 
     render() {
@@ -117,7 +163,7 @@ class Organization extends Component {
             isLoading,
             listOrganizations,
             showModal,
-            modelOrganization,
+            modelCurrent,
             messageValidation,
             submitDisabled
         } = this.state;
@@ -132,7 +178,9 @@ class Organization extends Component {
                         <div className="col-lg-12">
                             <OrganizationList 
                                 list={listOrganizations}
-                                openModal={this.openModal} 
+                                handleEdit={this.handleEdit}
+                                handleNew={this.handleNew} 
+                                redirectToProjects={this.redirectToProjects}
                             />
                         </div> 
                     </div>
@@ -142,8 +190,8 @@ class Organization extends Component {
                     <ModalHeader toggle={this.closeModal}>New Organization</ModalHeader>
                     <ModalBody>
                         <OrganizationForm 
-                            modelOrganization={modelOrganization}
-                            updateModelOrganization={this.updateModelOrganization}
+                            modelCurrent={modelCurrent}
+                            updateModel={this.updateModel}
                             handleSubmit={this.handleSubmit}
                             messageValidation={messageValidation}
                             submitDisabled={submitDisabled}

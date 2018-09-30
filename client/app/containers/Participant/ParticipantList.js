@@ -67,7 +67,12 @@ const ParticipantList = (props) => {
                                 className: 'center',
                                 width: 100,
                                 Cell: row => (
+                                    <>
                                     <BtnEdit handleEdit={openFeedbackModal} param={row.original.id}/>
+                                    <i className="far fa-user btn-icon" 
+                                        onClick={event => props.handleEdit(props.param)}>
+                                    </i>
+                                    </>
                                   )
                             }
                             ]

@@ -5,8 +5,8 @@ import {Button} from 'primereact/components/button/Button';
 const OrganizationForm = props => {
   const { 
     handleSubmit,
-    modelOrganization,
-    updateModelOrganization,
+    modelCurrent,
+    updateModel,
     messageValidation,
     submitDisabled
   } = props;
@@ -14,9 +14,11 @@ const OrganizationForm = props => {
   return (
     <div className="organization-form">
       
+      <input type="hidden" value={modelCurrent.id} onChange={(e) => updateModel({field: 'id', value: e.target.value}) } />
+      
       <div className="form-group">
         <label>Name</label>
-        <InputText value={modelOrganization.name} onChange={(e) => updateModelOrganization({field: 'name', value: e.target.value}) } />
+        <InputText value={modelCurrent.name} onChange={(e) => updateModel({field: 'name', value: e.target.value}) } />
       </div>
 
       <div>

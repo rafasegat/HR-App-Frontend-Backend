@@ -3,38 +3,44 @@ import { Route, Redirect } from 'react-router'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter  } from 'reactstrap';
 import Loading from '../../components/Common/Loading';
-import ProjectForm from '../../components/Project/Form';
+import ProjectForm from '../../components/Project/ProjectForm';
 import ProjectList from './ProjectList';
 import ProjectAction from '../../flux/project/ProjectAction';
 import * as Action from '../../flux/project/ProjectAction';
+import { project_status_info } from '../../flux/project/ProjectAction';
 
 class Project extends Component {
     constructor(props, match){
         super(props);
+
+        let href = this.props.location.pathname,
+            id_organization = href.match(/([^\/]*)\/*$/)[1],
+            model = {
+                id: -1,
+                name: '',
+                id_organization: id_organization,
+                status: project_status_info.in_progress.key
+            };
+
         this.state = {
             isLoading: false,
             listProjects: [],
             showModal: false,
-            id_organization: null,
-            modelProject: {
-                name: '',
-                id_organization: null,
-                status: null
-            },
+            id_organization: id_organization,
+            modelCurrent: model,
+            modelCurrentDefault: model,
             messageValidation: '',
             submitDisabled: true
         };
         
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
-        this.updateModelProject = this.updateModelProject.bind(this);
+        this.updateModel = this.updateModel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.redirectParticipants = this.redirectParticipants.bind(this);
+        this.handleNew = this.handleNew.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.redirectToParticipants = this.redirectToParticipants.bind(this);
 
-        // ID organization from param
-        let href = this.props.location.pathname;
-        let hrefWithId = href.match(/([^\/]*)\/*$/)[1];
-        this.state.id_organization = hrefWithId;
 
         let currentInstance = this;
         ProjectAction.addListener((type, payload)=>currentInstance.onProjectStoreChanged(type, payload, currentInstance));
@@ -87,7 +93,7 @@ class Project extends Component {
         this.setState({ showModal: true });
     }
 
-    redirectParticipants(id_project) {
+    redirectToParticipants(id_project) {
         // Let's set the global project
         setInStorage('FB360_Project', { 
             id: id_project
@@ -96,40 +102,78 @@ class Project extends Component {
         this.props.history.push('/participants');
     }
 
-    updateModelProject(data){
-        const { 
-            modelProject 
+    refreshModel(){
+        const {
+            modelCurrentDefault,
+            modelCurrent
         } = this.state;
-        let aux = modelProject;
+        let aux = {};
+        for(var prop in modelCurrentDefault)
+            aux[prop] = modelCurrentDefault[prop];
+
+        this.setState({ 
+            modelCurrent: aux 
+        });
+        console.log(modelCurrent)
+    }
+
+    updateModel(data){
+        const { 
+            modelCurrent 
+        } = this.state;
+        let aux = modelCurrent;
         aux[data.field] = data.value;
         this.setState({
-            modelProject: aux
+            modelCurrent: aux
         });
         this.validateForm();
     }
 
     validateForm(){
         const { 
-            modelProject 
+            modelCurrent 
         } = this.state;
 
         let message = '';
 
-        if(!modelProject.name)
+        if(!modelCurrent.name)
             message += 'Name cannot be blank.';
         
-        if(message)
-            this.setState({ submitDisabled: true  });
-        else
-            this.setState({ submitDisabled: false  });
+        if(message)  this.setState({ submitDisabled: true  });
+        else this.setState({ submitDisabled: false  });
         
         this.setState({ messageValidation: message  });
         
     }
 
+    handleEdit(id){
+        const {
+            listProjects,
+            modelCurrent
+        } = this.state;
+        const currentRow = listProjects.filter((el) => {
+            return el.id == id;
+        });
+        let aux = {};
+        for(var prop in currentRow[0]){
+            if(modelCurrent.hasOwnProperty(prop)){
+                aux[prop] = currentRow[0][prop];
+            }
+        }
+        this.setState({ 
+            modelCurrent: aux 
+        });
+        this.openModal();
+    }
+
+    handleNew(){
+        this.refreshModel();
+        this.openModal();
+    }
+
     handleSubmit(){
         const {
-            modelProject,
+            modelCurrent,
             id_organization,
             submitDisabled
         } = this.state;
@@ -138,11 +182,8 @@ class Project extends Component {
             isLoading: true
         });
 
-        modelProject['id_organization'] = id_organization;
-        modelProject['status'] = 1; // Collecting Feedback
-
         if(!submitDisabled)
-            ProjectAction.save(modelProject);
+            ProjectAction.save(modelCurrent);
     }
 
     render() {
@@ -150,7 +191,7 @@ class Project extends Component {
             isLoading,
             listProjects,
             showModal,
-            modelProject,
+            modelCurrent,
             messageValidation,
             submitDisabled
         } = this.state;
@@ -165,18 +206,19 @@ class Project extends Component {
                         <div className="col-lg-12">
                             <ProjectList 
                                 list={listProjects}
-                                openModal={this.openModal}
-                                redirectParticipants={this.redirectParticipants}
+                                handleEdit={this.handleEdit}
+                                handleNew={this.handleNew} 
+                                redirectToParticipants={this.redirectToParticipants}
                             />
                         </div> 
                     </div>
                 </div>
                 <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
-                    <ModalHeader toggle={this.closeModal}>New Project</ModalHeader>
+                    <ModalHeader toggle={this.closeModal}>Project</ModalHeader>
                     <ModalBody>
                         <ProjectForm 
-                            modelProject={modelProject}
-                            updateModelProject={this.updateModelProject}
+                            modelCurrent={modelCurrent}
+                            updateModel={this.updateModel}
                             handleSubmit={this.handleSubmit}
                             messageValidation={messageValidation}
                             submitDisabled={submitDisabled}

@@ -1,32 +1,79 @@
 import React from 'react';
-import ItemList from '../../components/Organization/ItemList';
+import ReactTable from "react-table";
+import BtnDelete from '../../components/Form/BtnDelete';
+import BtnEdit from '../../components/Form/BtnEdit';
 
-const OrganizationList = (props) => {
-
+const OrganizationList = (props) => { 
     const { 
         list,
-        openModal
+        handleNew,
+        handleEdit,
+        redirectToProjects
     } = props;
-
+    
     return(
-        <div className="organizations">
-            {list!=undefined && list.length > 0 ? 
-                <ul className="organization-list">
-                    {
-                        list.map((value) => 
-                            <ItemList 
-                                value={value} 
-                                key={value.id} 
-                            />
-                        )
-                    }
-                </ul>
+        <div className="provider-customer">
+            {list!=undefined && list.length > 0  ? 
+               <div>
+                    <ReactTable
+                        data={list}
+                        columns={[
+                        {
+                            Header: "Name",
+                            accessor: "name"
+                        },
+                        {
+                            Header: "Status",
+                            accessor: "status",
+                            width: 200,
+                            Cell: row => (
+                                <span>
+                                  <span style={{
+                                    color: row.value === 1 ? '#ffbf00'
+                                         : row.value === 2 ? '#ff2e00'
+                                         : '#000000',
+                                    transition: 'all .3s ease'
+                                    }}>
+                                    &#x25cf;&nbsp;
+                                    </span> 
+                                    {
+                                      row.value === 1 ? 'In Progress'
+                                    : row.value === 2 ? 'On Hold'
+                                    : '--'
+                                    }
+                                </span>
+                              )
+                        },
+                        {
+                            Header: "Action",
+                            accessor: "",
+                            width: 75,
+                            Cell: row => (
+                                <div className="btn-action">
+                                    <BtnEdit handleEdit={handleEdit} param={row.original.id}/>
+                                </div>
+                            )
+                        }
+                            
+                        ]}
+                        defaultPageSize={10}
+                        className="-striped -highlight"
+                        getTdProps={(state, rowInfo, column, instance) => {
+                            return {
+                              onClick: (e, handleOriginal) => {
+                                if(column.Header=='Action')
+                                    return;
+                                if(typeof rowInfo !== 'undefined')
+                                    props.redirectToProjects(rowInfo.original.id);
+                              }
+                            }
+                        }}
+                    />
+                </div>
             :
-                <div>No organization. Create the first one!</div>
-            } 
-            
-            <button className="btn-primary" onClick={openModal}>Create new organization</button>
-            
+                <div>No organizations. Create the first one!</div>
+            }
+            <button className="btn-primary" onClick={handleNew}>NEW</button>
         </div>
     );
 

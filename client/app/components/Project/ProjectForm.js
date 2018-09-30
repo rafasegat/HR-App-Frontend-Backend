@@ -4,8 +4,8 @@ import {Button} from 'primereact/components/button/Button';
 
 const ProjectForm = props => {
   const { 
-    modelProject,
-    updateModelProject,
+    modelCurrent,
+    updateModel,
     handleSubmit,
     messageValidation,
     submitDisabled
@@ -14,9 +14,11 @@ const ProjectForm = props => {
   return (
     <div className="project-form">
       
+      <input type="hidden" value={modelCurrent.id} onChange={(e) => updateModel({field: 'id', value: e.target.value}) } />
+      
       <div className="form-group">
         <label>Name</label>
-        <InputText id="name" value={modelProject.name} onChange={(e) => updateModelProject({field: 'name', value: e.target.value}) } />
+        <InputText id="name" value={modelCurrent.name} onChange={(e) => updateModel({field: 'name', value: e.target.value}) } />
       </div>
 
       <div>
