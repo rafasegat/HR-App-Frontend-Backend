@@ -48,9 +48,10 @@ const AddProviderForm = props => {
                 <label>Participant Provider</label>
                 <Select 
                   options={participantProviderOptions} 
+                  isClearable={true}
                   getOptionValue={(option) => option.id} 
                   getOptionLabel={(option) => option.name+' - '+option.position} 
-                  onChange={(e) => updateModelProvider({field: 'id_provider', value: e.id}) }
+                  onChange={(e) => updateModelProvider({field: 'id_provider', value: ( e ? e.id : null)}) }
                   value={
                     modelProvider.id_provider && { 
                       id: modelProvider.id_provider,
@@ -74,9 +75,10 @@ const AddProviderForm = props => {
                   <label>External Customer</label>
                   <Select 
                     options={listProviderCustomers} 
+                    isClearable={true}
                     getOptionValue={(option) => option.id} 
                     getOptionLabel={(option) => option.name + ' - from: ' + option.organization_name} 
-                    onChange={(e) => updateModelProvider({field: 'id_provider_customer', value: e.id}) }
+                    onChange={(e) => updateModelProvider({field: 'id_provider_customer', value: ( e ? e.id : null)}) }
                     value={
                       modelProvider.id_provider_customer && { 
                         id: modelProvider.id_provider_customer,

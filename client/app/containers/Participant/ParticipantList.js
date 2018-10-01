@@ -7,8 +7,7 @@ import "./ParticipantList.scss";
 const ParticipantList = (props) => {
     const { 
         list,
-        openParticipantModal,
-        openFeedbackModal
+        openFeedbackModal,
     } = props;
     
     return(
@@ -38,7 +37,7 @@ const ParticipantList = (props) => {
                             {
                                 Header: "Status",
                                 accessor: "status",
-                                width: 300,
+                                width: 200,
                                 Cell: row => (
                                     <span>
                                       <span style={{
@@ -65,13 +64,13 @@ const ParticipantList = (props) => {
                             {
                                 Header: "Action",
                                 className: 'center',
-                                width: 100,
+                                width: 75,
                                 Cell: row => (
                                     <>
-                                    <BtnEdit handleEdit={openFeedbackModal} param={row.original.id}/>
-                                    <i className="far fa-user btn-icon" 
-                                        onClick={event => props.handleEdit(props.param)}>
-                                    </i>
+                                        <BtnEdit handleEdit={openFeedbackModal} param={row.original.id}/>
+                                        <i className="far fa-user btn-icon" 
+                                            onClick={event => props.handleEditParticipant(row.original.id)}>
+                                        </i>
                                     </>
                                   )
                             }
@@ -97,7 +96,7 @@ const ParticipantList = (props) => {
             :
                 <div>No participant. Create the first one!</div>
             }
-            <button className="btn-primary" onClick={openParticipantModal}>
+            <button className="btn-primary" onClick={props.handleNewParticipant}>
                 NEW PARTICIPANT
             </button>
         </div>

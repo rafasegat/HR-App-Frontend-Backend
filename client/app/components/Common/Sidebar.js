@@ -7,6 +7,11 @@ const Sidebar = () => (
             <ul className="sidebar-menu">
                 <li>
                     <Link to={'participants'} >Participants</Link>
+                    <ul className="sidebar-sub-menu">
+                        <li>
+                            <Link to={'positions'} >Positions(NA)</Link>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     Providers <i className="fas fa-angle-down"></i>
@@ -18,6 +23,9 @@ const Sidebar = () => (
                             <Link to={'provider-customers-organization'} >External Customers Organization</Link>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <Link to={'design'} >Design</Link>
                 </li>
             </ul>
         </div>

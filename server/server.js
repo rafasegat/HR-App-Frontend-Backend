@@ -11,7 +11,7 @@ const webpackConfig = require('../webpack.config');
 const morgan = require('morgan');
 
 const isDev = process.env.NODE_ENV !== 'production';
-const port  = process.env.PORT || 8007;  
+const port  = process.env.PORT || 8000;  
 
 // Configuration   
 // ================================================================================================

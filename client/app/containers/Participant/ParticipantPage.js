@@ -19,6 +19,7 @@ class Participant extends Component {
         let id_project = getFromStorage('FB360_Project').id,
             id_organization = getFromStorage('FB360_Organization').id,
             model = {
+                id: -1,
                 name: '',
                 email: '',
                 position: '',
@@ -39,6 +40,7 @@ class Participant extends Component {
             currentParticipant: [],
             reportReviewerOptions: [],
             modelParticipant: model,
+            modelParticipantDefault: model,
             messageValidation: '',
             submitDisabled: true
         };
@@ -48,6 +50,7 @@ class Participant extends Component {
         this.updateModelParticipant = this.updateModelParticipant.bind(this);
         this.openFeedbackModal = this.openFeedbackModal.bind(this);
         this.closeFeedbackModal = this.closeFeedbackModal.bind(this);
+        this.handleSubmitParticipant = this.handleSubmitParticipant.bind(this);
         this.handleNewParticipant = this.handleNewParticipant.bind(this);
         this.handleEditParticipant = this.handleEditParticipant.bind(this);
 
@@ -100,6 +103,20 @@ class Participant extends Component {
         ParticipantAction.all({ id_project: id_project });
     }
 
+    refreshModel(){
+        const {
+            modelParticipant,
+            modelParticipantDefault
+        } = this.state;
+        let aux = {};
+        for(var prop in modelParticipantDefault)
+            aux[prop] = modelParticipantDefault[prop];
+
+        this.setState({ 
+            modelParticipant: aux 
+        });
+    }
+
     openParticipantModal() {
         this.setState({ showParticipantModal: true });
     }
@@ -128,6 +145,7 @@ class Participant extends Component {
         this.setState({
             modelParticipant: aux
         });
+        console.log(modelParticipant)
         this.validateForm();
     }
 
@@ -147,7 +165,7 @@ class Participant extends Component {
         this.setState({ messageValidation: message  });
     }
 
-    handleNewParticipant(){
+    handleSubmitParticipant(){
         const { 
             modelParticipant 
         } = this.state;
@@ -156,7 +174,12 @@ class Participant extends Component {
         ParticipantAction.save(modelParticipant);
     }
 
-    handleEditParticipant(){
+    handleNewParticipant(){
+        this.refreshModel();
+        this.openParticipantModal();
+    }
+
+    handleEditParticipant(id){
         const {
             listParticipants,
             modelParticipant
@@ -173,7 +196,7 @@ class Participant extends Component {
         this.setState({ 
             modelParticipant: aux 
         });
-        this.openModal();
+        this.openParticipantModal();
     }
 
     render() {
@@ -198,22 +221,23 @@ class Participant extends Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h2>Collect feedback</h2>
+                            <h2>Collect Feedback</h2>
                             <ParticipantList 
                                 list={listParticipants}
-                                openParticipantModal={this.openParticipantModal}
+                                handleNewParticipant={this.handleNewParticipant}
+                                handleEditParticipant={this.handleEditParticipant}
                                 openFeedbackModal={this.openFeedbackModal}
                             />
                         </div> 
                     </div>
                 </div>
                 <Modal isOpen={showParticipantModal} toggle={this.closeParticipantModal} className={this.props.className}>
-                    <ModalHeader toggle={this.closeParticipantModal}>New Participant</ModalHeader>
+                    <ModalHeader toggle={this.closeParticipantModal}>Participant</ModalHeader>
                     <ModalBody>
                         <ParticipantForm
                             modelParticipant={modelParticipant}
                             updateModelParticipant={this.updateModelParticipant}
-                            handleNewParticipant={this.handleNewParticipant}
+                            handleSubmitParticipant={this.handleSubmitParticipant}
                             listParticipants={listParticipants}
                             messageValidation={messageValidation}
                             submitDisabled={submitDisabled}

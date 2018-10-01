@@ -9,6 +9,7 @@ import Select from 'react-select';
 const ParticipantForm = props => {
   const { 
     handleNewParticipant,
+    handleSubmitParticipant,
     modelParticipant,
     updateModelParticipant,
     listParticipants,
@@ -88,15 +89,17 @@ const ParticipantForm = props => {
               <label>Report Reviewer</label>
               <Select 
                 options={options} 
+                isClearable={true}
                 getOptionValue={(option) => option.id} 
                 getOptionLabel={(option) => option.name + ' - ' + option.position} 
-                onChange={(e) => updateModelParticipant({field: 'id_participant_feedback_reviewer', value: e.id}) }
+                onChange={(e) => updateModelParticipant({field: 'id_participant_feedback_reviewer', value: ( e ? e.id : null)}) }
                 value={
-                  modelParticipant.id_provider_customer_organization && { 
-                    value: modelParticipant.id_provider_customer_organization,
+                  modelParticipant.id_participant_feedback_reviewer && { 
+                    id: modelParticipant.id_provider_customer_organization,
                     name: options.find(o => o.id === modelParticipant.id_participant_feedback_reviewer).name,
+                    position: options.find(o => o.id === modelParticipant.id_participant_feedback_reviewer).position
                   }
-                }            
+                }
                 />
 
           </div>
@@ -106,7 +109,7 @@ const ParticipantForm = props => {
        </div>
       
       <div>
-        <Button onClick={handleNewParticipant} className="btn-primary" label="Save"  disabled={submitDisabled} />
+        <Button onClick={handleSubmitParticipant} className="btn-primary" label="Save"  disabled={submitDisabled} />
         <div className='messageErrors'>{messageValidation}</div>
       </div>
 
