@@ -73,7 +73,7 @@ class Login extends Component{
     } = this.state;
 
     this.setState({
-      isLoading: true,
+      isLoading: true
     });
 
     // Post request to backend
@@ -126,8 +126,8 @@ class Login extends Component{
       signUpError,
     } = this.state;
     
-    if(isLoading)
-      return (<Loading />);
+    //if(isLoading)
+    //  return (<Loading />);
 
     if(!token){
       return (
@@ -137,6 +137,7 @@ class Login extends Component{
               <div className="col-lg-12">
                 <SignIn 
                   email={signInEmail} 
+                  isLoading={isLoading}
                   password={signInPassword} 
                   onTextboxChangeSignInEmail={this.onTextboxChangeSignInEmail}
                   onTextboxChangeSignInPassword={this.onTextboxChangeSignInPassword}

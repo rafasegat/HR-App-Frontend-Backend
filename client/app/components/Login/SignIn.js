@@ -1,5 +1,6 @@
 import React from 'react';
 import FieldText  from '@atlaskit/field-text';
+import Btn  from '@atlaskit/button';
 
 const SignIn = props => {
     return (
@@ -18,11 +19,14 @@ const SignIn = props => {
                 type="password" 
                 label="Password" 
                 onChange={props.onTextboxChangeSignInPassword}
-                onKeyPress={props.onKeyPress}/>
-            <br />
-            <button className="btn-primary" onClick={props.onSignIn} >
-                Sign In
-            </button>
+                onKeyPress={props.onKeyPress}
+            />
+            <Btn isLoading={props.isLoading} 
+                 appearance='primary'
+                 onClick={props.onSignIn}>
+                Login
+            </Btn>
+            
             <br />
             {
             (props.error) ? (
