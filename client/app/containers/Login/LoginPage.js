@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/Storage';
-import SignIn from '../../components/Login/SignIn/SignIn';
+import SignIn from '../../components/Login/SignIn';
 import Loading from '../../components/Common/Loading';
 
 class Login extends Component{

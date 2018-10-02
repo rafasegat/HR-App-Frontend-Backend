@@ -1,17 +1,22 @@
 import React from 'react';
+import FieldText  from '@atlaskit/field-text';
 
 const SignIn = props => {
     return (
         <div className="signin" >
+
             <p>Sign In</p>
-            <input name="feeback360-email" type="email" placeholder="Email" 
-                value={props.email} 
+            
+            <FieldText
+                name="feeback360-username"
                 onChange={props.onTextboxChangeSignInEmail}
+                label="Email"
                 onKeyPress={props.onKeyPress}
-                />
-            <br/>
-            <input  name="feeback360-password" type="password" placeholder="Password" 
-                value={props.password} 
+            />
+
+            <FieldText  name="feeback360-password" 
+                type="password" 
+                label="Password" 
                 onChange={props.onTextboxChangeSignInPassword}
                 onKeyPress={props.onKeyPress}/>
             <br />

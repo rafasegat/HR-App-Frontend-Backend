@@ -62,6 +62,7 @@
     "redux-form": "^7.3.0",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
+    "styled-components": "^3.4.9",
     "webpack": "^4.2.0",
     "webpack-cli": "^2.0.13",
     "webpack-dev-middleware": "^3.0.1",
