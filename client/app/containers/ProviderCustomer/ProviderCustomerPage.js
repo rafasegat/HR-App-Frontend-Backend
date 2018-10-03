@@ -8,7 +8,7 @@ import ProviderCustomerAction from '../../flux/provider-customer/ProviderCustome
 import ProviderCustomerOrganizationAction from '../../flux/provider-customer-organization/ProviderCustomerOrganizationAction';
 import * as Action from '../../flux/provider-customer/ProviderCustomerAction';
 import * as Action_2 from '../../flux/provider-customer-organization/ProviderCustomerOrganizationAction';
-import { validateEmail } from '../../utils/Tools'
+import { validateEmail } from '../../utils/Tools';
 
 class ProviderCustomer extends Component {
     constructor(props, match){

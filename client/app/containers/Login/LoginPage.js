@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import 'whatwg-fetch';
+import { validateEmail } from '../../utils/Tools'
 import { getFromStorage, setInStorage } from '../../utils/Storage';
 import SignIn from '../../components/Login/SignIn';
-import Loading from '../../components/Common/Loading';
+import UserAction from '../../flux/user/UserAction';
+import * as Action from '../../flux/user/UserAction';
 
 class Login extends Component{
   constructor(props){
@@ -10,104 +11,118 @@ class Login extends Component{
     this.state = {
       isLoading: true,
       token: '',
-      signUpError: '',
-      signInError: '',
-      signInEmail: '',
-      signInPassword: '',
-      signUpEmail: '',
-      signUpPassword: '',
+      messageValidation: '-',
+      modelCurrent: {
+        email: '',
+        password: ''
+      }
     };
-    this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
-    this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
+    
+    this.updateModel = this.updateModel.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.onSignIn = this.onSignIn.bind(this);
+    this.handleSignIn = this.handleSignIn.bind(this);
+
+    let currentInstance = this;
+    UserAction.addListener((type, payload)=>currentInstance.onUserStoreChanged(type, payload, currentInstance));
+
   } 
 
   componentDidMount(){
-    const obj = getFromStorage('FB360_Token');
-    if(obj && obj.token){
-      const { token } = obj;
-      // Verify token
-      fetch('account/verify?token='+token)
-        .then(res => res.json())
-        .then(json => {
-          // If token okay, the user is logged, so redirect to organizations page
-          if(json.success) {
-            this.redirectOrganizations();
-          } else {
-            this.setState({
-              isLoading: false
-            });
-          }
-      });
-    } else {
-        this.setState({
+    const token = getFromStorage('FB360_Token');
+    UserAction.verify_token({ token: token });
+  }
+
+  onUserStoreChanged(type, payload, currentInstance){
+    const { id_organization } = this.state;
+    
+    if(type===Action.VERIFY_TOKEN){
+      
+      if(payload.data.success){
+        this.redirectOrganizations();
+      } else{
+        currentInstance.setState({
           isLoading: false
         });
+      }
     }
+    
+    if(type===Action.SIGNIN){
+      
+      if (payload.status=='success') {
+        if (payload.data.success) {
+          setInStorage('FB360_Token', { 
+            token: payload.data.token,
+            user: payload.data.user
+          });
+          this.setState({
+            token: payload.data.token
+          });
+          this.redirectOrganizations();
+        } else {
+          this.setState({
+            messageValidation: payload.data.message,
+            isLoading: false
+          });
+        }
+      } else {
+        this.setState({
+          messageValidation: 'Unexpected error. Try again.',
+          isLoading: false
+        });
+      }
+    }
+    
   }
 
-  onTextboxChangeSignInEmail(event) {
-    this.setState({
-      signInEmail: event.target.value,
-    });
+  validateForm(){
+    const { 
+        modelCurrent
+    } = this.state;
+    let message = '';
+
+    if(!modelCurrent.email) message += 'Email cannot be blank.\n';
+    if(!validateEmail(modelCurrent.email)) message += 'Email not valid.\n';
+    if(!modelCurrent.password) message += 'Password cannot be blank.\n';
+
+    if(message) this.setState({ submitDisabled: true  });
+    else this.setState({ submitDisabled: false  });
+    
+    this.setState({ messageValidation: message  }); 
+
   }
 
-  onTextboxChangeSignInPassword(event) {
+  updateModel(data){
+    const { 
+        modelCurrent 
+    } = this.state;
+    let aux = modelCurrent;
+    aux[data.field] = data.value;
     this.setState({
-      signInPassword: event.target.value,
+        modelCurrent: aux
     });
+    this.validateForm();
   }
 
   handleKeyPress(e){
     if (e.key === 'Enter') {
-      this.onSignIn();
+      this.handleSignIn();
     }
   }
 
-  onSignIn() {
-    // Grab state
-    const {
-      signInEmail,
-      signInPassword,
+  handleSignIn() {
+    const { 
+      modelCurrent,
+      messageValidation
     } = this.state;
 
-    this.setState({
-      isLoading: true
-    });
+    this.validateForm();
 
-    // Post request to backend
-    fetch('/account/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: signInEmail,
-        password: signInPassword,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          // set our token on storage
-          setInStorage('FB360_Token', { 
-            token: json.token,
-            user: json.user
-          });
-          this.setState({
-            signInError: json.message,
-            isLoading: false,
-            signInPassword: '',
-            signInEmail: '',
-            token: json.token,
-          });
-        } else {
-          this.setState({
-            signInError: json.message,
-            isLoading: false,
-          });
-        }
+    if(messageValidation==''){
+      this.setState({
+        isLoading: true
       });
+      UserAction.signin(modelCurrent);
+    }
   }
 
   redirectOrganizations(){
@@ -116,18 +131,11 @@ class Login extends Component{
 
   render() {
     const {
+      modelCurrent,
       isLoading,
       token,
-      signInError,
-      signInEmail,
-      signInPassword,
-      signUpEmail,
-      signUpPassword,
-      signUpError,
+      messageValidation
     } = this.state;
-    
-    //if(isLoading)
-    //  return (<Loading />);
 
     if(!token){
       return (
@@ -136,14 +144,12 @@ class Login extends Component{
             <div className="row">
               <div className="col-lg-12">
                 <SignIn 
-                  email={signInEmail} 
                   isLoading={isLoading}
-                  password={signInPassword} 
-                  onTextboxChangeSignInEmail={this.onTextboxChangeSignInEmail}
-                  onTextboxChangeSignInPassword={this.onTextboxChangeSignInPassword}
-                  onSignIn={this.onSignIn}
-                  error={signInError}
+                  handleSignIn={this.handleSignIn}
+                  messageValidation={messageValidation}
+                  updateModel={this.updateModel}
                   onKeyPress={this.handleKeyPress}
+                  modelCurrent={modelCurrent}
                 />
               </div>
             </div>

@@ -1,38 +1,42 @@
 import React from 'react';
 import FieldText  from '@atlaskit/field-text';
 import Btn  from '@atlaskit/button';
+import Form, { Field } from '@atlaskit/form';
+import Tooltip from '@atlaskit/tooltip';
+
 
 const SignIn = props => {
+    const {
+        modelCurrent
+    } = props;
     return (
         <div className="signin" >
-
             <p>Sign In</p>
-            
-            <FieldText
-                name="feeback360-username"
-                onChange={props.onTextboxChangeSignInEmail}
-                label="Email"
-                onKeyPress={props.onKeyPress}
-            />
-
-            <FieldText  name="feeback360-password" 
-                type="password" 
-                label="Password" 
-                onChange={props.onTextboxChangeSignInPassword}
-                onKeyPress={props.onKeyPress}
-            />
+            <Field>
+                <FieldText
+                    name="feeback360-email"
+                    value={modelCurrent.email}
+                    onChange={(e) => props.updateModel({field: 'email', value: e.target.value}) } 
+                    placeholder="Email"
+                    onKeyPress={props.onKeyPress}
+                />
+            </Field>
+            <Field>
+                <FieldText  name="feeback360-password" 
+                    type="password" 
+                    value={modelCurrent.password}
+                    placeholder="Password" 
+                    onChange={(e) => props.updateModel({field: 'password', value: e.target.value}) } 
+                    onKeyPress={props.onKeyPress}
+                />
+            </Field>
+            <br/>
             <Btn isLoading={props.isLoading} 
                  appearance='primary'
-                 onClick={props.onSignIn}>
+                 onClick={props.handleSignIn}>
                 Login
             </Btn>
-            
-            <br />
-            {
-            (props.error) ? (
-                <p>{props.error}</p>
-            ) : (null)
-            }
+            <div className='messageErrors'>{props.messageValidation}</div>
         </div>
     );
 }

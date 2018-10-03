@@ -21,6 +21,7 @@ import './styles/styles.scss';
 
 // Flux
 import Dispatcher from './flux/Dispatcher';
+import UserStore from './flux/user/UserStore';
 import OrganizationStore from './flux/organization/OrganizationStore';
 import ProjectStore from './flux/project/ProjectStore';
 import ParticipantStore from './flux/participant/ParticipantStore';
@@ -29,6 +30,7 @@ import ProviderCustomerStore from './flux/provider-customer/ProviderCustomerStor
 import ProviderCustomerOrganizationStore from './flux/provider-customer-organization/ProviderCustomerOrganizationStore';
 
 // Registrando o dispatcher e stores
+Dispatcher().registerStore('UserStore', UserStore);
 Dispatcher().registerStore('OrganizationStore', OrganizationStore);
 Dispatcher().registerStore('ProjectStore', ProjectStore);
 Dispatcher().registerStore('ParticipantStore', ParticipantStore);

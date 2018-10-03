@@ -1,14 +1,17 @@
+const UserController = require('../../controllers/UserController');
 const ParticipantController = require('../../controllers/ParticipantController');
 const OrganizationController = require('../../controllers/OrganizationController');
 const ProjectController = require('../../controllers/ProjectController');
 const ProviderController = require('../../controllers/ProviderController');
 const ProviderCustomerController = require('../../controllers/ProviderCustomerController');
 const ProviderCustomerOrganizationController = require('../../controllers/ProviderCustomerOrganizationController');
-const Tools = require('../../common/tools');
-
 
 module.exports = (app) => {
   
+  // User
+  app.get('/account/verify', UserController.verify);
+  app.post('/account/signin', UserController.signin);
+
   //Organizations
   app.post('/api/organization/save', OrganizationController.save);
 
