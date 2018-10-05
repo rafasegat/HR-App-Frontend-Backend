@@ -1,6 +1,8 @@
 import React from 'react';
-import {InputText} from 'primereact/components/inputtext/InputText';
-import {Button} from 'primereact/components/button/Button';
+import FormGroup from '../../components/Form/FormLayout';
+import Btn  from '@atlaskit/button';
+import FieldText  from '@atlaskit/field-text';
+import Form, { Field } from '@atlaskit/form';
 
 const OrganizationForm = props => {
   const { 
@@ -8,21 +10,20 @@ const OrganizationForm = props => {
     modelCurrent,
     updateModel,
     messageValidation,
+    isLoading,
     submitDisabled
   } = props;
   
   return (
     <div className="organization-form">
       
-      <input type="hidden" value={modelCurrent.id} onChange={(e) => updateModel({field: 'id', value: e.target.value}) } />
-      
-      <div className="form-group">
-        <label>Name</label>
-        <InputText value={modelCurrent.name} onChange={(e) => updateModel({field: 'name', value: e.target.value}) } />
-      </div>
+      <FormGroup>
+        <input type="hidden" value={modelCurrent.id}/>
+        <FieldText value={modelCurrent.name}  shouldFitContainer={true} label="Name" className="field-group" onChange={(e) => updateModel({field: 'name', value: e.target.value}) } />
+      </FormGroup>
 
       <div>
-        <Button onClick={handleSubmit} type="submit" className="btn-primary" disabled={submitDisabled} label="Save"/>
+        <Btn isLoading={isLoading} appearance='primary' onClick={handleSubmit}>Save</Btn>
         <div className='messageErrors'>{messageValidation}</div>
       </div>
 

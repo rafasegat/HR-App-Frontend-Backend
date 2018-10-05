@@ -195,9 +195,6 @@ class Project extends Component {
             messageValidation,
             submitDisabled
         } = this.state;
-        
-        if(isLoading)
-            return(<Loading />);
 
         return (
             <section className="projects">
@@ -209,6 +206,7 @@ class Project extends Component {
                                 handleEdit={this.handleEdit}
                                 handleNew={this.handleNew} 
                                 redirectToParticipants={this.redirectToParticipants}
+                                isLoading={isLoading}
                             />
                         </div> 
                     </div>

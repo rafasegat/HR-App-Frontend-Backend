@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactTable from "react-table";
 import BtnEdit from '../../components/Form/BtnEdit';
+import Btn  from '@atlaskit/button';
 
 const ProjectList = (props) => { 
     const { 
         list,
         handleNew,
-        handleEdit
+        handleEdit,
+        isLoading
     } = props;
     
     return(
@@ -55,6 +57,7 @@ const ProjectList = (props) => {
                             
                         ]}
                         defaultPageSize={10}
+                        loading={isLoading}
                         className="-striped -highlight"
                         getTdProps={(state, rowInfo, column, instance) => {
                             return {
@@ -71,7 +74,11 @@ const ProjectList = (props) => {
             :
                 <div>No projects. Create the first one!</div>
             }
-            <button className="btn-primary" onClick={handleNew}>NEW</button>
+            <Btn  
+                onClick={handleNew}
+                appearance='primary'>
+                New
+            </Btn>
         </div>
     );
 

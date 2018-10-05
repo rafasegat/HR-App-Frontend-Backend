@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTable from "react-table";
-import BtnDelete from '../../components/Form/BtnDelete';
+import Btn  from '@atlaskit/button';
 import BtnEdit from '../../components/Form/BtnEdit';
 
 const OrganizationList = (props) => { 
@@ -8,11 +8,12 @@ const OrganizationList = (props) => {
         list,
         handleNew,
         handleEdit,
-        redirectToProjects
+        isLoading
     } = props;
     
     return(
         <div className="provider-customer">
+
             {list!=undefined && list.length > 0  ? 
                <div>
                     <ReactTable
@@ -57,6 +58,7 @@ const OrganizationList = (props) => {
                             
                         ]}
                         defaultPageSize={10}
+                        loading={isLoading}
                         className="-striped -highlight"
                         getTdProps={(state, rowInfo, column, instance) => {
                             return {
@@ -73,7 +75,9 @@ const OrganizationList = (props) => {
             :
                 <div>No organizations. Create the first one!</div>
             }
-            <button className="btn-primary" onClick={handleNew}>NEW</button>
+            
+            <Btn onClick={handleNew} appearance='primary'>New</Btn>
+
         </div>
     );
 

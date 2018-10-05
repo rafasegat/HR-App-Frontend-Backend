@@ -208,13 +208,9 @@ class Participant extends Component {
             showFeedbackModal,
             currentParticipant,
             modelParticipant,
-            reportReviewerOptions,
             messageValidation,
             submitDisabled
         } = this.state;
-        
-        if(isLoading)
-            return (<Loading />);
 
         return (
             <section className="participants">
@@ -227,6 +223,7 @@ class Participant extends Component {
                                 handleNewParticipant={this.handleNewParticipant}
                                 handleEditParticipant={this.handleEditParticipant}
                                 openFeedbackModal={this.openFeedbackModal}
+                                isLoading={isLoading}
                             />
                         </div> 
                     </div>

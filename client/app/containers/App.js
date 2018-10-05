@@ -13,9 +13,12 @@ class App extends Component{
     this.state = {
       currentPathname: '',
       headerType: this.getHeader(this.props.location.pathname),
-      showSidebar: false
+      showSidebar: false,
+      isDroplistOpen: false
     };
-    this.onClickLogout = this.onClickLogout.bind(this);
+    
+    this.handleClickLogout = this.handleClickLogout.bind(this);
+    this.handleClickAvatar = this.handleClickAvatar.bind(this);
   }
 
   componentDidMount(){
@@ -57,24 +60,42 @@ class App extends Component{
     }
   }
 
-  onClickLogout() {
+  handleClickLogout() {
     setInStorage('FB360_Token', "");
     setInStorage('FB360_Project', "");
     setInStorage('FB360_Organization', "");
     this.props.history.push('/');
   }
 
+  handleClickAvatar(){
+    const {
+      isDroplistOpen
+    } = this.state;
+
+    this.setState({
+      isDroplistOpen: !isDroplistOpen
+    });
+
+  }
+
   render() {
     const { 
       headerType,
-      showSidebar
+      showSidebar,
+      isDroplistOpen
     } = this.state;
+
     const { children } = this.props;
+
     return (
       <>
         <LoadingProvider>
           {  headerType=='login' ? <HeaderLogin/> : 
-              <HeaderMain onClickLogout={this.onClickLogout}/> 
+              <HeaderMain 
+                handleClickLogout={this.handleClickLogout} 
+                handleClickAvatar={this.handleClickAvatar}
+                isDroplistOpen={isDroplistOpen}
+              /> 
           }
           <main className="main">
             { showSidebar && <Sidebar /> }

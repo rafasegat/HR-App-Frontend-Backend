@@ -4,7 +4,8 @@ import { relationship_provider } from '../../flux/provider/ProviderAction';
 
 const ProviderList = (props) => {
     const { 
-        listProviders
+        listProviders,
+        isLoading
     } = props;
     
     return(
@@ -59,6 +60,7 @@ const ProviderList = (props) => {
                 },
                 ]}
                 defaultPageSize={5}
+                loading={isLoading}
                 className="-striped -highlight"
             />
 

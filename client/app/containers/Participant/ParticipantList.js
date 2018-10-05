@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactTable from "react-table";
 import BtnEdit from '../../components/Form/BtnEdit';
-
+import Btn  from '@atlaskit/button';
 import "./ParticipantList.scss";
 
 const ParticipantList = (props) => {
     const { 
         list,
         openFeedbackModal,
+        isLoading
     } = props;
     
     return(
@@ -78,6 +79,7 @@ const ParticipantList = (props) => {
                         }
                         ]}
                         defaultPageSize={10}
+                        loading={isLoading}
                         className="-striped -highlight"
                         getTdProps={(state, rowInfo, column, instance) => {
                             return {
@@ -96,9 +98,9 @@ const ParticipantList = (props) => {
             :
                 <div>No participant. Create the first one!</div>
             }
-            <button className="btn-primary" onClick={props.handleNewParticipant}>
-                NEW PARTICIPANT
-            </button>
+            
+            <Btn onClick={props.handleNewParticipant} appearance="primary">NEW PARTICIPANT</Btn>
+
         </div>
     );
 

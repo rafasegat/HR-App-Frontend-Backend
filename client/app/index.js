@@ -1,9 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter as Router, Route,  Link, Switch } from 'react-router-dom'
-import { createStore, combineReducers } from 'redux'
-import { Provider } from 'react-redux';
-import { reducer as formReducer } from 'redux-form'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 // Containers
 import App from './containers/App';
@@ -38,17 +35,8 @@ Dispatcher().registerStore('ProviderStore', ProviderStore);
 Dispatcher().registerStore('ProviderCustomerStore', ProviderCustomerStore);
 Dispatcher().registerStore('ProviderCustomerOrganizationStore', ProviderCustomerOrganizationStore);
 
-
-// Handle our Redux Form stuffs
-const rootReducer = combineReducers({
-  form: formReducer
-});
-
-const store = createStore(rootReducer);
-
 render((
   <Router>
-    {/* <Provider store={store}> */}
       <App browser={Router}>
         <Switch>
           <Route exact path="/" component={LoginPage}/>
@@ -60,6 +48,5 @@ render((
           <Route component={NotFoundPage}/>
         </Switch>
       </App>
-    {/* </Provider> */}
   </Router>
 ), document.getElementById('app'));

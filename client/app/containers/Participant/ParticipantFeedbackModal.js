@@ -289,9 +289,6 @@ class ParticipantFeedbackModal extends Component {
         
         let status = statusParticipant.find(x => x.id_status === currentParticipant.status);
 
-        if(isLoading)
-            return (<Loading />);
-
         return(
             <div className="participant-feedback-modal">
                 <div className="participant-info">
@@ -326,6 +323,7 @@ class ParticipantFeedbackModal extends Component {
                                 <ProviderList 
                                     listProviders={listProviders}
                                     handleDeleteProvider={this.handleDeleteProvider}
+                                    isLoading={isLoading}
                                 />
                                 <AddProviderForm  
                                     modelProvider={modelProvider} 
@@ -335,6 +333,7 @@ class ParticipantFeedbackModal extends Component {
                                     messageValidation={messageValidation}
                                     participantProviderOptions={participantProviderOptions}
                                     listProviderCustomers={listProviderCustomers}
+                                    isLoading={isLoading}
                                 />
 
                             </Col> 
@@ -349,6 +348,7 @@ class ParticipantFeedbackModal extends Component {
                                 <p>That's the tasks that {currentParticipant.name} must complete.</p>
                                 <ParticipantTasksList 
                                     listParticipantTasks={listParticipantTasks}
+                                    isLoading={isLoading}
                                 />
 
                             </Col>

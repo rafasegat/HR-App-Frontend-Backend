@@ -47,7 +47,6 @@ class Login extends Component{
     }
     
     if(type===Action.SIGNIN){
-      
       if (payload.status=='success') {
         if (payload.data.success) {
           setInStorage('FB360_Token', { 

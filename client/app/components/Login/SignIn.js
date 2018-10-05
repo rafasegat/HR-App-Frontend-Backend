@@ -2,7 +2,6 @@ import React from 'react';
 import FieldText  from '@atlaskit/field-text';
 import Btn  from '@atlaskit/button';
 import Form, { Field } from '@atlaskit/form';
-import Tooltip from '@atlaskit/tooltip';
 
 
 const SignIn = props => {

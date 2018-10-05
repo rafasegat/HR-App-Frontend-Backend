@@ -168,9 +168,6 @@ class Organization extends Component {
             submitDisabled
         } = this.state;
 
-        if(isLoading)
-            return(<Loading />);
-
         return (
             <section className="organizations">
                 <div className="container">
@@ -181,13 +178,14 @@ class Organization extends Component {
                                 handleEdit={this.handleEdit}
                                 handleNew={this.handleNew} 
                                 redirectToProjects={this.redirectToProjects}
+                                isLoading={isLoading}
                             />
                         </div> 
                     </div>
                 </div>
 
                  <Modal isOpen={showModal} toggle={this.closeModal} className={this.props.className}>
-                    <ModalHeader toggle={this.closeModal}>New Organization</ModalHeader>
+                    <ModalHeader toggle={this.closeModal}>Organization</ModalHeader>
                     <ModalBody>
                         <OrganizationForm 
                             modelCurrent={modelCurrent}
@@ -195,6 +193,7 @@ class Organization extends Component {
                             handleSubmit={this.handleSubmit}
                             messageValidation={messageValidation}
                             submitDisabled={submitDisabled}
+                            isLoading={isLoading}
                         />
                     </ModalBody>
                 </Modal>

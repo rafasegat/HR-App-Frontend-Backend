@@ -1,17 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { BtnLogout } from '../../Login/BtnLogout.js'
+import Item, { ItemGroup } from '@atlaskit/item';
+import DropList from '@atlaskit/droplist';
+import Avatar from '@atlaskit/avatar';
 
 const HeaderMain = props => (
-  <header>
+  <header className="main-header">
     <div className="container-fluid">
       <div className="row">
+
         <div className="col-lg-8 col-xs-12">
-          <img className="logo" src="/assets/img/logo.png" />
+          <div className="left">
+            <img className="logo" src="/assets/img/logo.png" />
+          </div>
         </div>
+
         <div className="col-lg-4 col-xs-8">
-          <button id="btn-logout" className="btn-primary" onClick={props.onClickLogout}>Logout</button>
+          <Avatar size="medium" presence="online" onClick={props.handleClickAvatar} />
+          <DropList isOpen={props.isDroplistOpen}>
+              <ItemGroup title="Options">
+                <Item onClick={props.handleClickLogout}>Logout</Item>
+              </ItemGroup>
+            </DropList>
         </div>
+
       </div>
     </div>
   </header>

@@ -1,6 +1,8 @@
 import React from 'react';
-import {InputText} from 'primereact/components/inputtext/InputText';
-import {Button} from 'primereact/components/button/Button';
+import FormGroup from '../../components/Form/FormLayout';
+import Btn  from '@atlaskit/button';
+import FieldText  from '@atlaskit/field-text';
+import Form, { FieldGroup } from '@atlaskit/form';
 
 const ProjectForm = props => {
   const { 
@@ -14,15 +16,13 @@ const ProjectForm = props => {
   return (
     <div className="project-form">
       
-      <input type="hidden" value={modelCurrent.id} onChange={(e) => updateModel({field: 'id', value: e.target.value}) } />
-      
-      <div className="form-group">
-        <label>Name</label>
-        <InputText id="name" value={modelCurrent.name} onChange={(e) => updateModel({field: 'name', value: e.target.value}) } />
-      </div>
+      <FormGroup>
+        <input type="hidden" value={modelCurrent.id} />
+        <FieldText label="Name" shouldFitContainer={true} value={modelCurrent.name} onChange={(e) => updateModel({field: 'name', value: e.target.value}) } />
+      </FormGroup>
 
       <div>
-        <Button onClick={handleSubmit} className="btn-primary" type="submit" label="Save" disabled={submitDisabled} />
+        <Btn onClick={handleSubmit} appearance='primary'>Save</Btn>
         <div className='messageErrors'>{messageValidation}</div>
       </div>
 
