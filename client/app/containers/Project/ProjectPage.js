@@ -24,6 +24,7 @@ class Project extends Component {
 
         this.state = {
             isLoading: false,
+            isLoadingPage: true,
             listProjects: [],
             showModal: false,
             id_organization: id_organization,
@@ -54,6 +55,7 @@ class Project extends Component {
         if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
+                isLoadingPage: false,
                 listProjects: payload.data
             });
         }
@@ -151,6 +153,7 @@ class Project extends Component {
             listProjects,
             modelCurrent
         } = this.state;
+        
         const currentRow = listProjects.filter((el) => {
             return el.id == id;
         });
@@ -189,12 +192,16 @@ class Project extends Component {
     render() {
         const {
             isLoading,
+            isLoadingPage,
             listProjects,
             showModal,
             modelCurrent,
             messageValidation,
             submitDisabled
         } = this.state;
+
+        if(isLoadingPage)
+            return(<Loading />);
 
         return (
             <section className="projects">

@@ -36,6 +36,7 @@ class ParticipantFeedbackModal extends Component {
             messageValidation: '',
             submitDisabled: true,
             isLoading: false,
+            isLoadingPage: true,
             modelProvider: { 
                              relationship: relationship_provider_info.self_assessment.key,
                              id_project: id_project,
@@ -106,6 +107,7 @@ class ParticipantFeedbackModal extends Component {
         if(type===ActionParticipant.PROVIDERS){
             currentInstance.setState({
                 isLoading: false,
+                isLoadingPage: false,
                 listProviders: payload.data
             });
             // Reset
@@ -284,10 +286,14 @@ class ParticipantFeedbackModal extends Component {
             submitDisabled,
             participantProviderOptions,
             isLoading,
+            isLoadingPage,
             activeTab
         } = this.state;
         
         let status = statusParticipant.find(x => x.id_status === currentParticipant.status);
+
+        //if(isLoadingPage)
+        //    return(<Loading />);
 
         return(
             <div className="participant-feedback-modal">

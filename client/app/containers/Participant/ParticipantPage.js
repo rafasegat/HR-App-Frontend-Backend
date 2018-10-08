@@ -31,6 +31,7 @@ class Participant extends Component {
 
         this.state = {
             isLoading: false,
+            isLoadingPage: true,
             listParticipants: [],
             listProviderCustomers: [],
             showParticipantModal: false,
@@ -64,6 +65,7 @@ class Participant extends Component {
         if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
+                isLoadingPage: false,
                 listParticipants: payload.data
             });
         }
@@ -202,6 +204,7 @@ class Participant extends Component {
     render() {
         const {
             isLoading,
+            isLoadingPage,
             listParticipants,
             listProviderCustomers,
             showParticipantModal,
@@ -211,6 +214,9 @@ class Participant extends Component {
             messageValidation,
             submitDisabled
         } = this.state;
+
+        if(isLoadingPage)
+            return (<Loading />);
 
         return (
             <section className="participants">

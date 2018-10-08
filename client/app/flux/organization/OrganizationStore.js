@@ -37,7 +37,7 @@ class OrganizationStore extends Store{
             method: 'POST',
             headers: instance.headers(),
             body: JSON.stringify({ 
-                query: '{ organizations(id_user: ' + id_user + ') { id, name, status } }' 
+                query: '{ organizations(id_user: ' + id_user + ') { id, name, status, id_user } }' 
             }),
         }).then(res => res.json())
           .then(json => { instance.invokeListeners(type, { data: json.data.organizations, status: 'success' }); })

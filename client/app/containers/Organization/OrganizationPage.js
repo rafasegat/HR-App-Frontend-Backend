@@ -22,6 +22,7 @@ class Organization extends Component {
 
         this.state = {
             isLoading: false,
+            isLoadingPage: true,
             isLogged: true,
             listOrganizations: [],
             showModal: false,
@@ -47,6 +48,7 @@ class Organization extends Component {
         if(type===Action.ALL){
             currentInstance.setState({
                 isLoading: false,
+                isLoadingPage: false,
                 listOrganizations: payload.data
             });
         }
@@ -78,7 +80,7 @@ class Organization extends Component {
             modelCurrent,
             modelCurrentDefault
         } = this.state;
-        let aux = {};
+        let aux = this.state.modelCurrentDefault.slice();;
         for(var prop in modelCurrentDefault)
             aux[prop] = modelCurrentDefault[prop];
 
@@ -96,6 +98,7 @@ class Organization extends Component {
         this.setState({
             modelCurrent: aux
         });
+        console.log(modelCurrent)
         this.validateForm();
     }
 
@@ -106,8 +109,7 @@ class Organization extends Component {
 
         let message = '';
 
-        if(!modelCurrent.name)
-            message += 'Name cannot be blank.';
+        if(!modelCurrent.name) message += 'Name cannot be blank.';
         
         if(message) this.setState({ submitDisabled: true  });
         else this.setState({ submitDisabled: false  });
@@ -124,6 +126,7 @@ class Organization extends Component {
             listOrganizations,
             modelCurrent
         } = this.state;
+        this.refreshModel();
         const currentRow = listOrganizations.filter((el) => {
             return el.id == id;
         });
@@ -161,12 +164,16 @@ class Organization extends Component {
     render() {
         const {
             isLoading,
+            isLoadingPage,
             listOrganizations,
             showModal,
             modelCurrent,
             messageValidation,
             submitDisabled
         } = this.state;
+
+        if(isLoadingPage)
+            return(<Loading />);
 
         return (
             <section className="organizations">
