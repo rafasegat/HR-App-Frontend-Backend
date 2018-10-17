@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getFromStorage } from '../../utils/Storage';
+import { refreshModel } from '../../utils/Tools';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import Loading from '../../components/Common/Loading';
 import OrganizationList from './OrganizationList';
@@ -75,20 +76,6 @@ class Organization extends Component {
         this.setState({ showModal: true });
     }
 
-    refreshModel(){
-        const {
-            modelCurrent,
-            modelCurrentDefault
-        } = this.state;
-        let aux = this.state.modelCurrentDefault.slice();;
-        for(var prop in modelCurrentDefault)
-            aux[prop] = modelCurrentDefault[prop];
-
-        this.setState({ 
-            modelCurrent: aux 
-        });
-    }
-
     updateModel(data){
         const { 
             modelCurrent 
@@ -126,7 +113,7 @@ class Organization extends Component {
             listOrganizations,
             modelCurrent
         } = this.state;
-        this.refreshModel();
+        refreshModel(this);
         const currentRow = listOrganizations.filter((el) => {
             return el.id == id;
         });
@@ -143,7 +130,7 @@ class Organization extends Component {
     }
 
     handleNew(){
-        this.refreshModel();
+        refreshModel(this);
         this.openModal();
     }
 

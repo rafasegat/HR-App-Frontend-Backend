@@ -3,7 +3,7 @@ import React from 'react';
 const BtnDelete = props => {
 
     const id = props.row.original.id;
-
+    
     return (
         <div className="btn-delete">
             { props.showTooltip==id &&

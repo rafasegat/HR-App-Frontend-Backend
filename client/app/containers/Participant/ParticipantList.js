@@ -2,13 +2,15 @@ import React from 'react';
 import ReactTable from "react-table";
 import BtnEdit from '../../components/Form/BtnEdit';
 import Btn  from '@atlaskit/button';
+import BtnDelete from '../../components/Form/BtnDelete';
 import "./ParticipantList.scss";
 
 const ParticipantList = (props) => {
     const { 
         list,
         openFeedbackModal,
-        isLoading
+        isLoading,
+        showTooltip
     } = props;
     
     return(
@@ -72,6 +74,12 @@ const ParticipantList = (props) => {
                                         <i className="far fa-user btn-icon" 
                                             onClick={event => props.handleEditParticipant(row.original.id)}>
                                         </i>
+                                        <BtnDelete 
+                                            handleDelete={props.handleDeleteParticipant} 
+                                            handleTooltip={props.handleTooltip} 
+                                            showTooltip={showTooltip}
+                                            row={row}
+                                        />
                                     </>
                                   )
                             }

@@ -7,3 +7,19 @@ export function validateEmail(email) {
 export function formatInput(input){
     return JSON.stringify(input).replace(/\"([^(\")"]+)\":/g,"$1:");
 }
+
+export function refreshModel(currentInstance){
+    const { 
+        modelCurrentDefault
+    } = currentInstance.state;
+    let aux = {};
+    for(var prop in modelCurrentDefault)
+        aux[prop] = modelCurrentDefault[prop];
+
+    if(!aux['id']) aux['id'] = -1;
+
+    currentInstance.setState({ 
+        modelCurrent: aux 
+    });
+    console.log(currentInstance.state.modelCurrent)
+}

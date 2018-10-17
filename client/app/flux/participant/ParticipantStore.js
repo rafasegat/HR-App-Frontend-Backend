@@ -18,6 +18,9 @@ class ParticipantStore extends Store{
         if(type===Action.SAVE){
             this.save(type, payload);
         }
+        if(type===Action.DELETE){
+            this.delete(type, payload);
+        }
         if(type===Action.PROVIDERS){
             this.providers(type, payload);
         }
@@ -25,7 +28,6 @@ class ParticipantStore extends Store{
 
     save(type, payload){
         let instance = this;
-        if(payload.id == -1) delete payload.id;
         fetch('/api/participant/save', {
             method: 'POST',
             headers: instance.headers(),
@@ -34,11 +36,21 @@ class ParticipantStore extends Store{
                 param: { id_project: getFromStorage('FB360_Project').id }
             }),
         }).then(res => res.json())
-          .then(json => {
-            instance.invokeListeners(type, {status:'success'}); 
-        }).catch(err => {
-            instance.invokeListeners(type, {status:'error'});
-        });
+          .then(json => { instance.invokeListeners(type, {status:'success'}); 
+        }).catch(err => { instance.invokeListeners(type, {status:'error'});  });
+    }
+
+    delete(type, payload){
+        let instance = this;
+        fetch('/api/participant/delete', {
+            method: 'POST',
+            headers: instance.headers(),
+            body: JSON.stringify({
+                data: payload,
+            }),
+        }).then(res => res.json())
+          .then(json => { instance.invokeListeners(type, {status:'success'}); 
+        }).catch(err => { instance.invokeListeners(type, {status:'error'}); });
     }
 
     all(type, payload){

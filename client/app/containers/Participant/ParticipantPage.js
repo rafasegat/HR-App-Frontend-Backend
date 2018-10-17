@@ -43,7 +43,8 @@ class Participant extends Component {
             modelParticipant: model,
             modelParticipantDefault: model,
             messageValidation: '',
-            submitDisabled: true
+            submitDisabled: true,
+            showTooltip: -1
         };
         
         this.openParticipantModal = this.openParticipantModal.bind(this);
@@ -54,6 +55,8 @@ class Participant extends Component {
         this.handleSubmitParticipant = this.handleSubmitParticipant.bind(this);
         this.handleNewParticipant = this.handleNewParticipant.bind(this);
         this.handleEditParticipant = this.handleEditParticipant.bind(this);
+        this.handleDeleteParticipant = this.handleDeleteParticipant.bind(this);
+        this.handleTooltip = this.handleTooltip.bind(this);
 
         let currentInstance = this;
         ParticipantAction.addListener((type, payload)=>currentInstance.onParticipantStoreChanged(type, payload, currentInstance));
@@ -75,7 +78,18 @@ class Participant extends Component {
                 currentInstance.closeParticipantModal();
             }
         }
+        if(type===Action.DELETE){
+            if(payload.status==='success'){
+                currentInstance.setState({
+                    isLoading: true,
+                    showTooltip: -1 
+                });
+                ParticipantAction.all({ id_project: id_project });
+                currentInstance.closeParticipantModal();
+            }
+        }
     }
+
 
     onProviderCustomerStoreChanged(type, payload, currentInstance){
         if(type===ActionProviderCustomer.ALL){
@@ -125,6 +139,10 @@ class Participant extends Component {
 
     closeParticipantModal() {
         this.setState({ showParticipantModal: false });
+    }
+
+    handleTooltip(id){
+        this.setState({ showTooltip: id });
     }
 
     openFeedbackModal(currentParticipant){
@@ -201,6 +219,20 @@ class Participant extends Component {
         this.openParticipantModal();
     }
 
+    handleDeleteParticipant(id){
+        const { id_project } = this.state;
+        
+        this.setState({
+            showTooltip: false,
+            isLoading: true
+        });
+
+        ParticipantAction.delete({ 
+            id_project: id_project,
+            id_participant: id
+        });
+    }
+
     render() {
         const {
             isLoading,
@@ -212,7 +244,8 @@ class Participant extends Component {
             currentParticipant,
             modelParticipant,
             messageValidation,
-            submitDisabled
+            submitDisabled,
+            showTooltip
         } = this.state;
 
         if(isLoadingPage)
@@ -228,6 +261,9 @@ class Participant extends Component {
                                 list={listParticipants}
                                 handleNewParticipant={this.handleNewParticipant}
                                 handleEditParticipant={this.handleEditParticipant}
+                                handleDeleteParticipant={this.handleDeleteParticipant}
+                                handleTooltip={this.handleTooltip}
+                                showTooltip={showTooltip}
                                 openFeedbackModal={this.openFeedbackModal}
                                 isLoading={isLoading}
                             />

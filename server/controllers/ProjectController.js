@@ -7,6 +7,8 @@ exports.save = (req, res, next) => {
     const { data } = body;
     const { param } = body;
     
+    if(data.id == -1) delete data.id;
+    
     if(data.id > 0){
         Project
         .query()

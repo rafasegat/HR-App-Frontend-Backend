@@ -10,8 +10,7 @@ const OrganizationForm = props => {
     modelCurrent,
     updateModel,
     messageValidation,
-    isLoading,
-    submitDisabled
+    isLoading
   } = props;
   
   return (

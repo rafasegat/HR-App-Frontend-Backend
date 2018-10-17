@@ -15,7 +15,6 @@ class ProjectStore extends Store{
 
     save(type, payload){
         let instance = this;
-        if(payload.id == -1) delete payload.id;
         fetch('/api/project/save', {
             method: 'POST',
             headers: instance.headers(),

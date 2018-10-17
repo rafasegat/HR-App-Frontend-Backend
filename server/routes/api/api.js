@@ -20,7 +20,8 @@ module.exports = (app) => {
 
   // Participants
   app.post('/api/participant/save', ParticipantController.save);
-
+  app.post('/api/participant/delete', ParticipantController.delete);
+  
   // Provider
   app.post('/api/provider/save', ProviderController.save);
   app.post('/api/provider/delete', ProviderController.delete);

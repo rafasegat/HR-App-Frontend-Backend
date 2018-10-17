@@ -13,6 +13,9 @@ export default {
     save: function(payload){
         Dispatcher().dispatch(SAVE, payload);
     },
+    delete: function(payload){
+        Dispatcher().dispatch(DELETE, payload);
+    },
     providers: function(payload){
         Dispatcher().dispatch(PROVIDERS, payload);
     },
@@ -26,6 +29,7 @@ export const ALL_LESS_CURRENT = 'all-participants-less-current';
 export const TASKS = 'all-participants-tasks';
 export const PROVIDERS = 'providers-participants';
 export const SAVE = 'save-participants';
+export const DELETE = 'delete-participants';
 
 // export const status = {
 //     waiting_for_feedback: { id: 1, name: 'Waiting for feedback' },
