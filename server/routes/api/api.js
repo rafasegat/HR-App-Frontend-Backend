@@ -5,6 +5,7 @@ const ProjectController = require('../../controllers/ProjectController');
 const ProviderController = require('../../controllers/ProviderController');
 const ProviderCustomerController = require('../../controllers/ProviderCustomerController');
 const ProviderCustomerOrganizationController = require('../../controllers/ProviderCustomerOrganizationController');
+const SurveyController = require('../../controllers/SurveyController');
 
 module.exports = (app) => {
   
@@ -33,5 +34,9 @@ module.exports = (app) => {
   // Provider Customer Organization
   app.post('/api/provider-customer-organization/save', ProviderCustomerOrganizationController.save);
   app.post('/api/provider-customer-organization/delete', ProviderCustomerOrganizationController.delete);
+
+  // Provider Customer Organization
+  app.post('/api/survey/save', SurveyController.save);
+  app.post('/api/psurvey/delete', SurveyController.delete);
 
 };

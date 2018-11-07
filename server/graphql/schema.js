@@ -70,6 +70,11 @@ module.exports.graphql_schema = buildSchema(`
         id_organization: Int
     }
 
+    type Survey {
+        id: Int!
+        name: String!
+    }
+
     type Query {
 
         organizations(id_user: ID!): [Organization]
@@ -87,6 +92,8 @@ module.exports.graphql_schema = buildSchema(`
         provider_customers(id_organization: ID!): [ProviderCustomer]
 
         provider_customer_organization(id_organization: ID!): [ProviderCustomerOrganization]
+
+        surveys(id_organization: ID!): [Survey]
 
     }
 

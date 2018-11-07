@@ -11,6 +11,7 @@ import ParticipantPage from './containers/Participant/ParticipantPage';
 import ProviderCustomerPage from './containers/ProviderCustomer/ProviderCustomerPage';
 import ProviderCustomerOrganizationPage from './containers/ProviderCustomerOrganization/ProviderCustomerOrganizationPage';
 import ProjectPage from './containers/Project/ProjectPage';
+import SurveyPage from './containers/Survey/SurveyPage';
 import NotFoundPage from './containers/NotFoundPage';
 
 // Styles
@@ -25,6 +26,7 @@ import ParticipantStore from './flux/participant/ParticipantStore';
 import ProviderStore from './flux/provider/ProviderStore';
 import ProviderCustomerStore from './flux/provider-customer/ProviderCustomerStore';
 import ProviderCustomerOrganizationStore from './flux/provider-customer-organization/ProviderCustomerOrganizationStore';
+import SurveyStore from './flux/survey/SurveyStore';
 
 // Registrando o dispatcher e stores
 Dispatcher().registerStore('UserStore', UserStore);
@@ -34,6 +36,7 @@ Dispatcher().registerStore('ParticipantStore', ParticipantStore);
 Dispatcher().registerStore('ProviderStore', ProviderStore);
 Dispatcher().registerStore('ProviderCustomerStore', ProviderCustomerStore);
 Dispatcher().registerStore('ProviderCustomerOrganizationStore', ProviderCustomerOrganizationStore);
+Dispatcher().registerStore('SurveyStore', SurveyStore);
 
 render((
   <Router>
@@ -45,6 +48,7 @@ render((
           <PrivateRoute path="/participants" component={ParticipantPage}/>
           <PrivateRoute path="/provider-customers" component={ProviderCustomerPage}/>
           <PrivateRoute path="/provider-customers-organization" component={ProviderCustomerOrganizationPage}/>
+          <PrivateRoute path="/surveys" component={SurveyPage}/>
           <Route component={NotFoundPage}/>
         </Switch>
       </App>
