@@ -12,6 +12,7 @@ import ProviderCustomerPage from './containers/ProviderCustomer/ProviderCustomer
 import ProviderCustomerOrganizationPage from './containers/ProviderCustomerOrganization/ProviderCustomerOrganizationPage';
 import ProjectPage from './containers/Project/ProjectPage';
 import SurveyPage from './containers/Survey/SurveyPage';
+import SurveyDesignPage from './containers/Survey/SurveyDesignPage';
 import NotFoundPage from './containers/NotFoundPage';
 
 // Styles
@@ -49,6 +50,7 @@ render((
           <PrivateRoute path="/provider-customers" component={ProviderCustomerPage}/>
           <PrivateRoute path="/provider-customers-organization" component={ProviderCustomerOrganizationPage}/>
           <PrivateRoute path="/surveys" component={SurveyPage}/>
+          <PrivateRoute path="/survey-design/:survey_id" component={SurveyDesignPage}/>
           <Route component={NotFoundPage}/>
         </Switch>
       </App>

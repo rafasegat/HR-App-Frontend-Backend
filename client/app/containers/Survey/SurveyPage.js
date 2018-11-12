@@ -41,6 +41,7 @@ class SurveyPage extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleTooltip = this.handleTooltip.bind(this);
+        this.redirectDesign = this.redirectDesign.bind(this);
 
         let currentInstance = this;
         SurveyAction.addListener((type, payload)=>currentInstance.onSurveyStoreChanged(type, payload, currentInstance));
@@ -180,6 +181,11 @@ class SurveyPage extends Component {
         this.openModal();
     }
 
+    redirectDesign(id){
+        console.log(id)
+        this.props.history.push( '/survey-design/' + id );
+    }
+
     render(){
         const { 
             isLoading,
@@ -209,6 +215,7 @@ class SurveyPage extends Component {
                                     handleDelete={this.handleDelete}
                                     handleTooltip={this.handleTooltip}
                                     showTooltip={showTooltip}
+                                    redirectDesign={this.redirectDesign}
                                 />
                             </div>
                         </div>

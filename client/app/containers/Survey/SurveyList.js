@@ -10,7 +10,8 @@ const SurveyList = (props) => {
         handleEdit,
         handleDelete,
         handleTooltip,
-        showTooltip
+        showTooltip,
+        redirectDesign
     } = props;
     
     return(
@@ -30,12 +31,22 @@ const SurveyList = (props) => {
                             width: 75,
                             Cell: row => (
                                 <div className="btn-action">
-                                    <BtnEdit handleEdit={handleEdit} param={row.original.id}/>
+                                    
+                                    <i className="far fa-object-ungroup btn-icon" 
+                                       onClick={event => redirectDesign(row.original.id)}>
+                                    </i>
+
+                                    <BtnEdit 
+                                        handleEdit={handleEdit} 
+                                        param={row.original.id}
+                                    />
+                                    
                                     <BtnDelete 
                                         handleDelete={handleDelete} 
                                         handleTooltip={handleTooltip} 
                                         showTooltip={showTooltip}
-                                        row={row}/>
+                                        row={row}
+                                    />
                                 </div>
                             )
                         }
@@ -50,7 +61,7 @@ const SurveyList = (props) => {
                                     return;
 
                                 if(typeof rowInfo !== 'undefined')
-                                    props.handleEdit(rowInfo.original.id);
+                                    redirectDesign(rowInfo.original.id);
                                 
                               }
                             }
